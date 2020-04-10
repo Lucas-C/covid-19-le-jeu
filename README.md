@@ -1,4 +1,4 @@
-![build](https://github.com/Lucas-C/covid-19-le-jeu/workflows/build/badge.svg)
+[![build](https://github.com/Lucas-C/covid-19-le-jeu/workflows/build/badge.svg)](https://github.com/Lucas-C/covid-19-le-jeu/actions)
 
 https://lucas-c.github.io/covid-19-le-jeu
 
