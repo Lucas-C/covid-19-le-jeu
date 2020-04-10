@@ -14,7 +14,6 @@ body {
 .board-city-tile {
     display: block;
     flex: 1 0 50%;
-    max-width: 50%;
 }
 .board-hospital {
     width: 30%;
