@@ -1,2 +1,2 @@
-Lucas Cimon
-Delphin Darraud
+- Lucas Cimon
+- Delphin Darraud
