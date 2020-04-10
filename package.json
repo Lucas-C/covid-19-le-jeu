@@ -6,20 +6,21 @@
   "scripts": {
     "lint": "eslint --fix js/*",
     "test": "jest --passWithNoTests",
+    "update-toc": "markdown-toc --indent \"    \" -i CONTRIBUTING.md",
     "start": "http-server . -o"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lucas-C/jdr.git"
+    "url": "git+https://github.com/covid19lejeu/jdr.git"
   },
   "keywords": [
     "boardgame"
   ],
   "author": "Lucas Cimon",
   "bugs": {
-    "url": "https://github.com/Lucas-C/jdr/issues"
+    "url": "https://github.com/covid19lejeu/jdr/issues"
   },
-  "homepage": "https://github.com/Lucas-C/jdr",
+  "homepage": "https://github.com/covid19lejeu/jdr",
   "dependencies": {
     "roll-a-die": "^1.5.5"
   },
@@ -31,6 +32,7 @@
     "eslint-config-strict": "^14.0.1",
     "http-server": "^0.12.1",
     "jest": "^24.9.0",
-    "jest-extended": "^0.11.2"
+    "jest-extended": "^0.11.2",
+    "markdown-toc": "^1.2.0"
   }
 }
