@@ -22,6 +22,7 @@ N'importe quel serveur web peut faire l'affaire :
 
     npm start
 
-## Tests
+## Linter & tests
 
+    npm run lint
     npm test

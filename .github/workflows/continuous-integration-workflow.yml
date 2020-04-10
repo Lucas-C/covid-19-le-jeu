@@ -14,6 +14,12 @@ jobs:
         run: npm run lint
       - name: Test ✔️
         run: npm test
+      - name: Cleanup 🧹
+        run: |
+          # Discarding dev dependencies to only retain prod ones:
+          npm prune --production
+          # Workaround while waiting for: https://github.com/peaceiris/actions-gh-pages/issues/163#issuecomment-612063865
+          git add -f node_modules
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
