@@ -1,0 +1,24 @@
+{
+  "name": "covid-19-le-jeu",
+  "version": "1.0.0",
+  "description": "Compagnon web du jeu de société",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo TODO"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucas-C/jdr.git"
+  },
+  "keywords": [
+    "boardgame"
+  ],
+  "author": "Lucas Cimon",
+  "bugs": {
+    "url": "https://github.com/Lucas-C/jdr/issues"
+  },
+  "homepage": "https://github.com/Lucas-C/jdr",
+  "dependencies": {
+    "wowjs": "^1.1.3"
+  }
+}
