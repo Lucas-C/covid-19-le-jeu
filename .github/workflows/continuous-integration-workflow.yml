@@ -17,9 +17,11 @@ jobs:
       - name: Cleanup 🧹
         # Discarding dev dependencies to only retain prod ones:
         run: npm prune --production
+      - name: Preparing deploy ⚙️
+        run: mkdir -p public/ && mv -t public/ node_modules/ assets/ css/ js/ index.html
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: public/
