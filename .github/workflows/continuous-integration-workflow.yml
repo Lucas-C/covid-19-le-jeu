@@ -18,8 +18,12 @@ jobs:
         run: |
           # Discarding dev dependencies to only retain prod ones:
           npm prune --production
+          echo OK1
           # Workaround while waiting for: https://github.com/peaceiris/actions-gh-pages/issues/163#issuecomment-612063865
           git add -f node_modules
+          echo OK2
+          git status
+          echo OK3
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
