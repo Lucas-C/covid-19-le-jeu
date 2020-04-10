@@ -1,0 +1,10 @@
+.plateau {
+    display: flex;
+    align-items: start;
+}
+.plateau-ville {
+    max-width: 60%;
+}
+.plateau-hopital {
+    width: 30%;
+}
