@@ -12,20 +12,15 @@ jobs:
         run: npm install
       - name: Lint 🔎
         run: npm run lint
-      - name: Test ✔️
+      - name: Test ☑
         run: npm test
       - name: Cleanup 🧹
-        run: |
-          # Discarding dev dependencies to only retain prod ones:
-          npm prune --production
-          echo OK1
-          # Workaround while waiting for: https://github.com/peaceiris/actions-gh-pages/issues/163#issuecomment-612063865
-          git add -f node_modules
-          echo OK2
-          git status
-          echo OK3
+        # Discarding dev dependencies to only retain prod ones:
+        run: npm prune --production
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
+        # Workaround while waiting for: https://github.com/peaceiris/actions-gh-pages/issues/163#issuecomment-612063865
+        run: git add -f node_modules && git status
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
