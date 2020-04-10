@@ -1,3 +1,5 @@
+![build](https://github.com/Lucas-C/covid-19-le-jeu/workflows/build/badge.svg)
+
 https://lucas-c.github.io/covid-19-le-jeu
 
 ## Installation
