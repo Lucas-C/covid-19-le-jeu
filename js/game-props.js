@@ -1,13 +1,23 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
 
+import { RandomGenerator } from './random.js';
+
 export class Board {
-  constructor(doc) {
+  constructor(doc, seed) {
     this.doc = doc;
     this.elem = doc.getElementById('board');
-    this.housePerNumber = {};
+    doc.getElementById('seed').textContent = seed;
+    this.rng = new RandomGenerator(seed);
+    this.goOnCallback = null;
+    this.allPlanets = [];
+    this.planetsPerType = {};
   }
-  addHouse(house) {
-    this.housePerNumber[house.number] = house;
+  addPlanet(planet) {
+    this.allPlanets.push(planet);
+    if (!this.planetsPerType[planet.type]) {
+      this.planetsPerType[planet.type] = [];
+    }
+    this.planetsPerType[planet.type].push(planet);
   }
 }
 
@@ -37,7 +47,7 @@ class PlaceSlot extends GameProp {}
 
 // Un lieu pouvant héberger des pions
 class Place extends GameProp {
-  constructor({ board, pos, cssClass, slotsPos }) {
+  constructor({ board, pos, cssClass, slotsPos }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
     super({ board, pos, cssClass });
     this.slots = slotsPos.map((slotPos) => new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
   }
@@ -53,10 +63,18 @@ class Place extends GameProp {
   }
 }
 
-export class House extends Place {
-  constructor({ board, number, pos, slotsPos }) {
-    super({ board, pos, cssClass: 'house', slotsPos });
-    this.number = number;
+// Planète "lieu public"
+export class TypedPlanet extends Place {
+  constructor({ board, pos, cssClass, slotsPos, type }) {
+    super({ board, pos, cssClass, slotsPos });
+    this.type = type;
+  }
+}
+TypedPlanet.TYPES = [ 'crater', 'gaseous', 'ring' ];
+
+export class Planet extends TypedPlanet {
+  constructor({ board, pos, slotsPos, type }) {
+    super({ board, pos, cssClass: 'planet', slotsPos, type });
   }
 }
 
@@ -76,3 +94,11 @@ export class Pawn extends GameProp {
   }
 }
 Pawn.STATES = [ 'SANE', 'INCUBATING', 'SICK', 'HEALED' ];
+
+// Marqueur planète
+export class PlanetToken extends GameProp {
+  constructor({ board }) {
+    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'planet-token' });
+    this.elem.textContent = '🪐';
+  }
+}
