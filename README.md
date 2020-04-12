@@ -24,3 +24,7 @@ C'est un serious game orienté grand public. Son objectif est de permettre de mi
 ... dit adaptation : notre jeu nécessite l'utilisation de nombreux pions pour reproduire efficacement la propagation du virus. Nous sommes conscients que des pions papier, c'est pas très fun à jouer ... **C'est pour ça que cette version numérique est là**
 ## D'où vient-il ?
 Jour 3 du confinement, le week-end pointe son nez, il est temps de trouver une occupation. [... Ce sera] faire une Game JAM à distance avec pour objectif de créer des Serious Game autour de l’épidémie en cours. La suite sur : https://lovibl.com/covid19/news/
+
+# Licences
+
+Tous les éléments du jeu physique et numérique sont sous licence [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/fr/) à l'exception des éléments graphiques dotn les droits appartiennent à Tiphaine Boilet mais son pleinement utilisable pour la conception du jeu, de la communication autour du jeu ainsi que pour les déclinaisons futures dans le respect de son travail artistique.
