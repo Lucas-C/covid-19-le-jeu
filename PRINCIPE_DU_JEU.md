@@ -71,16 +71,24 @@ _Deuxième déplacement : Tout le monde rentre chez soi : La distribution des ro
 _La partie prend fin immédiatement :_
 
 - _SOIT quand tous les pions malades sont à l’hôpital et qu’il ne reste plus sur le plateau que des pions sains ou guéris. Vous avez gagné !_
+- _SOIT quand au moins 40 pions guéris sont sur le plateau. Vous avez gagné !_
 - _SOIT quand un pion malade ne peut être admis à l’hôpital faute de place disponible (étape 5). Dans ce cas vous avez perdu…_
+- _SOIT quand vous dépassez le 10ème tour. Dans ce cas vous avez perdu…_
 
-  Pour chaque lieu hors hôpital :
-  Nombre total de malades += Nombre de malades du lieu
-  Si(Nombre total de malades = 0)
-  YOU WIN !
+    Pour chaque lieu hors hôpital :
+        Nombre total de malades += Nombre de malades du lieu
+        Nombre total de guéris += Nombre de guéris du lieu
+    Si(Nombre total de malades = 0) :
+        YOU WIN !
+    Si(Nombre total de guéris >= 40) :
+        YOU WIN !
 
-  Pour l'hôpital :
-  Si(Nombre de malades > capacité totale )
-  YOU LOSE !
+    Pour l'hôpital :
+    Si(Nombre de malades > capacité totale ) :
+        YOU LOSE !
+
+    Si(Numero du tour > 10) :
+        YOU LOSE !
 
 ## Etape 0 : mise en place
 
@@ -98,7 +106,7 @@ _Placez un marqueur (légo, playmobil, capsule de bière, pâte, capuchon de sty
 _Placez l’aide de jeu sur la table et positionnez 2 marqueurs (légos, playmobils, pâtes, capuchons de stylo, ...) sur les échelles de crise et de tour_
 
     Echelle crise = 0
-    Echelle tour = 0
+    Echelle tour = 1
 
 cf. [mode de calcul en étape 5](#curseurcrise)
 
@@ -113,10 +121,6 @@ Cartes mesures affectant le comportement :
 - [Fermeture lieux publics](CARTES_MESURES.md#fermetureLieuxPublics) : le dé 4 n'a plus d'effet
 - [Fermeture batteries market](CARTES_MESURES.md#fermetureMarket) : le dé 5 n'a plus d'effet
 - [Fermeture des transports en commun](CARTES_MESURES.md#fermetureTransports) : les dés 2 et 3 n'ont plus d'effet pour 3 maisons choisies et le dé 1 ne déplace qu'un seul robot
-
-_A chaque tour, vous avancerez le marqueur de la colonne « tour » d’une case._
-
-    Echelle tour += 1
 
 _Vous allez déplacer, dans l’ordre, les pions présents dans toutes les maisons et tous les lieux publics de type cratère, puis gazeux, puis anneau._
 
@@ -328,5 +332,9 @@ _Piocher une carte événement et appliquer ses effets. Replacer la carte dans l
 Voir page _CARTES EVENEMENTS (**TO-DO**)_
 
 ## TOUR FINI
+
+_A chaque tour, vous avancerez le marqueur de la colonne « tour » d’une case._
+
+    Echelle tour += 1
 
 Voir [conditions de fin de partie](#findepartie)
