@@ -149,14 +149,16 @@ _Tous les 1 sont ignorés. Les pions présents dans l’école retournent dans l
 ## Fermeture des lieux publics <a id="fermetureLieuxPublics"></a>
 
 - _Les déplacements 4 depuis les maisons sont maintenant impossibles - les déplacements entre les lieux publics sont impossibles_
-- _depuis deux maisons de type différent, un robot va dans le lieu public de son quartier_ (à confirmer)
+- _Pour toute maison avec 4 pions ou plus, un robot va dans le lieu public de son quartier_ (à confirmer)
 
     Enregistrer l'utilisation de la carte
     Nouvelle règle :
-        Pour chaque maison | lieux publics :
-        si (dé = 4) déplacer 0 robot
+        Pour chaque maison :
+            si (dé == 4) déplacer 0 robot
+        Pour chaque lieu public :
+            si(dé == 2|3|4|5) déplacer 1 pion dans chaque maison du quartier
     Pour chaque lieu maison :
-        si(id%2 == 0) :
+        si(nombre de pions > 3) :
             déplacer un pion dans le lieu public de son quartier
 
 ## Fermeture du batteries market <a id="fermetureMarket"></a>
