@@ -325,7 +325,7 @@ _Piocher une carte événement et appliquer ses effets. Replacer la carte dans l
         Enregistrer les effets tour + 1
         Remettre la carte événement dans la main
 
-Voir page [CARTES_EVENEMENTS.md](CARTES_EVENEMENTS.md)
+Voir page _CARTES EVENEMENTS (**TO-DO**)_
 
 ## TOUR FINI
 
