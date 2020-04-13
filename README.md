@@ -27,4 +27,4 @@ Jour 3 du confinement, le week-end pointe son nez, il est temps de trouver une o
 
 # Licences
 
-Tous les éléments du jeu physique et numérique sont sous licence [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/fr/) à l'exception des éléments graphiques dotn les droits appartiennent à Tiphaine Boilet mais son pleinement utilisable pour la conception du jeu, de la communication autour du jeu ainsi que pour les déclinaisons futures dans le respect de son travail artistique.
+Tous les éléments du jeu physique et numérique sont sous licence [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/fr/) à l'exception des éléments graphiques dont les droits appartiennent à Tiphaine Boilet. Ils sont toutefois pleinement utilisables pour la conception du jeu, de la communication autour du jeu ainsi que pour les déclinaisons futures dans le respect de son travail artistique.

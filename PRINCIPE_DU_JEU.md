@@ -66,7 +66,7 @@ _Deuxième déplacement : Tout le monde rentre chez soi : La distribution des ro
             ajouter le pion dans la maison qui a le marqueur planète
             avancer le marqueur planète
 
-### Fin de la partie
+### Fin de la partie <a id="findepartie"></a>
 
 _La partie prend fin immédiatement :_
 
@@ -100,19 +100,7 @@ _Placez l’aide de jeu sur la table et positionnez 2 marqueurs (légos, playmob
     Echelle crise = 0
     Echelle tour = 0
 
-_Le nombre de points de mesure disponibles a chaque tour y est indiqué, il varie a chaque tour_
-
-    Nombre de points de mesure par tour (de tour 1 à tour 10) : [1,2,3,3,3,3,5,3,3,3] // il conviendra d'y ajouter les points de crise
-
-_Le niveau de crise représente la conscience de vos concitoyens sur la dangerosité de la situation. Plus il est élevé, plus la population peut accepter des mesures contraignantes et qui ont donc un coût de mesure élevé. Le niveau de crise ne peut en aucun cas redescendre. Les points de mesure supplémentaires acquis le sont donc pour le reste de la partie._
-
-    Si (nombre de lieux avec au moins un malade > 10)
-        echelle crise = max(2, echelle crise)
-    Sinon si (nombre de lieux avec au moins un malade > 5)
-        echelle crise = max(1, echelle crise)
-    Sinon echelle crise = max(0, echelle crise)
-
-    Nombre total de points de mesure = Nombre de points de mesure par tour[N° tour] + echelle crise
+cf. [mode de calcul en étape 5](#curseurcrise)
 
 ## Etape 1 : début du tour
 
@@ -142,9 +130,9 @@ _A chaque fois vous appliquerez la méthode suivante : lancez un dé et, en fonc
                 si (dé = 3) déplacer 2 robots dans la maison précédente
                 si (dé = 4) déplacer 2 robots dans le lieu public du quartier
                 si (dé = 5) déplacer 2 robots dans la zone 1 du batterie market
-                
+
             Pour chaque lieu public :
-                si (dé = 1) déplacer 2 robots à l'école 
+                si (dé = 1) déplacer 2 robots à l'école
                 si (dé = 2) déplacer 1 robot dans chaque maison du quartier
                 si (dé = 3) déplacer 1 robot dans chaque maison du quartier
                 si (dé = 4) déplacer 2 robots dans le lieu public suivant
@@ -189,20 +177,131 @@ voir règle de [lieu à risque](#lieuarisque)
 
 _Enlevez tous les robots de la robot académie pour les replacer dans les maisons. Commencez par la maison indiquée par le marqueur de retours puis distribuez 1 robot par maison dans le sens horaire. A la fin de la distribution, déplacez le marqueur de retours sur la dernière maison. S’il y a des robots malades ou incubés, appliquer la règle de distribution ci-dessus._
 
+    Pour lieu Robot academie :
+        Déplacer les pions dans les maisons
+
 Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
 
 ### Supermarché
 
-*TO-DO*
+_Les robots de la zone 2 (caisses) rentrent dans les maisons un par un, selon la même règle que pour la robot académie._
+
+    Pour lieu Battery market zone 2 :
+        Déplacer les pions dans les maisons
+
+Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
+
+_Les robots de la zone 1 (rayons) vont en zone 2 (caisses)_
+
+    Pour lieu Battery market zone 1 :
+        Déplacer les pions dans la zone 2
 
 ## Étape 4 : Gestion des malades
 
-*TO-DO*
+### Libérer des places au garage
+
+_Les robots se déplacent à chaque tour de colonne en colonne. Vous allez donc vous occuper des colonnes les unes après les autres de droite à gauche (d’abord C puis B puis A)_
+
+#### Colonne C
+
+_Lancez un dé par robot : si 1 ou 2, Le robot est guéri et rentre chez lui. Enlevez le robot du garage et placez un robot guéri dans la maison indiquée par le marqueur de retours et déplacer le marqueur d’une maison dans le sens horaire. si 6, le robot sort du jeu._
+
+    Pour chaque pion dans la colonne C :
+        Tirer au hasard un chiffre de 1 à 6 (dé)
+        Si(dé == 6) Retirer le pion du jeu
+        Si(dé < 3) :
+            le pion devient guéri
+            ajouter le pion dans la maison qui a le marqueur planète
+            avancer le marqueur planète
+
+#### Colonne B
+
+_Lancez un dé par robot : si 1, Le robot est guéri et rentre chez lui._
+
+    Pour chaque pion dans la colonne B :
+        Tirer au hasard un chiffre de 1 à 6 (dé)
+        Si(dé < 2) :
+            le pion devient guéri
+            ajouter le pion dans la maison qui a le marqueur planète
+            avancer le marqueur planète
+        Sinon :
+            Si des places sont disponibles colonne C :
+                déplacer le pion en colonne C
+
+#### Colonne A
+
+_Déplacez les robots sur les places disponibles en colonne B. S’il n’y a pas suffisamment de place dans la colonne B, ces derniers restent à leur place en
+colonne A._
+
+    Pour chaque pion dans la colonne A :
+        Si des places sont disponibles colonne B :
+            déplacer le pion en colonne B
+
+### Hospitalisation des cas les plus graves
+
+_Pour chaque robot malade sur le plateau (hors garage), lancez un dé. Si 1, Bonne nouvelle ! Le robot est guéri (remplacez le robot malade par un guéri) ; si 5 ou 6, le robot malade est envoyé au garage en colonne A_
+
+    Pour chaque lieu hors hopital :
+        Pour chaque pion malade :
+            Tirer au hasard un chiffre de 1 à 6 (dé)
+            Si(dé > 4) déplacer le pion à l'hôpital
+            Si(dé == 1) le pion devient guéri
+
+_Gestion du garage : si la colonne A est pleine, compléter la colonne B puis la colonne C._
+    
+    Déplacement à l'hôpital :
+        Si des places sont disponibles colonne A :
+            positionner le pion en colonne A
+        Sinon si des places sont disponibles colonne B :
+            positionner le pion en colonne B
+        Sinon positionner le pion en colonne B
 
 ## Étape 5 : Prise de mesures de protection des robots
 
-*TO-DO*
+_Comptez le nombre de lieux (garage exclu) présentant au moins 1 robot malade et placez votre marqueur sur le niveau de crise correspondant (0, 1 ou 2)._
+
+### Mettre à jour le curseur crise et Calculer le nombre de points de mesure disponibles <a id="curseurcrise"></a>
+
+_Le niveau de crise représente la conscience de vos concitoyens sur la dangerosité de la situation. Plus il est élevé, plus la population peut accepter des mesures contraignantes et qui ont donc un coût de mesure élevé. Le niveau de crise ne peut en aucun cas redescendre. Les points de mesure supplémentaires acquis le sont donc pour le reste de la partie._
+
+    Si (nombre de lieux avec au moins un malade > 10)
+        echelle crise = max(2, echelle crise)
+    Sinon si (nombre de lieux avec au moins un malade > 5)
+        echelle crise = max(1, echelle crise)
+    Sinon echelle crise = max(0, echelle crise)
+
+_Le nombre de points de mesure disponibles a chaque tour y est indiqué, il varie a chaque tour_
+
+    Nombre de points de mesure par tour (de tour 1 à tour 10) : [1,2,3,3,3,3,5,3,3,3] // il conviendra d'y ajouter les points de crise
+
+_Calculer le nombre de points de mesure dont vous disposez, il vous faut additionner le nombre de points de mesure disponibles à votre tour de jeu et le nombre de points de mesure
+supplémentaires liés à votre niveau de crise._
+
+    Nombre total de points de mesure = Nombre de points de mesure par tour[N° tour] + echelle crise
+
+### Jouer les cartes mesures
+
+_Vous pouvez choisir une ou plusieurs cartes mesures pour un total de point inférieur ou égale aux points de mesure disponibles. Posez les, face visible, à coté du plateau. Vous pourrez appliquer leurs effets dès le tour suivant. Les cartes mesures sont actives jusqu’à la fin de la partie._
+
+    Pour chaque carte mesure choisie par le joueur :
+        Enregistrer la carte choisie
+        Mettre à jour les variables du jeu avec les effets de la carte
+        Enlever la carte mesure de la main
+
+Voir page _CARTES MESURES (**TO-DO**)_
 
 ## Étape 6 : Gestion des évènements
 
-*TO-DO*
+_Piocher une carte événement et appliquer ses effets. Replacer la carte dans la pile de cartes évènement et mélanger la pile._
+
+    Pour chaque carte événement choisie par le joueur :
+        Enregistrer la carte choisie
+        Appliquer les effets
+        Enregistrer les effets tour + 1
+        Remettre la carte événement dans la main
+
+Voir page _CARTES EVENEMENTS (**TO-DO**)_
+
+## TOUR FINI
+
+Voir [conditions de fin de partie](#findepartie)
