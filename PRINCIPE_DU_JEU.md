@@ -71,16 +71,24 @@ _Deuxième déplacement : Tout le monde rentre chez soi : La distribution des ro
 _La partie prend fin immédiatement :_
 
 - _SOIT quand tous les pions malades sont à l’hôpital et qu’il ne reste plus sur le plateau que des pions sains ou guéris. Vous avez gagné !_
+- _SOIT quand au moins 40 pions guéris sont sur le plateau. Vous avez gagné !_
 - _SOIT quand un pion malade ne peut être admis à l’hôpital faute de place disponible (étape 5). Dans ce cas vous avez perdu…_
+- _SOIT quand vous dépassez le 10ème tour. Dans ce cas vous avez perdu…_
 
-  Pour chaque lieu hors hôpital :
-  Nombre total de malades += Nombre de malades du lieu
-  Si(Nombre total de malades = 0)
-  YOU WIN !
+    Pour chaque lieu hors hôpital :
+        Nombre total de malades += Nombre de malades du lieu
+        Nombre total de guéris += Nombre de guéris du lieu
+    Si(Nombre total de malades = 0) :
+        YOU WIN !
+    Si(Nombre total de guéris >= 40) :
+        YOU WIN !
 
-  Pour l'hôpital :
-  Si(Nombre de malades > capacité totale )
-  YOU LOSE !
+    Pour l'hôpital :
+    Si(Nombre de malades > capacité totale ) :
+        YOU LOSE !
+
+    Si(Numero du tour > 10) :
+        YOU LOSE !
 
 ## Etape 0 : mise en place
 
@@ -98,15 +106,21 @@ _Placez un marqueur (légo, playmobil, capsule de bière, pâte, capuchon de sty
 _Placez l’aide de jeu sur la table et positionnez 2 marqueurs (légos, playmobils, pâtes, capuchons de stylo, ...) sur les échelles de crise et de tour_
 
     Echelle crise = 0
-    Echelle tour = 0
+    Echelle tour = 1
 
 cf. [mode de calcul en étape 5](#curseurcrise)
 
 ## Etape 1 : début du tour
 
-_A chaque tour, vous avancerez le marqueur de la colonne « tour » d’une case._
-
-    Echelle tour += 1
+Cartes mesures affectant le comportement :
+- [Limitation déplacement 2](CARTES_MESURES.md#limitation2) : 1 seul robot est déplacé par maison si dé 2
+- [Limitation déplacement 3](CARTES_MESURES.md#limitation3) : 1 seul robot est déplacé par maison si dé 3
+- [Dépistage aux frontières](CARTES_MESURES.md#depistage) : le dé 6 ne fait rentré qu'un pion sain
+- [Dépistage aux frontières](CARTES_MESURES.md#fermetureEcole) : le dé 1 n'a plus d'effet
+- [Confinement](CARTES_MESURES.md#confinement) : les dés 2 et 3 n'ont plus d'effet
+- [Fermeture lieux publics](CARTES_MESURES.md#fermetureLieuxPublics) : le dé 4 n'a plus d'effet
+- [Fermeture batteries market](CARTES_MESURES.md#fermetureMarket) : le dé 5 n'a plus d'effet
+- [Fermeture des transports en commun](CARTES_MESURES.md#fermetureTransports) : les dés 2 et 3 n'ont plus d'effet pour 3 maisons choisies et le dé 1 ne déplace qu'un seul robot
 
 _Vous allez déplacer, dans l’ordre, les pions présents dans toutes les maisons et tous les lieux publics de type cratère, puis gazeux, puis anneau._
 
@@ -158,6 +172,11 @@ ou
 
 ### Phase 2 : contagion
 
+Cartes mesures affectant le comportement :
+- [Gestes barrière V2](CARTES_MESURES.md#barriereV2) : -1 malade
+- [Gestes barrière école](CARTES_MESURES.md#barriereEcole) : seulement 2 pions par malade dans la robot académie
+- [Port du masque](CARTES_MESURES.md#masque) : seulement 1 pion contaminé par malade
+
 _Pour chaque lieu à risque (hors robot académie) et pour chaque malade présent sur le lieu : remplacer 2 robots sains par 2 robots incubés. Si la robot académie est à risque, pour chaque malade présent : remplacer 4 robots sains par 4 robots incubés._
 
     Pour chaque lieu :
@@ -184,6 +203,10 @@ Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
 
 ### Supermarché
 
+
+Cartes mesures affectant le comportement :
+- [Bonnes pratiques pdt les courses](CARTES_MESURES.md#bonnespratiques) : suppression zone 2
+
 _Les robots de la zone 2 (caisses) rentrent dans les maisons un par un, selon la même règle que pour la robot académie._
 
     Pour lieu Battery market zone 2 :
@@ -194,9 +217,13 @@ Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
 _Les robots de la zone 1 (rayons) vont en zone 2 (caisses)_
 
     Pour lieu Battery market zone 1 :
-        Déplacer les pions dans la zone 2
+
+        Déplacer les pions dans la zone 2 
 
 ## Étape 4 : Gestion des malades
+
+Cartes mesures affectant le comportement :
+- [Hôpital militaire](CARTES_MESURES.md#militaire) : augmentation capacité colonnes hôpital
 
 ### Libérer des places au garage
 
@@ -238,6 +265,10 @@ colonne A._
             déplacer le pion en colonne B
 
 ### Hospitalisation des cas les plus graves
+
+Cartes mesures affectant le comportement :
+- [Interdiction de venir aux urgences](CARTES_MESURES.md#urgences) : seulement le 6 envoie à l'hôpital
+- [Découverte de traitements](CARTES_MESURES.md#traitement) : dé 1, 2 et 3 guérissent
 
 _Pour chaque robot malade sur le plateau (hors garage), lancez un dé. Si 1, Bonne nouvelle ! Le robot est guéri (remplacez le robot malade par un guéri) ; si 5 ou 6, le robot malade est envoyé au garage en colonne A_
 
@@ -288,7 +319,7 @@ _Vous pouvez choisir une ou plusieurs cartes mesures pour un total de point inf�
         Mettre à jour les variables du jeu avec les effets de la carte
         Enlever la carte mesure de la main
 
-Voir page _CARTES MESURES (**TO-DO**)_
+Voir page [CARTES_MESURES.md](CARTES_MESURES.md)
 
 ## Étape 6 : Gestion des évènements
 
@@ -303,5 +334,9 @@ _Piocher une carte événement et appliquer ses effets. Replacer la carte dans l
 Voir page _CARTES EVENEMENTS (**TO-DO**)_
 
 ## TOUR FINI
+
+_A chaque tour, vous avancerez le marqueur de la colonne « tour » d’une case._
+
+    Echelle tour += 1
 
 Voir [conditions de fin de partie](#findepartie)
