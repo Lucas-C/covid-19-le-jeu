@@ -203,6 +203,7 @@ Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
 
 ### Supermarché
 
+
 Cartes mesures affectant le comportement :
 - [Bonnes pratiques pdt les courses](CARTES_MESURES.md#bonnespratiques) : suppression zone 2
 
@@ -216,6 +217,7 @@ Suivre la règle de [priorité de deuxième déplacement](#prioritedeplacement)
 _Les robots de la zone 1 (rayons) vont en zone 2 (caisses)_
 
     Pour lieu Battery market zone 1 :
+
         Déplacer les pions dans la zone 2 
 
 ## Étape 4 : Gestion des malades
