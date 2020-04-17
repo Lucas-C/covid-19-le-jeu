@@ -1,8 +1,11 @@
+* { box-sizing: border-box; }
 body {
     margin: 0;
     height: 100vh;
+    width: 1920px;
     display: flex;
     flex-flow: column;
+    align-content: center;
     font-size: 2rem;
 }
 #board {
@@ -15,24 +18,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 10rem;
 }
-.game-prop {
-    transition: left 1s ease, top 1s ease;
-}
-.planet {
-    width: 120px; height: 80px;
-}
-.slot {
-    width: 25px; height: 25px;
-}
-.pawn {
-    width: 20px; height: 20px;
-    background-size: contain;
-}
-.planet-token {
-    font-size: 5rem;
-}
+.game-prop { transition: left 1s ease, top 1s ease; }
+.pawn { background-size: contain; }
+.incubating { background-image: url(../assets/pawn-incubating.png); }
+.sick { background-image: url(../assets/pawn-sick.png); }
+.healed { background-image: url(../assets/pawn-healed.png); }
+.planet-token { font-size: 5rem; }
 .game-state-label {
     padding: 1rem;
     font-weight: bold;
 }
+.counter {
+    position: absolute;
+    width: 40px; height: 40px;
+}
+#sane { left: 1370px; top: 640px; }
+#incubating { left: 1370px; top: 702px; }
+#sick { left: 1370px; top: 764px; }
+#healed { left: 1370px; top: 826px; }

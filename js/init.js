@@ -1,5 +1,5 @@
-import { Board, Pawn, Planet, PlanetToken } from './game-props.js';
-import { delay, MS } from './timing.js';
+import { Board, Pawn, Place, Planet, PlanetToken, PublicPlace, TypedPlanet } from './game-props.js';
+import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 export function initializeGame(doc, seed) {
   const board = initializeBoard(doc, seed);
@@ -8,30 +8,62 @@ export function initializeGame(doc, seed) {
 
 function initializeBoard(doc, seed) {
   const board = new Board(doc, seed);
-  // Enumération des maisons, ligne par ligne, de gauche à droite :
-  board.addPlanet(new Planet({ board, type: 'crater', pos: [ 58, 58 ], slotsPos: [
-    [ 64, 68 ], [ 90, 68 ], [ 136, 68 ], // 1ère rangée
-    [ 64, 106 ], // 2e rangée
+  // Enumération des planètes :
+  // Zone en haut à gauche :
+  const artificialPlanet = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 55, 75 ], slotsPos: [
+    [ 115, 135 ], [ 155, 135 ], // 1ère rangée
+    [ 115, 175 ], [ 155, 175 ], // 2e rangée
   ] }));
+  const craterPlanet = board.addPlanet(new Planet({ board, type: 'crater', pos: [ 245, 10 ], slotsPos: [
+    [ 305, 70 ], [ 345, 70 ], // 1ère rangée
+    [ 305, 110 ], [ 345, 110 ], // 2e rangée
+  ] }));
+  craterPlanet.prevPlanet = artificialPlanet;
+  artificialPlanet.nextPlanet = craterPlanet;
+  const gaseousPlanet = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 495, 25 ], slotsPos: [
+    [ 555, 65 ], [ 595, 65 ], // 1ère rangée
+    [ 555, 105 ], [ 595, 105 ], // 2e rangée
+    [ 575, 145 ], // 3e rangée
+  ] }));
+  gaseousPlanet.prevPlanet = craterPlanet;
+  craterPlanet.nextPlanet = gaseousPlanet;
+  gaseousPlanet.nextPlanet = artificialPlanet; // FAUX, temporaire
+  artificialPlanet.nextPlanet = gaseousPlanet; // FAUX, temporaire
+  board.addPublicPlace(new PublicPlace({ board, pos: [ 350, 200 ], type: 'gaseous', slotsPos: [ [ 385, 290 ], [ 420, 272 ], [ 455, 254 ], [ 490, 236 ] ] })); // bar
+  board.robotAcademy = new Place({ board, pos: [ 600, 330 ], cssClass: 'robot-academy', height: 250, width: 250, slotsPos: [
+    [ 670, 420 ], [ 707, 420 ], [ 744, 420 ], [ 781, 420 ], // 1ère rangée
+    [ 670, 455 ], [ 707, 455 ], [ 744, 455 ], [ 781, 455 ], // 2e rangée
+  ] });
+  board.batterieMarket = new Place({ board, pos: [ 1400, 300 ], cssClass: 'batterie-market', height: 220, width: 250, slotsPos: [
+    [ 1415, 385 ], [ 1453, 385 ], [ 1491, 385 ], [ 1529, 385 ], [ 1567, 385 ], [ 1605, 385 ], // 1ère rangée
+    [ 1415, 440 ], [ 1453, 440 ], [ 1491, 440 ], [ 1529, 440 ], [ 1567, 440 ], [ 1605, 440 ], // 2e rangée
+  ] });
+  board.garage = new Place({ board, pos: [ 1660, 480 ], cssClass: 'garage', height: 300, width: 175, slotsPos: [
+    [ 1690, 552 ], [ 1736, 552 ], [ 1782, 552 ], // 1ère rangée
+    [ 1690, 589 ], [ 1736, 589 ], [ 1782, 589 ], // 2e rangée
+    [ 1690, 626 ], [ 1736, 626 ], [ 1782, 626 ], // 3e rangée
+    [ 1690, 663 ], [ 1736, 663 ], [ 1782, 663 ],
+    [ 1690, 700 ], [ 1736, 700 ], [ 1782, 700 ],
+  ] });
+  board.publicPlacesPerType.artificial = []; // temporaire
+  board.publicPlacesPerType.crater = []; // temporaire
   return board;
 }
 
 function addIncubatingPawns(board) {
-  return animatedPutPawnOnPlanet({ pawn: new Pawn({ board, state: 'INCUBATING' }),
-    randomPlanet: board.rng.pickOne(board.planetsPerType.crater) });
-  // TODO: à répéter pour chaque type de planète
-  // .then(() => animatedPutPawnOnPlanet({pawn: new Pawn({ board, state: 'INCUBATING' }),
-  //                                     randomPlanet: board.rng.pickOne(board.planetsPerType.?)})
+  return chainExec(TypedPlanet.TYPES.map((planetType) =>
+    () => addPawnOnPlanet({ board, state: 'incubating', planet: board.rng.pickOne(board.planetsPerType[planetType]) }),
+  ));
+}
+
+export function addPawnOnPlanet({ board, state, planet }) {
+  const pawn = new Pawn({ board, state });
+  return wrapAnimDelay(() => planet.acquirePawn(pawn));
 }
 
 function addTokens(board) {
-  return animatedPutPawnOnPlanet({ pawn: new PlanetToken({ board }),
-    randomPlanet: board.rng.pickOne(board.allPlanets) });
+  board.planetToken = new PlanetToken({ board });
+  const randomPlanet = board.rng.pickOne(board.allPlanets);
+  return wrapAnimDelay(() => board.movePlanetTokenTo(randomPlanet));
   // TODO: ajouter les marqueurs de tour
-}
-
-function animatedPutPawnOnPlanet({ pawn, randomPlanet }) {
-  return delay({ ms: MS.ADD_INCUBATING_PAWN_DELAY })() // On délaie légèrement l'ajout à chaque maison pour déclencher l'animation CSS
-    .then(() => randomPlanet.putIn(pawn))
-    .then(delay({ ms: MS.PAWN_MOVE_ANIMATION_DURATION })); // On attend la fin de l'animation CSS
 }
