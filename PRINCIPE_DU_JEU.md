@@ -138,7 +138,7 @@ _A chaque fois vous appliquerez la méthode suivante : lancez un dé et, en fonc
                 ajouter 1 robot sain dans la maison qui a le marqueur planète
                 avancer le marqueur planète
         sinon :
-            Pour chaque maison cratère :
+            Pour chaque maison du type de planète concerné :
                 si (dé = 1) déplacer 2 robots à la robot académie
                 si (dé = 2) déplacer 2 robots dans la maison suivante
                 si (dé = 3) déplacer 2 robots dans la maison précédente
