@@ -1,13 +1,14 @@
 // 1er déplacement des habitant.e.s
 
+import { addPawnOnPlanet } from './init.js';
+import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { TurnStep } from './turn-step.js';
 import { TypedPlanet } from './game-props.js';
 
 export class TurnStep1 extends TurnStep {
   constructor(board) {
     super();
-    const goOnButton = board.doc.getElementById('go-on');
-    goOnButton.textContent = 'Effectuer le déplacement';
+    board.goOnButton.textContent = 'Effectuer le déplacement';
     board.goOnCallback = () => moveAllPawns(board);
   }
   getStepName() {
@@ -15,12 +16,56 @@ export class TurnStep1 extends TurnStep {
   }
 }
 
-/*eslint-disable */
 function moveAllPawns(board) {
-  TypedPlanet.TYPES.forEach((planetType) => {
-    const dieResult = board.rollDie();
+  return chainExec(TypedPlanet.TYPES.map((planetType) =>
+    () => moveAllPlanetsOfType({ board, planetType }),
+  ));
+}
+
+function moveAllPlanetsOfType({ board, planetType }) {
+  const dieResult = board.rng.rollDie();
+  console.log('[Étape 1] Résultat du dé:', dieResult);
+  if (dieResult === 6) {
+    return addPawnOnPlanet({ board, state: 'incubating', planet: board.planetTokenPlanet })
+      .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))
+      .then(() => addPawnOnPlanet({ board, state: 'sane', planet: board.planetTokenPlanet }))
+      .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))
+      .then(() => addPawnOnPlanet({ board, state: 'sane', planet: board.planetTokenPlanet }))
+      .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)));
+  }
+  return chainExec(board.planetsPerType[planetType].map((planet) =>
+    () => moveFromPlanet({ board, dieResult, planet }),
+  )).then(() => chainExec(board.publicPlacesPerType[planetType].map((publicPlace) =>
+    () => moveFromPublicPlace({ board, dieResult, publicPlace })),
+  ));
+}
+
+function moveFromPlanet({ board, dieResult, planet }) {
+  return wrapAnimDelay(() => {
+    let destPlace = null;
     if (dieResult === 1) {
-    } else {
+      destPlace = board.robotAcademy;
+    } else if (dieResult === 2) {
+      destPlace = planet.nextPlanet;
+    } else if (dieResult === 3) {
+      destPlace = planet.prevPlanet;
+    } else if (dieResult === 4) {
+      throw new Error('Not implemented yet');
+    } else if (dieResult === 5) {
+      throw new Error('Not implemented yet');
+    }
+    const [ pawn1, pawn2 ] = planet.extractPawns(2);
+    console.debug(`Moving from planet with type ${ planet.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
+    if (pawn1) {
+      destPlace.acquirePawn(pawn1);
+    }
+    if (pawn2) {
+      destPlace.acquirePawn(pawn2);
     }
   });
+}
+
+/*eslint-disable */
+function moveFromPublicPlace({ board, dieResult, publicPlace }) {
+  // TODO
 }

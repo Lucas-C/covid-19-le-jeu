@@ -1,6 +1,5 @@
 export const MS = { // Définir toutes ces constantes ici permet de passer en mode "fast" grâce à enableFastAnimations
-  ADD_INCUBATING_PAWN_DELAY: 200,
-  DICE_ROLL_ANIMATION: 1000,
+  ADD_PAWN_DELAY: 200,
   PAWN_MOVE_ANIMATION_DURATION: 1000,
 };
 

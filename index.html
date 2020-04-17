@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>COVID-19 le jeu</title>
     <link rel="stylesheet" href="css/covid-19-le-jeu.css">
+    <link rel="stylesheet" href="css/debug.css">
   </head>
   <body>
     <div class="controls">
@@ -14,10 +15,15 @@
           <span id="turn-step-id">0</span> - <span id="turn-step-name"></span>
         </div>
       </div>
-      <button id="go-on" onclick="goOn">Mise en place...</button>
+      <button id="go-on">Mise en place...</button>
       <div>Seed : <span id="seed"></span></div>
     </div>
-    <div id="board"></div>
+    <div id="board">
+      <div id="sane" class="counter"></div>
+      <div id="incubating" class="counter"></div>
+      <div id="sick" class="counter"></div>
+      <div id="healed" class="counter"></div>
+    </div>
     <script src="node_modules/seedrandom/seedrandom.min.js"></script>
     <script type="module" src="js/index.js"></script>
   </body>
