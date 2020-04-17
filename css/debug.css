@@ -1,0 +1,9 @@
+.debug .planet.crater { border: 2px solid violet; }
+.debug .planet.gaseous { border: 2px solid green; }
+.debug .planet.artificial { border: 2px solid blue; }
+.debug .batterie-market,
+.debug .garage,
+.debug .public-place,
+.debug .robot-academy { border: 2px solid yellow; }
+.debug .slot { border: 1px solid red; }
+.debug .counter { border: 1px solid cyan; }

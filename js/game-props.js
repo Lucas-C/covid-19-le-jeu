@@ -6,11 +6,20 @@ export class Board {
   constructor(doc, seed) {
     this.doc = doc;
     this.elem = doc.getElementById('board');
-    doc.getElementById('seed').textContent = seed;
     this.rng = new RandomGenerator(seed);
+    doc.getElementById('seed').textContent = seed;
     this.goOnCallback = null;
+    this.goOnButton = doc.getElementById('go-on');
+    this.goOnButton.onclick = () => {
+      if (this.goOnCallback) {
+        this.goOnCallback();
+      }
+    };
+    this.planetToken = null;
+    this.planetTokenPlanet = null;
     this.allPlanets = [];
     this.planetsPerType = {};
+    this.publicPlacesPerType = [];
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);
@@ -18,17 +27,39 @@ export class Board {
       this.planetsPerType[planet.type] = [];
     }
     this.planetsPerType[planet.type].push(planet);
+    return planet;
+  }
+  addPublicPlace(publicPlace) {
+    if (!this.publicPlacesPerType[publicPlace.type]) {
+      this.publicPlacesPerType[publicPlace.type] = [];
+    }
+    this.publicPlacesPerType[publicPlace.type].push(publicPlace);
+    return publicPlace;
+  }
+  movePlanetTokenTo(planet) {
+    this.planetTokenPlanet = planet;
+    this.planetToken.setPos(planet.getRandomPos(this.planetToken));
+  }
+  updateCounters() {
+    this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;
+    this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
+    this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
+    this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
   }
 }
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
-  constructor({ board, pos, cssClass }) {
+  constructor({ board, pos, cssClass, height, width }) {
     this.elem = board.doc.createElement('div');
     // Tous les élements sont enfants d'un même parent pour pouvoir animer leurs changements positions left/top :
     board.elem.appendChild(this.elem);
     this.elem.style.position = 'absolute';
+    this.height = height;
+    this.width = width;
+    this.elem.style.height = `${ this.height }px`;
+    this.elem.style.width = `${ this.width }px`;
     this.elem.classList.add('game-prop');
     this.elem.classList.add(cssClass);
     this.setPos(pos);
@@ -38,67 +69,126 @@ class GameProp {
     this.elem.style.top = `${ pos[1] }px`;
   }
   getPos() {
-    return [ this.elem.style.left.slice(0, -2), this.elem.style.top.slice(0, -2) ];
+    return [ Number(this.elem.style.left.slice(0, -2)), Number(this.elem.style.top.slice(0, -2)) ];
   }
 }
 
 // Un emplacement de pion dans un lieu
-class PlaceSlot extends GameProp {}
+class PlaceSlot extends GameProp {
+  constructor({ board, pos, cssClass }) {
+    super({ board, pos, cssClass, height: 25, width: 25 });
+  }
+}
 
 // Un lieu pouvant héberger des pions
-class Place extends GameProp {
-  constructor({ board, pos, cssClass, slotsPos }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
-    super({ board, pos, cssClass });
+export class Place extends GameProp {
+  constructor({ board, pos, cssClass, slotsPos, height, width }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
+    super({ board, pos, cssClass, height, width });
+    this.rng = board.rng;
     this.slots = slotsPos.map((slotPos) => new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
+    this.extraPawns = [];
   }
-  putIn(pawn) {
+  acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
-    if (!freeSlots.length) {
-      throw new Error('Not implemented yet!');
+    if (freeSlots.length) {
+      freeSlots[0].pawn = pawn;
+      pawn.setPos(freeSlots[0].getPos());
+    } else {
+      this.extraPawns.push(pawn);
+      pawn.setPos(this.getRandomPos(pawn));
     }
-    pawn.setPos(freeSlots[0].getPos());
+  }
+  extractPawns(count) {
+    // cf. https://github.com/covid19lejeu/covid-19-le-jeu/blob/master/PRINCIPE_DU_JEU.md#priorit%C3%A9-de-d%C3%A9placement-
+    // TODO : implémenter les règles correspondant au 2e déplacement
+    const extractedPawns = [];
+    for (let i = 0; i < count; i++) {
+      if (i === 0) {
+        extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
+      } else {
+        extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
+      }
+    }
+    return extractedPawns;
+  }
+  extractPawnWithState(state) {
+    const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
+    if (extraMatchingPawn) {
+      this.extraPawns = this.extraPawns.filter((pawn) => pawn !== extraMatchingPawn);
+      return extraMatchingPawn;
+    }
+    const slotWithMatchingPawn = this.slots.find((slot) => slot.pawn && slot.pawn.state === state);
+    if (slotWithMatchingPawn) {
+      const matchingPawn = slotWithMatchingPawn.pawn;
+      slotWithMatchingPawn.pawn = null;
+      this.fillEmptySlotsWithExtraPawns();
+      return matchingPawn;
+    }
+    return null;
+  }
+  fillEmptySlotsWithExtraPawns() {
+    let freeSlot = this.getFreeSlots()[0];
+    while (this.extraPawns.length && freeSlot) {
+      freeSlot.pawn = this.extraPawns.pop();
+      freeSlot = this.getFreeSlots()[0];
+    }
   }
   getFreeSlots() {
-    return this.slots.filter((slot) => !slot.elem.children.length);
+    return this.slots.filter((slot) => !slot.pawn);
+  }
+  getRandomPos(forProp) { // Return coordinates of a random point on the place
+    const [ x, y ] = this.getPos();
+    return [
+      x + (this.rng.randBetween0And1() * (this.width - forProp.width)),
+      y + (this.rng.randBetween0And1() * (this.height - forProp.height)),
+    ];
   }
 }
+
+// Planète "lieu public" ou "maison"
+export class TypedPlanet extends Place {
+  constructor({ board, pos, cssClass, slotsPos, type, height, width }) {
+    super({ board, pos, cssClass, slotsPos, height, width });
+    this.type = type;
+    this.elem.classList.add(type);
+  }
+}
+TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
 
 // Planète "lieu public"
-export class TypedPlanet extends Place {
-  constructor({ board, pos, cssClass, slotsPos, type }) {
-    super({ board, pos, cssClass, slotsPos });
-    this.type = type;
+export class PublicPlace extends TypedPlanet {
+  constructor({ board, pos, slotsPos, type }) {
+    super({ board, pos, cssClass: 'public-place', slotsPos, type, height: 180, width: 180 });
   }
 }
-TypedPlanet.TYPES = [ 'crater', 'gaseous', 'ring' ];
 
+// Planète "maison"
 export class Planet extends TypedPlanet {
   constructor({ board, pos, slotsPos, type }) {
-    super({ board, pos, cssClass: 'planet', slotsPos, type });
+    super({ board, pos, cssClass: 'planet', slotsPos, type, height: 180, width: 180 });
   }
 }
 
-// Un pion
+// Un pion robot
 export class Pawn extends GameProp {
   constructor({ board, state }) {
-    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'pawn' });
-    this.setState(state || 'SANE');
+    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'pawn', height: 20, width: 20 });
+    this.setState(state || 'sane');
   }
   setState(state) {
-    this.state = state;
-    if (state === 'HEALED') {
-      this.elem.style.backgroundImage = 'none';
-    } else {
-      this.elem.style.backgroundImage = `url(assets/pawn-${ state.toLowerCase() }.png)`;
+    if (this.state) {
+      this.elem.classList.remove(this.state);
     }
+    this.state = state;
+    this.elem.classList.add(state);
   }
 }
-Pawn.STATES = [ 'SANE', 'INCUBATING', 'SICK', 'HEALED' ];
+Pawn.STATES = [ 'sane', 'incubating', 'sick', 'healed' ];
 
 // Marqueur planète
 export class PlanetToken extends GameProp {
   constructor({ board }) {
-    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'planet-token' });
+    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'planet-token', height: 100, width: 100 });
     this.elem.textContent = '🪐';
   }
 }

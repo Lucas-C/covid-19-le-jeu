@@ -31,6 +31,7 @@ function nextTurnStep(board) {
   turnStepIdElem.textContent = turnStepNumber;
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
   board.doc.getElementById('turn-step-name').textContent = turnStepDirector.getStepName();
+  board.updateCounters();
 }
 
 function nextTurn(doc) {
