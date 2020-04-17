@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="css/covid-19-le-jeu.css">
   </head>
   <body>
-    <div id="board">
-      <div class="board-city">
-        <img class="board-city-tile" alt="" src="assets/board-city1.png">
-        <img class="board-city-tile" alt="" src="assets/board-city2.png">
-        <img class="board-city-tile" alt="" src="assets/board-city3.png">
-        <img class="board-city-tile" alt="" src="assets/board-city4.png">
+    <div class="controls">
+      <div class="game-state">
+        <div class="game-state-label">Tour n°<span id="turn-number">1</span>/10 - Étape :
+          <span id="turn-step-id">0</span> - <span id="turn-step-name"></span>
+        </div>
       </div>
-      <img class="board-hopital" alt="" src="assets/board-hospital.png">
-      <div class="dice"></div>
+      <button id="go-on" onclick="goOn">Mise en place...</button>
+      <div>Seed : <span id="seed"></span></div>
     </div>
-    <script src="node_modules/roll-a-die/dist/roll-a-die.js"></script>
+    <div id="board"></div>
+    <script src="node_modules/seedrandom/seedrandom.min.js"></script>
     <script type="module" src="js/index.js"></script>
   </body>
 </html>
