@@ -1,28 +1,25 @@
 body {
     margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-flow: column;
+    font-size: 2rem;
 }
 #board {
-    display: flex;
-    align-items: start;
+    flex: 1;
     position: relative;
+    background: url(../assets/board.jpg);
+    background-size: cover;
 }
-.board-city {
-    width: 70%;
+.controls {
     display: flex;
-    flex-wrap: wrap;
-}
-.board-city-tile {
-    display: block;
-    flex: 1 0 50%;
-    max-width: 50%;
-}
-.board-hospital {
-    width: 30%;
+    align-items: center;
+    justify-content: space-between;
 }
 .game-prop {
     transition: left 1s ease, top 1s ease;
 }
-.house {
+.planet {
     width: 120px; height: 80px;
 }
 .slot {
@@ -32,8 +29,10 @@ body {
     width: 20px; height: 20px;
     background-size: contain;
 }
-.dice {
-    position: absolute;
-    width: 30%; height: 30%;
-    left: 70%; top: 40%;
+.planet-token {
+    font-size: 5rem;
+}
+.game-state-label {
+    padding: 1rem;
+    font-weight: bold;
 }

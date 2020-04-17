@@ -99,6 +99,10 @@ Voici quelques _guidelines_ pour les réaliser :
 - [Code review : ce truc qui ne sert à rien - Sebastien Charrier](https://www.youtube.com/watch?v=6aQK6GoTbxM)
 - [yelp guidelines](https://engineeringblog.yelp.com/2017/11/code-review-guidelines.html)
 
+## Astuces
+Pour éviter tous les délais d'animation, et par exemple passer instantanément la phase initiale de mise en place,
+vous pouvez ajoutez ce _query parameter_ à l'URL : `?fast=true`.
+
 
 # Remerciements
 

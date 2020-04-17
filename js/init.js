@@ -1,16 +1,15 @@
-import { Board, House, Pawn } from './game-props.js';
-import { rollDice } from './dice.js';
-import { delay } from './timing.js';
+import { Board, Pawn, Planet, PlanetToken } from './game-props.js';
+import { delay, MS } from './timing.js';
 
-export function initializeGame(doc) {
-  const board = initializeBoard(doc);
-  addIncubatingPawns(board);
+export function initializeGame(doc, seed) {
+  const board = initializeBoard(doc, seed);
+  return addIncubatingPawns(board).then(() => addTokens(board)).then(() => board);
 }
 
-function initializeBoard(doc) {
-  const board = new Board(doc);
+function initializeBoard(doc, seed) {
+  const board = new Board(doc, seed);
   // Enumération des maisons, ligne par ligne, de gauche à droite :
-  board.addHouse(new House({ board, number: 3, pos: [ 58, 58 ], slotsPos: [ // maison violette
+  board.addPlanet(new Planet({ board, type: 'crater', pos: [ 58, 58 ], slotsPos: [
     [ 64, 68 ], [ 90, 68 ], [ 136, 68 ], // 1ère rangée
     [ 64, 106 ], // 2e rangée
   ] }));
@@ -18,26 +17,21 @@ function initializeBoard(doc) {
 }
 
 function addIncubatingPawns(board) {
-  rollDice({ board, numberOfDice: 3 })
-    .then(delay({ ms: 1000 }))
-    .then((results) => addSingleIncubatingPawn({ board, houseNumber: sum(results) }))
-
-    .then(() => rollDice({ board, numberOfDice: 3 }))
-    .then(delay({ ms: 1000 }))
-    .then((results) => addSingleIncubatingPawn({ board, houseNumber: sum(results) }))
-
-    .then(() => rollDice({ board, numberOfDice: 3 }))
-    .then(delay({ ms: 1000 }))
-    .then((results) => addSingleIncubatingPawn({ board, houseNumber: sum(results) }));
+  return animatedPutPawnOnPlanet({ pawn: new Pawn({ board, state: 'INCUBATING' }),
+    randomPlanet: board.rng.pickOne(board.planetsPerType.crater) });
+  // TODO: à répéter pour chaque type de planète
+  // .then(() => animatedPutPawnOnPlanet({pawn: new Pawn({ board, state: 'INCUBATING' }),
+  //                                     randomPlanet: board.rng.pickOne(board.planetsPerType.?)})
 }
 
-function addSingleIncubatingPawn({ board, houseNumber }) {
-  const randomHouse = houseNumber < 3 ? board.housePerNumber[houseNumber] : board.housePerNumber[3]; // temporaire, tant que initializeBoard n'est pas finalisé
-  const incubatingPawn = new Pawn({ board, state: 'INCUBATING' });
-  // On délaie légèrement l'ajout à chaque maison pour déclencher l'animation:
-  return delay({ ms: 200 })().then(() => randomHouse.putIn(incubatingPawn));
+function addTokens(board) {
+  return animatedPutPawnOnPlanet({ pawn: new PlanetToken({ board }),
+    randomPlanet: board.rng.pickOne(board.allPlanets) });
+  // TODO: ajouter les marqueurs de tour
 }
 
-function sum(numbers) {
-  return numbers.reduce((a, b) => a + b);
+function animatedPutPawnOnPlanet({ pawn, randomPlanet }) {
+  return delay({ ms: MS.ADD_INCUBATING_PAWN_DELAY })() // On délaie légèrement l'ajout à chaque maison pour déclencher l'animation CSS
+    .then(() => randomPlanet.putIn(pawn))
+    .then(delay({ ms: MS.PAWN_MOVE_ANIMATION_DURATION })); // On attend la fin de l'animation CSS
 }
