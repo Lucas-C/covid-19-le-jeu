@@ -145,13 +145,12 @@ _A chaque fois vous appliquerez la méthode suivante : lancez un dé et, en fonc
                 si (dé = 4) déplacer 2 robots dans le lieu public du quartier
                 si (dé = 5) déplacer 2 robots dans la zone 1 du batterie market
 
-    Pour chaque lieu public :
-        Tirer au hasard un chiffre de 1 à 6 (dé)
-        si (dé = 1) déplacer 2 robots à l'école
-        si (dé = 2) déplacer 1 robot dans chaque maison du quartier
-        si (dé = 3) déplacer 1 robot dans chaque maison du quartier
-        si (dé = 4) déplacer 2 robots dans le lieu public suivant
-        si (dé = 5) déplacer 2 robots dans le lieu public précédént
+        Pour chaque lieu public du type de planète concerné (1 ou 2) :
+            si (dé = 1) déplacer 2 robots à l'école
+            si (dé = 2) déplacer 1 robot dans chaque maison du quartier
+            si (dé = 3) déplacer 1 robot dans chaque maison du quartier
+            si (dé = 4) déplacer 2 robots dans le lieu public suivant
+            si (dé = 5) déplacer 2 robots dans le lieu public précédént
 
 voir règle de [priorité de déplacement](#prioritedeplacement)
 
