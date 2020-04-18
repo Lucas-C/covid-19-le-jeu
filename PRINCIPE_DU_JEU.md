@@ -75,20 +75,20 @@ _La partie prend fin immédiatement :_
 - _SOIT quand un pion malade ne peut être admis à l’hôpital faute de place disponible (étape 5). Dans ce cas vous avez perdu…_
 - _SOIT quand vous dépassez le 10ème tour. Dans ce cas vous avez perdu…_
 
-    Pour chaque lieu hors hôpital :
-        Nombre total de malades += Nombre de malades du lieu
-        Nombre total de guéris += Nombre de guéris du lieu
-    Si(Nombre total de malades = 0) :
-        YOU WIN !
-    Si(Nombre total de guéris >= 40) :
-        YOU WIN !
+        Pour chaque lieu hors hôpital :
+            Nombre total de malades += Nombre de malades du lieu
+            Nombre total de guéris += Nombre de guéris du lieu
+        Si(Nombre total de malades = 0) :
+            YOU WIN !
+        Si(Nombre total de guéris >= 40) :
+            YOU WIN !
 
-    Pour l'hôpital :
-    Si(Nombre de malades > capacité totale ) :
-        YOU LOSE !
+        Pour l'hôpital :
+        Si(Nombre de malades > capacité totale ) :
+            YOU LOSE !
 
-    Si(Numero du tour > 10) :
-        YOU LOSE !
+        Si(Numero du tour > 10) :
+            YOU LOSE !
 
 ## Etape 0 : mise en place
 

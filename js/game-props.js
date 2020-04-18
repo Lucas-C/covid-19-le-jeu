@@ -1,5 +1,6 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
 
+
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
@@ -37,10 +38,17 @@ export class Place extends GameProp {
   constructor({ board, pos, cssClass, slotsPos, height, width }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
     super({ board, pos, cssClass, height, width });
     this.rng = board.rng;
+    this.coefInfection = 2; // nombre d'infectés par malade
     // Les pions sont toujours stockés en priorité dans les emplacements du lieu :
     this.slots = slotsPos.map((slotPos) => new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
     // Les pions supplémentaires sont listés dans cet attribut :
     this.extraPawns = [];
+  }
+  isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
+    if (this.extraPawns.length > 0 && this.extractPawnWithState('sick').length > 0) {
+      return true;
+    }
+    return false;
   }
   acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();

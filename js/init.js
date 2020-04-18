@@ -35,9 +35,11 @@ function initializeBoard(doc, seed) {
     [ 670, 420 ], [ 707, 420 ], [ 744, 420 ], [ 781, 420 ], // 1ère rangée
     [ 670, 455 ], [ 707, 455 ], [ 744, 455 ], [ 781, 455 ], // 2e rangée
   ] });
+  board.robotAcademy.coefInfection = 4;
   board.batterieMarket = new Place({ board, pos: [ 1430, 300 ], cssClass: 'batterie-market', height: 220, width: 250, slotsPos: [
     [ 1453, 385 ], [ 1491, 385 ], [ 1529, 385 ], [ 1567, 385 ], [ 1605, 385 ], [ 1643, 385 ], // 1ère rangée
     [ 1453, 440 ], [ 1491, 440 ], [ 1529, 440 ], [ 1567, 440 ], [ 1605, 440 ], [ 1643, 440 ], // 2e rangée
+
   ] });
   board.garage = new Place({ board, pos: [ 1660, 480 ], cssClass: 'garage', height: 300, width: 175, slotsPos: [
     [ 1690, 552 ], [ 1736, 552 ], [ 1782, 552 ], // 1ère rangée
