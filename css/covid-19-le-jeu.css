@@ -22,6 +22,7 @@ body {
 }
 .game-prop { transition: left 1s ease, top 1s ease; }
 .pawn { background-size: contain; }
+.sane { background: white; }
 .incubating { background-image: url(../assets/pawn-incubating.png); }
 .sick { background-image: url(../assets/pawn-sick.png); }
 .healed { background-image: url(../assets/pawn-healed.png); }
@@ -38,3 +39,19 @@ body {
 #incubating { left: 1370px; top: 702px; }
 #sick { left: 1370px; top: 764px; }
 #healed { left: 1370px; top: 826px; }
+#measures-overlay {
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.8);
+    border-radius: 30rem;
+    z-index: 1;
+}
+.cards-container {
+    padding: 8rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.card.measure {
+    flex: 1 12.5%;
+    display: block;
+}

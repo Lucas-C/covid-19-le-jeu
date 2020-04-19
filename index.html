@@ -5,6 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>COVID-19 le jeu</title>
+    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
     <link rel="stylesheet" href="css/covid-19-le-jeu.css">
     <link rel="stylesheet" href="css/debug.css">
   </head>
@@ -16,6 +17,7 @@
         </div>
       </div>
       <button id="go-on">Mise en place...</button>
+      <button id="measures-toggle">Afficher les mesures</button>
       <div>Seed : <span id="seed"></span></div>
     </div>
     <div id="board">
@@ -23,6 +25,27 @@
       <div id="incubating" class="counter"></div>
       <div id="sick" class="counter"></div>
       <div id="healed" class="counter"></div>
+      <div id="measures-overlay" style="display: none">
+        <div class="cards-container">
+          <!-- TODO: insérer les bonnes images et leurs IDs -->
+          <img class="card measure" id="gestes-barriere-v1" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" id="port-obligatoire-du-masque" src="assets/measures-cards/port-obligatoire-du-masque.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+          <img class="card measure" src="assets/measures-cards/gestes-barriere-v1.png"></img>
+        </div>
+      </div>
     </div>
     <script src="node_modules/seedrandom/seedrandom.min.js"></script>
     <script type="module" src="js/index.js"></script>

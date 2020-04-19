@@ -10,6 +10,7 @@
         + [Installation des dépendances](#installation-des-dependances)
         + [Lancement du jeu en local](#lancement-du-jeu-en-local)
         + [Linter & tests](#linter--tests)
+    * [Query params](#query-params)
     * [Intégration continue](#integration-continue)
     * [Revues de code](#revues-de-code)
 - [Remerciements](#remerciements)
@@ -82,6 +83,13 @@ N'importe quel serveur web peut faire l'affaire :
 
 Nous employons `eslint` comme _linter_ (= outil d'analyse statique) pour analyser le code Javascript et assurer sa cohérence de style : https://eslint.org
 Les règles régissant son comportement sont définies dans le fichier `.eslintrc.js`.
+
+
+## Query params
+Quelques _query parameters_ peuvent vous faciliter le développement :
+- `?debug=true` : déclenche l'application des styles de `debug.css` permettant de mettre en évidence les différents `GameProp` sur le plateau
+- `&fast=true` : réduit tous les délais d'animation à zéro, pour accélerer le déroulement des étapes de jeux
+- `&seed=XYZ` : permet de spécifier une _seed_ pour le générateur aléatoire. Pour une _seed_ donnée, il se comportera toujours de la même manière.
 
 
 ## Intégration continue

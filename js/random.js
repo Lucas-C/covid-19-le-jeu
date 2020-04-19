@@ -1,4 +1,4 @@
-
+// On importe la lib de manière à ce que ça fonctionne en navigateur ET en tests unitaires :
 const Seedrandom = Math.seedrandom || require('seedrandom');
 
 export class RandomGenerator {

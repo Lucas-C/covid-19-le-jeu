@@ -1,53 +1,5 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
 
-import { RandomGenerator } from './random.js';
-
-export class Board {
-  constructor(doc, seed) {
-    this.doc = doc;
-    this.elem = doc.getElementById('board');
-    this.rng = new RandomGenerator(seed);
-    doc.getElementById('seed').textContent = seed;
-    this.goOnCallback = null;
-    this.goOnButton = doc.getElementById('go-on');
-    this.goOnButton.onclick = () => {
-      if (this.goOnCallback) {
-        this.goOnCallback();
-      }
-    };
-    this.planetToken = null;
-    this.planetTokenPlanet = null;
-    this.allPlanets = [];
-    this.planetsPerType = {};
-    this.publicPlacesPerType = [];
-  }
-  addPlanet(planet) {
-    this.allPlanets.push(planet);
-    if (!this.planetsPerType[planet.type]) {
-      this.planetsPerType[planet.type] = [];
-    }
-    this.planetsPerType[planet.type].push(planet);
-    return planet;
-  }
-  addPublicPlace(publicPlace) {
-    if (!this.publicPlacesPerType[publicPlace.type]) {
-      this.publicPlacesPerType[publicPlace.type] = [];
-    }
-    this.publicPlacesPerType[publicPlace.type].push(publicPlace);
-    return publicPlace;
-  }
-  movePlanetTokenTo(planet) {
-    this.planetTokenPlanet = planet;
-    this.planetToken.setPos(planet.getRandomPos(this.planetToken));
-  }
-  updateCounters() {
-    this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;
-    this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
-    this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
-    this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
-  }
-}
-
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
@@ -85,7 +37,9 @@ export class Place extends GameProp {
   constructor({ board, pos, cssClass, slotsPos, height, width }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
     super({ board, pos, cssClass, height, width });
     this.rng = board.rng;
+    // Les pions sont toujours stockés en priorité dans les emplacements du lieu :
     this.slots = slotsPos.map((slotPos) => new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
+    // Les pions supplémentaires sont listés dans cet attribut :
     this.extraPawns = [];
   }
   acquirePawn(pawn) {
@@ -130,6 +84,7 @@ export class Place extends GameProp {
     let freeSlot = this.getFreeSlots()[0];
     while (this.extraPawns.length && freeSlot) {
       freeSlot.pawn = this.extraPawns.pop();
+      freeSlot.pawn.setPos(freeSlot.getPos());
       freeSlot = this.getFreeSlots()[0];
     }
   }
