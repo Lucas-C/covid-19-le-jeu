@@ -53,13 +53,13 @@ function initializeBoard(doc, seed) {
 
 function addPawns(board) {
   const allSanePawns = []; // On crée tous les pions "sain" initiaux
-  board.allPlanets.forEach((planet) => planet.slots.forEach((slot => allSanePawns.push(new Pawn({ board, state: 'sane' })))));
+  board.allPlanets.forEach((planet) => planet.slots.forEach(() => allSanePawns.push(new Pawn({ board, state: 'sane' }))));
   // On déclenche leur mouvement d'un coup vers toutes les planètes :
-  return wrapAnimDelay(() => board.allPlanets.forEach((planet) => planet.slots.forEach((slot => planet.acquirePawn(allSanePawns.pop())))))
-  .then(() => chainExec(TypedPlanet.TYPES.map((planetType) =>
+  return wrapAnimDelay(() => board.allPlanets.forEach((planet) => planet.slots.forEach(() => planet.acquirePawn(allSanePawns.pop()))))
+    .then(() => chainExec(TypedPlanet.TYPES.map((planetType) =>
     // Puis on place un pion "incubé" par planète de chaque type
-    () => addPawnOnPlanet({ board, state: 'incubating', planet: board.rng.pickOne(board.planetsPerType[planetType]) }),
-  )));
+      () => addPawnOnPlanet({ board, state: 'incubating', planet: board.rng.pickOne(board.planetsPerType[planetType]) }),
+    )));
 }
 
 export function addPawnOnPlanet({ board, state, planet }) {

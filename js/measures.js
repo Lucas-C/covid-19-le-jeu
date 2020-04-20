@@ -9,7 +9,9 @@ export class MeasuresOverlay {
       this.overlayElem.style.display = 'flex';
       animateCSS(this.overlayElem, 'slideInDown');
     } else {
-      animateCSS(this.overlayElem, 'slideOutUp', () => { this.overlayElem.style.display = 'none'; });
+      animateCSS(this.overlayElem, 'slideOutUp', () => {
+        this.overlayElem.style.display = 'none';
+      });
     }
   }
 }

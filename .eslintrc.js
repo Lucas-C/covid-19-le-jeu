@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     'array-element-newline': 'off',
+    'callback-return': 'off',
     'class-methods-use-this': 'off',
     'filenames/match-regex': [2, '^[a-z-.0-9]+$', true],
     'global-require': 'off',
