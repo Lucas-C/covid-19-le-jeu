@@ -45,7 +45,7 @@ export class Place extends GameProp {
     this.extraPawns = [];
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
-    if (this.extraPawns.length > 0 && this.extractPawnWithState('sick').length > 0) {
+    if (this.extraPawns.length > 0 && this.extractAllPawnsWithState('sick').length > 0) {
       this.elem.classList.add('contamined');
       return true;
     }
