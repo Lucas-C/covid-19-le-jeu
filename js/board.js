@@ -19,8 +19,10 @@ export class Board {
     this.planetToken = null;
     this.planetTokenPlanet = null;
     this.allPlanets = [];
+    this.allPublicPlaces = [];
     this.planetsPerType = {};
     this.publicPlacesPerType = [];
+    this.bonusInfection = 0; // nb d'infectés à enlever dans lors de la contagion (effet carte mesure gestes barrières)
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);
@@ -31,6 +33,7 @@ export class Board {
     return planet;
   }
   addPublicPlace(publicPlace) {
+    this.allPublicPlaces.push(publicPlace);
     if (!this.publicPlacesPerType[publicPlace.type]) {
       this.publicPlacesPerType[publicPlace.type] = [];
     }
