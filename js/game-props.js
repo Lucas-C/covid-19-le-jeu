@@ -87,7 +87,7 @@ export class Place extends GameProp {
       this.fillEmptySlotsWithExtraPawns();
       return matchingPawn;
     }
-    return null;
+    return [];
   }
   fillEmptySlotsWithExtraPawns() {
     let freeSlot = this.getFreeSlots()[0];
