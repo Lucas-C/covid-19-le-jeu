@@ -21,6 +21,7 @@ test('extractPawns retourne le nombre d\'éléments requis mais certains peuvent
   const extractedPawns = testPlace.extractPawns(2);
   expect(extractedPawns.length).toStrictEqual(2);
   expect(extractedPawns[0]).toBeTruthy();
-  expect(extractedPawns[1]).toBeNull();
+  // expect(extractedPawns[1]).toBeNull();
+  expect(extractedPawns[1]).toEqual([]);
   expect(testPlace.getFreeSlots().length).toStrictEqual(2);
 });
