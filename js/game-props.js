@@ -74,6 +74,15 @@ export class Place extends GameProp {
     }
     return extractedPawns;
   }
+  extractAllPawnsWithState(state) {
+    const extractedPawns = [];
+    const p = this.extractPawnWithState(state);
+    while (p !== null) {
+      extractedPawns.push(p);
+      p = this.extractPawnWithState(state);
+    }
+    return extractedPawns;
+  }
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
     if (extraMatchingPawn) {
