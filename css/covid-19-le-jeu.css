@@ -54,4 +54,5 @@ body {
 .card.measure {
     flex: 1 12.5%;
     display: block;
+    width: 12.5%;
 }
