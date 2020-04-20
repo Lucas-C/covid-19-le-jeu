@@ -36,4 +36,3 @@ function nextTurn(doc) {
   }
   turnNumber.textContent = Number(turnNumber.textContent) + 1;
 }
-

@@ -51,9 +51,9 @@ function moveFromPlanet({ board, dieResult, planet }) {
     } else if (dieResult === 3) {
       destPlace = planet.prevPlanet;
     } else if (dieResult === 4) {
-      throw new Error('Not implemented yet');
+      destPlace = planet.publicPlanet;
     } else if (dieResult === 5) {
-      throw new Error('Not implemented yet');
+      destPlace = board.batterieMarket;
     }
     const [ pawn1, pawn2 ] = planet.extractPawns(2);
     console.debug(`Moving from planet with type ${ planet.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
