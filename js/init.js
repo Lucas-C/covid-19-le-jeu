@@ -19,18 +19,21 @@ function initializeBoard(doc, seed) {
     [ 305, 70 ], [ 345, 70 ], // 1ère rangée
     [ 305, 110 ], [ 345, 110 ], // 2e rangée
   ] }));
-  craterPlanet.prevPlanet = artificialPlanet;
-  artificialPlanet.nextPlanet = craterPlanet;
   const gaseousPlanet = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 495, 25 ], slotsPos: [
     [ 555, 65 ], [ 595, 65 ], // 1ère rangée
     [ 555, 105 ], [ 595, 105 ], // 2e rangée
     [ 575, 145 ], // 3e rangée
   ] }));
-  gaseousPlanet.prevPlanet = craterPlanet;
+  artificialPlanet.nextPlanet = craterPlanet;
+  artificialPlanet.prevPlanet = gaseousPlanet;// FAUX, temporaire
+  craterPlanet.prevPlanet = artificialPlanet;
   craterPlanet.nextPlanet = gaseousPlanet;
+  gaseousPlanet.prevPlanet = craterPlanet; 
   gaseousPlanet.nextPlanet = artificialPlanet; // FAUX, temporaire
-  artificialPlanet.nextPlanet = gaseousPlanet; // FAUX, temporaire
-  board.addPublicPlace(new PublicPlace({ board, pos: [ 350, 200 ], type: 'gaseous', slotsPos: [ [ 385, 290 ], [ 420, 272 ], [ 455, 254 ], [ 490, 236 ] ] })); // bar
+  const bar = board.addPublicPlace(new PublicPlace({ board, pos: [ 350, 200 ], type: 'gaseous', slotsPos: [ [ 385, 290 ], [ 420, 272 ], [ 455, 254 ], [ 490, 236 ] ] })); // bar
+  artificialPlanet.publicPlanet = bar;
+  gaseousPlanet.publicPlanet = bar;
+  craterPlanet.publicPlanet = bar;
   board.robotAcademy = new Place({ board, pos: [ 600, 330 ], cssClass: 'robot-academy', height: 250, width: 250, slotsPos: [
     [ 670, 420 ], [ 707, 420 ], [ 744, 420 ], [ 781, 420 ], // 1ère rangée
     [ 670, 455 ], [ 707, 455 ], [ 744, 455 ], [ 781, 455 ], // 2e rangée
