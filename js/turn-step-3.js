@@ -1,4 +1,5 @@
 /*eslint-disable */
+import { nextTurnStep } from './game-sequence.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { TurnStep } from './turn-step.js';
 
