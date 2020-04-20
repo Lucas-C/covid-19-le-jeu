@@ -33,7 +33,7 @@ function sickedPawns(board) {
 }
 
 function infectPawns(board) {
-  return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
+  return wrapAnimDelay( () => board.allPlanets.forEach(planet => { // pour chaque planète
     if (planet.isContaminated()) {
       var sanes = planet.extractPawnWithState('sane');
       var toIncubate = Math.min(sanes.length, planet.coefInfection*planet.extractPawnWithState('sick').length - board.bonusInfection);
@@ -41,8 +41,7 @@ function infectPawns(board) {
           sanes[i].setState('incubating');
       }
     }
-  })).then(wrapAnimDelay( () =>
-      board.allPublicPlaces.forEach(element => { // pour chaque lieu public
+  })).then(wrapAnimDelay( () => board.allPublicPlaces.forEach(element => { // pour chaque lieu public
       if (element.isContaminated()) {
         var sanes = element.extractPawnWithState('sane');
         var toIncubate = Math.min(sanes.length, element.coefInfection*element.extractPawnWithState('sick').length - board.bonusInfection);
@@ -50,13 +49,14 @@ function infectPawns(board) {
             sanes[i].setState('incubating');
         }
       }
-     }))).then(wrapAnimDelay( () =>
-      if (board.robotAcademy.isContaminated()) {
+     }))).then(wrapAnimDelay( () => {
+       if (board.robotAcademy.isContaminated()) {
         var sanes = board.robotAcademy.extractPawnWithState('sane');
         var toIncubate = Math.min(sanes.length, board.robotAcademy.coefInfection*board.robotAcademy.extractPawnWithState('sick').length - board.bonusInfection);
         for ( var i = 0; i < toIncubate; i++){
             sanes[i].setState('incubating');
         }
-      }));
+       }
+    }));
   // **TO-DO** pour le batterie market (supermarché) avec la gestion des zones
 }
