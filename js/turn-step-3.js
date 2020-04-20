@@ -14,29 +14,46 @@ export class TurnStep3 extends TurnStep {
   }
 }
 
+/*
+TODO : extractPawnWithState return null if no pawns in state
+*/
 function sickedPawns(board) {
   return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
-    planet.extractPawnWithState('incubating').forEach(pawn => { // je récupère les pions incubés
-      pawn.setState('sick'); // je les passe malade
-    });
-  })).then(wrapAnimDelay( () => 
-    board.allPublicPlaces.forEach(element => { // pour chaque lieu public
-      element.extractPawnWithState('incubating').forEach(pawn => { // je récupère les pions incubés
+    var incubating = planet.extractPawnWithState('incubating');// je récupère les pions incubés
+    if(incubating !== null){// s'il y en a
+      incubating.forEach(pawn => { 
         pawn.setState('sick'); // je les passe malade
       });
-    }))).then(wrapAnimDelay( () =>
-      board.robotAcademy.extractPawnWithState('incubating').forEach(pawn => { // je récupère les pions incubés
-        pawn.setState('sick'); // je les passe malade
-      }))).then(wrapAnimDelay( () =>
-        board.batterieMarket.extractPawnWithState('incubating').forEach(pawn => { // je récupère les pions incubés
+    }
+  })).then(wrapAnimDelay( () => board.allPublicPlaces.forEach(element => { // pour chaque lieu public
+      var incubating = element.extractPawnWithState('incubating');
+      if(incubating !== null){// s'il y en a
+        incubating.forEach(pawn => { // je récupère les pions incubés
           pawn.setState('sick'); // je les passe malade
-        }))).then( () => infectPawns(board));
+        });
+      }
+    }))).then(wrapAnimDelay( () => {
+      var incubating =  board.robotAcademy.extractPawnWithState('incubating'); 
+      if(incubating !== null){// s'il y en a
+        incubating.forEach(pawn => { // je récupère les pions incubés
+          pawn.setState('sick'); // je les passe malade
+        });
+      }
+    })).then(wrapAnimDelay( () => {
+      var incubating =  board.batterieMarket.extractPawnWithState('incubating');// je récupère les pions incubés
+      if(incubating !== null){// s'il y en a
+        incubating.forEach(pawn => { 
+          pawn.setState('sick'); // je les passe malade
+        });
+      }
+    })).then( () => infectPawns(board));
 }
 
 function infectPawns(board) {
   return wrapAnimDelay( () => board.allPlanets.forEach(planet => { // pour chaque planète
     if (planet.isContaminated()) {
       var sanes = planet.extractPawnWithState('sane');
+      if(sanes===null) sanes = [];
       var toIncubate = Math.min(sanes.length, planet.coefInfection*planet.extractPawnWithState('sick').length - board.bonusInfection);
       for ( var i = 0; i < toIncubate; i++){
           sanes[i].setState('incubating');
@@ -45,6 +62,7 @@ function infectPawns(board) {
   })).then(wrapAnimDelay( () => board.allPublicPlaces.forEach(element => { // pour chaque lieu public
       if (element.isContaminated()) {
         var sanes = element.extractPawnWithState('sane');
+        if(sanes===null) sanes = [];
         var toIncubate = Math.min(sanes.length, element.coefInfection*element.extractPawnWithState('sick').length - board.bonusInfection);
         for ( var i = 0; i < toIncubate; i++){
             sanes[i].setState('incubating');
@@ -53,6 +71,7 @@ function infectPawns(board) {
      }))).then(wrapAnimDelay( () => {
        if (board.robotAcademy.isContaminated()) {
         var sanes = board.robotAcademy.extractPawnWithState('sane');
+        if(sanes===null) sanes = [];
         var toIncubate = Math.min(sanes.length, board.robotAcademy.coefInfection*board.robotAcademy.extractPawnWithState('sick').length - board.bonusInfection);
         for ( var i = 0; i < toIncubate; i++){
             sanes[i].setState('incubating');
