@@ -4,8 +4,10 @@ import { TurnStep } from './turn-step.js';
 export class TurnStep2 extends TurnStep {
   constructor(board) {
     super();
+    board.goOnButton.textContent = 'A supprimer';
+    board.goOnCallback = () => nextTurnStep(board);
   }
   getStepName() {
-    return 'Gestion de l’hôpital';
+    return 'A supprimer';
   }
 }

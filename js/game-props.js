@@ -1,5 +1,5 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-
+import { wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
@@ -140,7 +140,7 @@ export class Pawn extends GameProp {
   }
   setState(state) {
     if (this.state) {
-      this.elem.classList.remove(this.state);
+      wrapAnimDelay(() => this.elem.classList.add('flipOutX')).then(this.elem.classList.remove(this.state));
     }
     this.state = state;
     this.elem.classList.add(state);
