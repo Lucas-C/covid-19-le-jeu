@@ -76,7 +76,7 @@ export class Place extends GameProp {
   }
   extractAllPawnsWithState(state) {
     const extractedPawns = [];
-    const p = this.extractPawnWithState(state);
+    let p = this.extractPawnWithState(state);
     while (p !== null) {
       extractedPawns.push(p);
       p = this.extractPawnWithState(state);
