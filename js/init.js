@@ -1,9 +1,10 @@
-import { Board, Pawn, Place, Planet, PlanetToken, PublicPlace, TypedPlanet } from './game-props.js';
+import { Board } from './board.js';
+import { Pawn, Place, Planet, PlanetToken, PublicPlace, TypedPlanet } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 export function initializeGame(doc, seed) {
   const board = initializeBoard(doc, seed);
-  return addIncubatingPawns(board).then(() => addTokens(board)).then(() => board);
+  return addPawns(board).then(() => addTokens(board)).then(() => board);
 }
 
 function initializeBoard(doc, seed) {
@@ -34,9 +35,9 @@ function initializeBoard(doc, seed) {
     [ 670, 420 ], [ 707, 420 ], [ 744, 420 ], [ 781, 420 ], // 1ère rangée
     [ 670, 455 ], [ 707, 455 ], [ 744, 455 ], [ 781, 455 ], // 2e rangée
   ] });
-  board.batterieMarket = new Place({ board, pos: [ 1400, 300 ], cssClass: 'batterie-market', height: 220, width: 250, slotsPos: [
-    [ 1415, 385 ], [ 1453, 385 ], [ 1491, 385 ], [ 1529, 385 ], [ 1567, 385 ], [ 1605, 385 ], // 1ère rangée
-    [ 1415, 440 ], [ 1453, 440 ], [ 1491, 440 ], [ 1529, 440 ], [ 1567, 440 ], [ 1605, 440 ], // 2e rangée
+  board.batterieMarket = new Place({ board, pos: [ 1430, 300 ], cssClass: 'batterie-market', height: 220, width: 250, slotsPos: [
+    [ 1453, 385 ], [ 1491, 385 ], [ 1529, 385 ], [ 1567, 385 ], [ 1605, 385 ], [ 1643, 385 ], // 1ère rangée
+    [ 1453, 440 ], [ 1491, 440 ], [ 1529, 440 ], [ 1567, 440 ], [ 1605, 440 ], [ 1643, 440 ], // 2e rangée
   ] });
   board.garage = new Place({ board, pos: [ 1660, 480 ], cssClass: 'garage', height: 300, width: 175, slotsPos: [
     [ 1690, 552 ], [ 1736, 552 ], [ 1782, 552 ], // 1ère rangée
@@ -50,10 +51,15 @@ function initializeBoard(doc, seed) {
   return board;
 }
 
-function addIncubatingPawns(board) {
-  return chainExec(TypedPlanet.TYPES.map((planetType) =>
+function addPawns(board) {
+  const allSanePawns = []; // On crée tous les pions "sain" initiaux
+  board.allPlanets.forEach((planet) => planet.slots.forEach((slot => allSanePawns.push(new Pawn({ board, state: 'sane' })))));
+  // On déclenche leur mouvement d'un coup vers toutes les planètes :
+  return wrapAnimDelay(() => board.allPlanets.forEach((planet) => planet.slots.forEach((slot => planet.acquirePawn(allSanePawns.pop())))))
+  .then(() => chainExec(TypedPlanet.TYPES.map((planetType) =>
+    // Puis on place un pion "incubé" par planète de chaque type
     () => addPawnOnPlanet({ board, state: 'incubating', planet: board.rng.pickOne(board.planetsPerType[planetType]) }),
-  ));
+  )));
 }
 
 export function addPawnOnPlanet({ board, state, planet }) {

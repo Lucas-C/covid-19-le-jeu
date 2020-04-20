@@ -1,15 +1,16 @@
 // 1er déplacement des habitant.e.s
 
+import { TypedPlanet } from './game-props.js';
+import { nextTurnStep } from './game-sequence.js';
 import { addPawnOnPlanet } from './init.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { TurnStep } from './turn-step.js';
-import { TypedPlanet } from './game-props.js';
 
 export class TurnStep1 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Effectuer le déplacement';
-    board.goOnCallback = () => moveAllPawns(board);
+    board.goOnCallback = () => moveAllPawns(board).then(() => nextTurnStep(board));
   }
   getStepName() {
     return '1er déplacement des habitant.e.s';

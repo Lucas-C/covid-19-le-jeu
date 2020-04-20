@@ -16,12 +16,7 @@ import { TurnStep7 } from './turn-step-7.js';
 TURN_STEP_DIRECTORS[7] = TurnStep7;
 
 
-export function startGame(board) {
-  nextTurnStep(board);
-  window.goOn = () => board.goOnCallback && board.goOnCallback(); // on expose cette fonction pour que le <button> puisse y accéder
-}
-
-function nextTurnStep(board) {
+export function nextTurnStep(board) {
   const turnStepIdElem = board.doc.getElementById('turn-step-id');
   let turnStepNumber = Number(turnStepIdElem.textContent);
   if (++turnStepNumber > 7) {
