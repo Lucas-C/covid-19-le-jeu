@@ -56,3 +56,6 @@ body {
     display: block;
     width: 12.5%;
 }
+.contamined {
+    border:3px dot red;
+}
