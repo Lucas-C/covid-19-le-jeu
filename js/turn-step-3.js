@@ -21,7 +21,7 @@ function sickedPawns(board) {
   return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
     var incubating = planet.extractPawnWithState('incubating');// je récupère les pions incubés
     if(incubating !== null){// s'il y en a
-      console.log('[Étape 3] Nombre de pions incubés pour la planète :', incubating.length);
+      console.log(incubating);
       incubating.forEach(pawn => { 
         pawn.setState('sick'); // je les passe malade
       });
@@ -29,7 +29,6 @@ function sickedPawns(board) {
   })).then(wrapAnimDelay( () => board.allPublicPlaces.forEach(element => { // pour chaque lieu public
       var incubating = element.extractPawnWithState('incubating');
       if(incubating !== null){// s'il y en a
-        console.log('[Étape 3] Nombre de pions incubés pour le lieu public :', incubating.length);
         incubating.forEach(pawn => { // je récupère les pions incubés
           pawn.setState('sick'); // je les passe malade
         });
@@ -37,7 +36,6 @@ function sickedPawns(board) {
     }))).then(wrapAnimDelay( () => {
       var incubating =  board.robotAcademy.extractPawnWithState('incubating'); 
       if(incubating !== null){// s'il y en a
-        console.log('[Étape 3] Nombre de pions incubés pour l\'école :', incubating.length)
         incubating.forEach(pawn => { // je récupère les pions incubés
           pawn.setState('sick'); // je les passe malade
         });
@@ -45,7 +43,6 @@ function sickedPawns(board) {
     })).then(wrapAnimDelay( () => {
       var incubating =  board.batterieMarket.extractPawnWithState('incubating');// je récupère les pions incubés
       if(incubating !== null){// s'il y en a
-        console.log('[Étape 3] Nombre de pions incubés pour le supermarché :', incubating.length);
         incubating.forEach(pawn => { 
           pawn.setState('sick'); // je les passe malade
         });
