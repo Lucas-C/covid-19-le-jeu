@@ -21,4 +21,4 @@
 * Corentin
 * Sofiane
 
-et les autres sur https://lovibl.com/covid19/a-propos-de/
+et les autres sur https://codroid19.org/a-propos-de/

@@ -4,9 +4,9 @@
 
 # Description
 
-Ce _repository_ contient le code derrière le compagnon web au jeu de société _print & play_ COVID-19 :
+Ce _repository_ contient le code derrière le compagnon web au jeu de société _print & play_ CODROÏD-19 :
 
-- Site de présentation : https://lovibl.com/covid19/
+- Site de présentation : https://codroid19.org
 - Site de démo : https://covid19lejeu.github.io/covid-19-le-jeu
 
 Si vous souhaitez contribuer à ce projet : 
@@ -23,7 +23,7 @@ C'est un serious game orienté grand public. Son objectif est de permettre de mi
 ## Qui dit confinement ...
 ... dit adaptation : notre jeu nécessite l'utilisation de nombreux pions pour reproduire efficacement la propagation du virus. Nous sommes conscients que des pions papier, c'est pas très fun à jouer ... **C'est pour ça que cette version numérique est là**
 ## D'où vient-il ?
-Jour 3 du confinement, le week-end pointe son nez, il est temps de trouver une occupation. [... Ce sera] faire une Game JAM à distance avec pour objectif de créer des Serious Game autour de l’épidémie en cours. La suite sur : https://lovibl.com/covid19/news/
+Jour 3 du confinement, le week-end pointe son nez, il est temps de trouver une occupation. [... Ce sera] faire une Game JAM à distance avec pour objectif de créer des Serious Game autour de l’épidémie en cours. La suite sur : https://codroid19.org/news/
 
 # Licences
 
