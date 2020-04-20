@@ -1,11 +1,11 @@
 // On importe la lib de manière à ce que ça fonctionne en navigateur ET en tests unitaires :
 const Seedrandom = Math.seedrandom || require('seedrandom');
 
-export class RandomGenerator {
+export class RandomGenerator { // un instance de cette classe est stockée et accessible dans board.rng
   constructor(seed) {
     this.prng = new Seedrandom(seed);
   }
-  pickOne(array) {
+  pickOne(array) { // Sélectionne un élément au hasard dans un tableau
     return array[Math.floor(array.length * this.prng.quick())];
   }
   randBetween0And1() {
