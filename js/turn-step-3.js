@@ -37,7 +37,7 @@ function sickedPawns(board) {
     }))).then(wrapAnimDelay( () => {
       var incubating =  board.robotAcademy.extractPawnWithState('incubating'); 
       if(incubating !== null){// s'il y en a
-        console.log('[Étape 3] Nombre de pions incubés pour l\'école :', incubating.length);
+        console.log('[Étape 3] Nombre de pions incubés pour l\'école :', incubating.length)
         incubating.forEach(pawn => { // je récupère les pions incubés
           pawn.setState('sick'); // je les passe malade
         });
