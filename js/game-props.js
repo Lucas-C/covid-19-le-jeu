@@ -1,10 +1,12 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
+const VERSION = 'D1';
 import { wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
   constructor({ board, pos, cssClass, height, width }) {
+    document.title += VERSION;
     this.elem = board.doc.createElement('div');
     // Tous les élements sont enfants d'un même parent pour pouvoir animer leurs changements positions left/top :
     board.elem.appendChild(this.elem);
@@ -150,10 +152,11 @@ export class Pawn extends GameProp {
   }
   setState(state) {
     if (this.state) {
-      wrapAnimDelay(() => this.elem.classList.add('flipOutX')).then(this.elem.classList.remove(this.state));
+      wrapAnimDelay(() => this.elem.classList.add('flipOutX')).then(this.elem.classList.remove(this.state)).then(this.state = state).then(this.elem.classList.add(state));
+    } else {
+      this.state = state;
+      this.elem.classList.add(state);
     }
-    this.state = state;
-    this.elem.classList.add(state);
   }
 }
 Pawn.STATES = [ 'sane', 'incubating', 'sick', 'healed' ];
