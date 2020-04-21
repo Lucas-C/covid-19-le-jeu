@@ -13,10 +13,6 @@ export class TurnStep3 extends TurnStep {
     return 'Développement de la maladie';
   }
 }
-
-/*
-TODO : extractPawnWithState return null if no pawns in state
-*/
 function sickedPawns(board) {
   return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
     var incubating = planet.extractAllPawnsWithState('incubating');// je récupère les pions incubés
