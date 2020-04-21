@@ -152,12 +152,11 @@ export class Pawn extends GameProp {
   }
   setState(state) {
     if (this.state) {
-      this.elem.classList.add('flipOutX');
-      wrapAnimDelay(() => {
+      wrapAnimDelay(() => {this.elem.classList.add('flipOutX')).next(wrapAnimDelay(() => {
         this.elem.classList.remove(this.state);
         this.state = state;
         this.elem.classList.add(state);
-      });
+      }));
     } else {
       this.state = state;
       this.elem.classList.add(state);
