@@ -1,12 +1,12 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'D1';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D1';
 import { wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
   constructor({ board, pos, cssClass, height, width }) {
-    document.title += VERSION;
+    document.title = VERSION;
     this.elem = board.doc.createElement('div');
     // Tous les élements sont enfants d'un même parent pour pouvoir animer leurs changements positions left/top :
     board.elem.appendChild(this.elem);
