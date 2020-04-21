@@ -1,5 +1,5 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D1.2';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D1.3';
 import { chainExec } from './promise-utils.js';
 
 // Un élément "physique" du jeu
