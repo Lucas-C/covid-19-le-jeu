@@ -157,7 +157,7 @@ export class Pawn extends GameProp {
         this.elem.classList.remove(this.state);
         this.state = state;
         this.elem.classList.add(state);
-      }
+      });
     } else {
       this.state = state;
       this.elem.classList.add(state);
