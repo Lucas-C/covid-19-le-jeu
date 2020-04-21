@@ -1,6 +1,6 @@
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D1.3';
-import { chainExec } from './promise-utils.js';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D1.4';
+import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
@@ -152,8 +152,12 @@ export class Pawn extends GameProp {
   }
   setState(state) {
     if (this.state) {
-      // chainExec([this.elem.classList.add('flipOutX'),this.elem.classList.remove(this.state),this.state = state],this.elem.classList.add(state));
       this.elem.classList.add('flipOutX');
+      wrapAnimDelay(() => {
+        this.elem.classList.remove(this.state);
+        this.state = state;
+        this.elem.classList.add(state);
+      }
     } else {
       this.state = state;
       this.elem.classList.add(state);
