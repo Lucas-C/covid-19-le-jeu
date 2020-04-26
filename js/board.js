@@ -1,5 +1,6 @@
 import { MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
+import { wrapAnimDelay } from './promise-utils.js';
 
 export class Board {
   constructor(doc, seed) {
@@ -39,6 +40,9 @@ export class Board {
     }
     this.publicPlacesPerType[publicPlace.type].push(publicPlace);
     return publicPlace;
+  }
+  planetTokenAcquirePawn(pawn) {
+    return wrapAnimDelay(() => this.planetTokenPlanet.acquirePawn(pawn)).then(() => wrapAnimDelay(() => this.movePlanetTokenTo(this.planetTokenPlanet.nextPlanet)));
   }
   movePlanetTokenTo(planet) {
     this.planetTokenPlanet = planet;

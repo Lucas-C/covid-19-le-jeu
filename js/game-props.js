@@ -1,10 +1,13 @@
+/* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-import { wrapAnimDelay } from './promise-utils.js';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D3.3';
+// import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
 class GameProp {
   constructor({ board, pos, cssClass, height, width }) {
+    document.title = VERSION;
     this.elem = board.doc.createElement('div');
     // Tous les élements sont enfants d'un même parent pour pouvoir animer leurs changements positions left/top :
     board.elem.appendChild(this.elem);
@@ -45,11 +48,20 @@ export class Place extends GameProp {
     this.extraPawns = [];
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
-    if (this.extraPawns.length > 0 && this.extractAllPawnsWithState('sick').length > 0) {
+    if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
       this.elem.classList.add('contamined');
       return true;
     }
     return false;
+  }
+  getNumberPawns() { // ** NE FONCTIONNE PAS **
+    const freeSlots = this.getFreeSlots();
+    const nbFullSlots = this.slots.length - freeSlots.length;
+    /* console.debug('Nb freeSLots :', freeSlots.length);
+    console.debug('Nb slots :', this.slots.length);
+    console.debug('Nb extra :', this.extraPawns.length);
+    console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);*/
+    return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
@@ -61,27 +73,64 @@ export class Place extends GameProp {
       pawn.setPos(this.getRandomPos(pawn));
     }
   }
-  extractPawns(count) {
+  extractAllPawns(mode = 2) {
+    const count = this.getNumberPawns();
+    return this.extractPawns(count, mode);
+  }
+  extractPawns(count, mode = 1) {
     // cf. https://github.com/covid19lejeu/covid-19-le-jeu/blob/master/PRINCIPE_DU_JEU.md#priorit%C3%A9-de-d%C3%A9placement-
     // TODO : implémenter les règles correspondant au 2e déplacement
     const extractedPawns = [];
-    for (let i = 0; i < count; i++) {
-      if (i === 0) {
-        extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
-      } else {
-        extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
-      }
+    switch (mode) {
+      case 2:
+        for (let i = 0; i < count; i++) {
+          extractedPawns.push(this.extractPawnWithState('sick') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('healed'));
+        }
+        break;
+      default:
+      case 1:
+        for (let i = 0; i < count; i++) {
+          if (i === 1) { // le 2eme est un incubating
+            extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
+          } else {
+            extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
+          }
+        }
+        break;
     }
     return extractedPawns;
   }
-  extractAllPawnsWithState(state) {
-    const extractedPawns = [];
-    let p = this.extractPawnWithState(state);
-    while (p !== null) {
+  extractAllPawnsWithState(state, extractedPawns = []) {
+    // const extractedPawns = [];
+    const p = this.extractPawnWithState(state);
+    if (p !== null) {
       extractedPawns.push(p);
-      p = this.extractPawnWithState(state);
+      this.extractAllPawnsWithState(state, extractedPawns);
     }
     return extractedPawns;
+  }
+  getAllPawnsWithState(state) {
+    const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
+    const slotWithMatchingPawn = this.slots.find((slot) => slot.pawn && slot.pawn.state === state);
+    /* console.debug('=== getAllPawnsWithState ===',state);
+    console.debug('Planète ===',this);
+    console.debug('extraMatchingPawn : ', extraMatchingPawn);
+    console.debug('slotWithMatchingPawn : ', slotWithMatchingPawn);*/
+    let matchingExtraPawns = [];
+    const matchingSlotPawns = [];
+    if (extraMatchingPawn) {
+      matchingExtraPawns = this.extraPawns.filter((pawn) => pawn.state === state);
+      // console.debug('matchingExtraPawns : ', matchingExtraPawns);
+    }
+    if (slotWithMatchingPawn) {
+      const matchingSlots = this.slots.filter((slot) => slot.pawn && slot.pawn.state === state);
+      // console.debug('slots concernés :',matchingSlots);
+      matchingSlots.forEach((slot) => matchingSlotPawns.push(slot.pawn));
+      // console.debug('matchingSlotPawns : ', matchingSlotPawns);
+    }
+    const matchingPawns = matchingSlotPawns.concat(matchingExtraPawns);
+    // console.debug('matchingPawns : ', matchingPawns);
+    return matchingPawns;
   }
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
@@ -150,10 +199,15 @@ export class Pawn extends GameProp {
   }
   setState(state) {
     if (this.state) {
-      wrapAnimDelay(() => this.elem.classList.add('flipOutX')).then(this.elem.classList.remove(this.state));
+      // wrapAnimDelay(() => {this.elem.classList.add('flipOutX')).next(wrapAnimDelay(() => {
+      this.elem.classList.remove(this.state);
+      this.state = state;
+      this.elem.classList.add(state);
+      // }));
+    } else {
+      this.state = state;
+      this.elem.classList.add(state);
     }
-    this.state = state;
-    this.elem.classList.add(state);
   }
 }
 Pawn.STATES = [ 'sane', 'incubating', 'sick', 'healed' ];

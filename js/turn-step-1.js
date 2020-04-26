@@ -63,6 +63,8 @@ function moveFromPlanet({ board, dieResult, planet }) {
     if (pawn2) {
       destPlace.acquirePawn(pawn2);
     }
+    console.debug('=== Pions ===');
+    console.debug(destPlace.slots);
   });
 }
 
