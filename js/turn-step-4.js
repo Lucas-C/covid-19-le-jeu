@@ -1,5 +1,5 @@
-/*eslint-disable */
 import { TurnStep } from './turn-step.js';
+import { chainExec } from './promise-utils.js';
 
 export class TurnStep4 extends TurnStep {
   constructor(board) {
@@ -12,12 +12,12 @@ export class TurnStep4 extends TurnStep {
   }
 }
 // Retour à la maison
-function returnHome(board) {//ordre : sick, incubating, sane, healed => extractPawns(count,2)
-  var pawnsA = board.robotAcademy.extractAllPawns() ;
-  var pawnsB = board.batterieMarket.extractAllPawns() ;
+function returnHome(board) {// ordre : sick, incubating, sane, healed => extractPawns(count,2)
+  const pawnsA = board.robotAcademy.extractAllPawns() ;
+  const pawnsB = board.batterieMarket.extractAllPawns() ;
   return chainExec(pawnsA.map(pawn => 
     board.planetTokenAcquirePawn(pawn),
-  )).then(chainExec(pawnsA.map(pawn => 
+  )).then(chainExec(pawnsB.map(pawn => 
     board.planetTokenAcquirePawn(pawn),
   )));
 }
