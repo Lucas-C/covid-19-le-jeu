@@ -69,7 +69,7 @@ export class Place extends GameProp {
       pawn.setPos(this.getRandomPos(pawn));
     }
   }
-  extractAllPawns(mode = 2) {
+  extractAllPawns(mode = 2) { ** NE FONCTIONNE PAS **
     const count = this.getNumberPawns();
     return this.extractPawns(count, mode);
   }
