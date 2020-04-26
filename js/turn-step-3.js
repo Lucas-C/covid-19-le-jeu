@@ -13,6 +13,7 @@ export class TurnStep3 extends TurnStep {
     return 'Développement de la maladie';
   }
 }
+// Déclaration des symptômes
 function sickedPawns(board) {
   return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
     var incubating = planet.extractAllPawnsWithState('incubating');// je récupère les pions incubés
@@ -45,7 +46,7 @@ function sickedPawns(board) {
       }
     })).then( () => infectPawns(board));
 }
-
+// Contagion
 function infectPawns(board) {
   return wrapAnimDelay( () => board.allPlanets.forEach(planet => { // pour chaque planète
     if (planet.isContaminated()) {
@@ -74,6 +75,16 @@ function infectPawns(board) {
             sanes[i].setState('incubating');
         }
        }
-    }));
-  // **TO-DO** pour le batterie market (supermarché) avec la gestion des zones
+    })).then(wrapAnimDelay( () => {// **TO-DO** pour le batterie market (supermarché) avec la gestion des zones
+      if (board.batterieMarket.isContaminated()) {
+       var sanes = board.batterieMarket.extractAllPawnsWithState('sane');
+       if(sanes===null) sanes = [];
+       var toIncubate = Math.min(sanes.length, board.batterieMarket.coefInfection*board.batterieMarket.extractAllPawnsWithState('sick').length - board.bonusInfection);
+       for ( var i = 0; i < toIncubate; i++){
+           sanes[i].setState('incubating');
+       }
+      }
+   }));
+  
+
 }

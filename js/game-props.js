@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
 const VERSION = 'Codroïd-19 | Jouer en ligne | D1.4';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
@@ -53,6 +54,11 @@ export class Place extends GameProp {
     }
     return false;
   }
+  getNumberPawns() {
+    const freeSlots = this.getFreeSlots();
+    const nbFullSlots = this.slots.lenght - freeSlots.length;
+    return nbFullSlots + this.extraPawns.length;
+  }
   acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
@@ -63,16 +69,30 @@ export class Place extends GameProp {
       pawn.setPos(this.getRandomPos(pawn));
     }
   }
-  extractPawns(count) {
+  extractAllPawns(mode = 2) {
+    const count = this.getNumberPawns();
+    return this.extractPawns(count, mode);
+  }
+  extractPawns(count, mode = 1) {
     // cf. https://github.com/covid19lejeu/covid-19-le-jeu/blob/master/PRINCIPE_DU_JEU.md#priorit%C3%A9-de-d%C3%A9placement-
     // TODO : implémenter les règles correspondant au 2e déplacement
     const extractedPawns = [];
-    for (let i = 0; i < count; i++) {
-      if (i === 0) {
-        extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
-      } else {
-        extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
-      }
+    switch (mode) {
+      case 2:
+        for (let i = 0; i < count; i++) {
+          extractedPawns.push(this.extractPawnWithState('sick') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('healed'));
+        }
+        break;
+      default:
+      case 1:
+        for (let i = 0; i < count; i++) {
+          if (i === 1) {// le 2eme est un incubating
+            extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
+          } else {
+            extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
+          }
+        }
+        break;
     }
     return extractedPawns;
   }
