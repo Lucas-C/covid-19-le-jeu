@@ -54,7 +54,7 @@ export class Place extends GameProp {
     }
     return false;
   }
-  getNumberPawns() {// ** NE FONCTIONNE PAS **
+  getNumberPawns() { // ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
     const nbFullSlots = this.slots.length - freeSlots.length;
     /* console.debug('Nb freeSLots :', freeSlots.length);
@@ -73,7 +73,7 @@ export class Place extends GameProp {
       pawn.setPos(this.getRandomPos(pawn));
     }
   }
-  extractAllPawns(mode = 2) { 
+  extractAllPawns(mode = 2) {
     const count = this.getNumberPawns();
     return this.extractPawns(count, mode);
   }
@@ -90,7 +90,7 @@ export class Place extends GameProp {
       default:
       case 1:
         for (let i = 0; i < count; i++) {
-          if (i === 1) {// le 2eme est un incubating
+          if (i === 1) { // le 2eme est un incubating
             extractedPawns.push(this.extractPawnWithState('incubating') || this.extractPawnWithState('sane') || this.extractPawnWithState('sick') || this.extractPawnWithState('healed'));
           } else {
             extractedPawns.push(this.extractPawnWithState('healed') || this.extractPawnWithState('sane') || this.extractPawnWithState('incubating') || this.extractPawnWithState('sick'));
@@ -100,9 +100,9 @@ export class Place extends GameProp {
     }
     return extractedPawns;
   }
-  extractAllPawnsWithState(state, d = false, extractedPawns = []) {
+  extractAllPawnsWithState(state, extractedPawns = []) {
     // const extractedPawns = [];
-    let p = this.extractPawnWithState(state);
+    const p = this.extractPawnWithState(state);
     if (p !== null) {
       extractedPawns.push(p);
       this.extractAllPawnsWithState(state, extractedPawns);
@@ -117,7 +117,7 @@ export class Place extends GameProp {
     console.debug('extraMatchingPawn : ', extraMatchingPawn);
     console.debug('slotWithMatchingPawn : ', slotWithMatchingPawn);*/
     let matchingExtraPawns = [];
-    let matchingSlotPawns = [];
+    const matchingSlotPawns = [];
     if (extraMatchingPawn) {
       matchingExtraPawns = this.extraPawns.filter((pawn) => pawn.state === state);
       // console.debug('matchingExtraPawns : ', matchingExtraPawns);

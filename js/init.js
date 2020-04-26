@@ -28,7 +28,7 @@ function initializeBoard(doc, seed) {
   artificialPlanet.prevPlanet = gaseousPlanet;// FAUX, temporaire
   craterPlanet.prevPlanet = artificialPlanet;
   craterPlanet.nextPlanet = gaseousPlanet;
-  gaseousPlanet.prevPlanet = craterPlanet; 
+  gaseousPlanet.prevPlanet = craterPlanet;
   gaseousPlanet.nextPlanet = artificialPlanet; // FAUX, temporaire
   const bar = board.addPublicPlace(new PublicPlace({ board, pos: [ 350, 200 ], type: 'gaseous', slotsPos: [ [ 385, 290 ], [ 420, 272 ], [ 455, 254 ], [ 490, 236 ] ] })); // bar
   artificialPlanet.publicPlanet = bar;

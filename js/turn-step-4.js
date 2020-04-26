@@ -12,13 +12,13 @@ export class TurnStep4 extends TurnStep {
     return '2e déplacement des habitant.e.s';
   }
 }
-function returnHome(board) {// ordre : sick, incubating, sane, healed => extractPawns(count,2)
-  const pawnsA = board.robotAcademy.extractAllPawns() ;
-  const pawnsB = board.batterieMarket.extractAllPawns() ;
+function returnHome(board) { // ordre : sick, incubating, sane, healed => extractPawns(count,2)
+  const pawnsA = board.robotAcademy.extractAllPawns();
+  const pawnsB = board.batterieMarket.extractAllPawns();
   console.debug(pawnsA);
-  return chainExec(pawnsA.map((pawn) => 
+  return chainExec(pawnsA.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  )).then(chainExec(pawnsB.map((pawn) => 
+  )).then(chainExec(pawnsB.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
   )));
 }
