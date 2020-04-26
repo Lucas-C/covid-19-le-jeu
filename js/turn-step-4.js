@@ -1,5 +1,6 @@
 import { TurnStep } from './turn-step.js';
 import { chainExec } from './promise-utils.js';
+import { nextTurnStep } from './game-sequence.js';
 
 export class TurnStep4 extends TurnStep {
   constructor(board) {
@@ -15,9 +16,9 @@ export class TurnStep4 extends TurnStep {
 function returnHome(board) {// ordre : sick, incubating, sane, healed => extractPawns(count,2)
   const pawnsA = board.robotAcademy.extractAllPawns() ;
   const pawnsB = board.batterieMarket.extractAllPawns() ;
-  return chainExec(pawnsA.map(pawn => 
+  return chainExec(pawnsA.map((pawn) => 
     board.planetTokenAcquirePawn(pawn),
-  )).then(chainExec(pawnsB.map(pawn => 
+  )).then(chainExec(pawnsB.map((pawn) => 
     board.planetTokenAcquirePawn(pawn),
   )));
 }
