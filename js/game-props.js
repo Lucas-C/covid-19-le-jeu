@@ -56,10 +56,7 @@ export class Place extends GameProp {
   }
   getNumberPawns() {// ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
-    const nbFullSlots = this.slots.length - freeSlots.length;
-    console.log('Nb slots :', this.slots.length);
-    console.log('Nb free slots :', freeSlots.length);
-    console.log('Nb extra slots :', this.extraPawns.length);
+    console.log('Nb pawns :', nbFullSlots + this.extraPawns.length);
     return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
