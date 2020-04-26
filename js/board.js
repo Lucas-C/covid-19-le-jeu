@@ -42,7 +42,7 @@ export class Board {
     return publicPlace;
   }
   planetTokenAcquirePawn(pawn) {
-    return wrapAnimDelay( () => this.planetTokenPlanet.acquirePawn(pawn)).then(() => wrapAnimDelay(() => this.movePlanetTokenTo(this.planetTokenPlanet.nextPlanet)));
+    return wrapAnimDelay(() => this.planetTokenPlanet.acquirePawn(pawn)).then(() => wrapAnimDelay(() => this.movePlanetTokenTo(this.planetTokenPlanet.nextPlanet)));
   }
   movePlanetTokenTo(planet) {
     this.planetTokenPlanet = planet;

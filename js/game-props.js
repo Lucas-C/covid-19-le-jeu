@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D2.7';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D3.3';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
@@ -48,7 +48,7 @@ export class Place extends GameProp {
     this.extraPawns = [];
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
-    if (this.extraPawns.length > 0 && this.extractAllPawnsWithState('sick').length > 0) {
+    if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
       this.elem.classList.add('contamined');
       return true;
     }
@@ -57,10 +57,10 @@ export class Place extends GameProp {
   getNumberPawns() {// ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
     const nbFullSlots = this.slots.length - freeSlots.length;
-    console.debug('Nb freeSLots :', freeSlots.length);
+    /* console.debug('Nb freeSLots :', freeSlots.length);
     console.debug('Nb slots :', this.slots.length);
     console.debug('Nb extra :', this.extraPawns.length);
-    console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);
+    console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);*/
     return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
@@ -104,30 +104,32 @@ export class Place extends GameProp {
     // const extractedPawns = [];
     let p = this.extractPawnWithState(state);
     if (p !== null) {
-      if (d) {
-        console.debug('=== Extraction de ===');
-        console.debug(p);
-      }
       extractedPawns.push(p);
       this.extractAllPawnsWithState(state, extractedPawns);
-    }
-    if (d) {
-      console.debug('pions extraits : ', extractedPawns);
     }
     return extractedPawns;
   }
   getAllPawnsWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
     const slotWithMatchingPawn = this.slots.find((slot) => slot.pawn && slot.pawn.state === state);
+    /* console.debug('=== getAllPawnsWithState ===',state);
+    console.debug('Planète ===',this);
+    console.debug('extraMatchingPawn : ', extraMatchingPawn);
+    console.debug('slotWithMatchingPawn : ', slotWithMatchingPawn);*/
     let matchingExtraPawns = [];
     let matchingSlotPawns = [];
     if (extraMatchingPawn) {
       matchingExtraPawns = this.extraPawns.filter((pawn) => pawn.state === state);
+      // console.debug('matchingExtraPawns : ', matchingExtraPawns);
     }
     if (slotWithMatchingPawn) {
-      matchingSlotPawns = this.slots.filter((pawn) => pawn.state === state);
+      const matchingSlots = this.slots.filter((slot) => slot.pawn && slot.pawn.state === state);
+      // console.debug('slots concernés :',matchingSlots);
+      matchingSlots.forEach((slot) => matchingSlotPawns.push(slot.pawn));
+      // console.debug('matchingSlotPawns : ', matchingSlotPawns);
     }
     const matchingPawns = matchingSlotPawns.concat(matchingExtraPawns);
+    // console.debug('matchingPawns : ', matchingPawns);
     return matchingPawns;
   }
   extractPawnWithState(state) {
