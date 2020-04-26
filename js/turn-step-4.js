@@ -16,10 +16,10 @@ export class TurnStep4 extends TurnStep {
 function returnHome(board) {// ordre : sick, incubating, sane, healed => extractPawns(count,2)
   const pawnsA = board.robotAcademy.extractAllPawns() ;
   const pawnsB = board.batterieMarket.extractAllPawns() ;
-  console.log('Nb pions de la robot académie',nb);
+  console.debug(pawnsA);
   return chainExec(pawnsA.map((pawn) => 
-    board.planetTokenAcquirePawn(pawn),
+    () => (board.planetTokenAcquirePawn(pawn)),
   )).then(chainExec(pawnsB.map((pawn) => 
-    board.planetTokenAcquirePawn(pawn),
+    () => (board.planetTokenAcquirePawn(pawn)),
   )));
 }

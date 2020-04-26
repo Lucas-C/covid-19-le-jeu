@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D2.31';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D2.7';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
@@ -57,7 +57,10 @@ export class Place extends GameProp {
   getNumberPawns() {// ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
     const nbFullSlots = this.slots.length - freeSlots.length;
-    console.log('Nb pawns :', nbFullSlots + this.extraPawns.length);
+    console.debug('Nb freeSLots :', freeSlots.length);
+    console.debug('Nb slots :', this.slots.length);
+    console.debug('Nb extra :', this.extraPawns.length);
+    console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);
     return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
@@ -97,14 +100,35 @@ export class Place extends GameProp {
     }
     return extractedPawns;
   }
-  extractAllPawnsWithState(state) {
-    const extractedPawns = [];
+  extractAllPawnsWithState(state, d = false, extractedPawns = []) {
+    // const extractedPawns = [];
     let p = this.extractPawnWithState(state);
-    while (p !== null) {
+    if (p !== null) {
+      if (d) {
+        console.debug('=== Extraction de ===');
+        console.debug(p);
+      }
       extractedPawns.push(p);
-      p = this.extractPawnWithState(state);
+      this.extractAllPawnsWithState(state, extractedPawns);
+    }
+    if (d) {
+      console.debug('pions extraits : ', extractedPawns);
     }
     return extractedPawns;
+  }
+  getAllPawnsWithState(state) {
+    const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
+    const slotWithMatchingPawn = this.slots.find((slot) => slot.pawn && slot.pawn.state === state);
+    let matchingExtraPawns = [];
+    let matchingSlotPawns = [];
+    if (extraMatchingPawn) {
+      matchingExtraPawns = this.extraPawns.filter((pawn) => pawn.state === state);
+    }
+    if (slotWithMatchingPawn) {
+      matchingSlotPawns = this.slots.filter((pawn) => pawn.state === state);
+    }
+    const matchingPawns = matchingSlotPawns.concat(matchingExtraPawns);
+    return matchingPawns;
   }
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);

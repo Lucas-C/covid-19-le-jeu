@@ -2,6 +2,7 @@
 import { nextTurnStep } from './game-sequence.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { TurnStep } from './turn-step.js';
+import { addPawnOnPlanet } from './init.js';
 
 export class TurnStep3 extends TurnStep {
   constructor(board) {
@@ -18,7 +19,6 @@ function sickedPawns(board) {
   return wrapAnimDelay(() => board.allPlanets.forEach(planet => { // pour chaque planète
     var incubating = planet.extractAllPawnsWithState('incubating');// je récupère les pions incubés
     if(incubating !== null){// s'il y en a
-      console.log(incubating);
       incubating.forEach(pawn => { 
         pawn.setState('sick'); // je les passe malade
       });
@@ -31,11 +31,13 @@ function sickedPawns(board) {
         });
       }
     }))).then(wrapAnimDelay( () => {
-      var incubating =  board.robotAcademy.extractAllPawnsWithState('incubating'); 
+      var incubating =  board.robotAcademy.getAllPawnsWithState('incubating'); // enleve le pion du lieu : comment le remettre ?
       if(incubating !== null){// s'il y en a
         incubating.forEach(pawn => { // je récupère les pions incubés
           pawn.setState('sick'); // je les passe malade
         });
+        console.debug('=== Pions ===');
+        console.debug(board.robotAcademy.slots);
       }
     })).then(wrapAnimDelay( () => {
       var incubating =  board.batterieMarket.extractAllPawnsWithState('incubating');// je récupère les pions incubés
