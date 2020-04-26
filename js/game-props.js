@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D1.4';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D2';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
