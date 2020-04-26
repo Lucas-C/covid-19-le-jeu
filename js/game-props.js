@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D2.3';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D2.31';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
@@ -57,6 +57,9 @@ export class Place extends GameProp {
   getNumberPawns() {// ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
     const nbFullSlots = this.slots.length - freeSlots.length;
+    console.log('Nb slots :', this.slots.length);
+    console.log('Nb free slots :', freeSlots.length);
+    console.log('Nb extra slots :', this.extraPawns.length);
     return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
