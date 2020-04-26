@@ -54,9 +54,9 @@ export class Place extends GameProp {
     }
     return false;
   }
-  getNumberPawns() {
+  getNumberPawns() {// ** NE FONCTIONNE PAS **
     const freeSlots = this.getFreeSlots();
-    const nbFullSlots = this.slots.lenght - freeSlots.length;
+    const nbFullSlots = this.slots.length - freeSlots.length;
     return nbFullSlots + this.extraPawns.length;
   }
   acquirePawn(pawn) {
@@ -69,7 +69,7 @@ export class Place extends GameProp {
       pawn.setPos(this.getRandomPos(pawn));
     }
   }
-  extractAllPawns(mode = 2) { ** NE FONCTIONNE PAS **
+  extractAllPawns(mode = 2) { 
     const count = this.getNumberPawns();
     return this.extractPawns(count, mode);
   }

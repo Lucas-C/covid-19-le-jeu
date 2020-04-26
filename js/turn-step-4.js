@@ -17,7 +17,7 @@ function returnHome(board) {// ordre : sick, incubating, sane, healed => extract
   const pawnsA = board.robotAcademy.extractAllPawns() ;
   const nb = board.robotAcademy.getNumberPawns();
   const pawnsB = board.batterieMarket.extractAllPawns() ;
-  console.log('Retour de '+nb+' pions de la robot académie');
+  console.log('Nb pions de la robot académie',nb);
   return chainExec(pawnsA.map((pawn) => 
     board.planetTokenAcquirePawn(pawn),
   )).then(chainExec(pawnsB.map((pawn) => 
