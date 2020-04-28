@@ -250,13 +250,6 @@ export class RoundToken extends GameProp {
     super({ board, pos: INITIAL_ROUND_POS, cssClass: 'round-token', height: 100, width: 100 });
     this.elem.textContent = '🤖';
   }
-  nextTurn() {
-    const [ x, y ] = this.getPos();
-    return [
-      x + 20,
-      y,
-    ];
-  }
 }
 
 // Marqueur tour

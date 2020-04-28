@@ -27,7 +27,6 @@ export function nextTurnStep(board) {
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
   board.doc.getElementById('turn-step-name').textContent = turnStepDirector.getStepName();
   board.updateCounters();
-  board.roundToken.nextTurn();
 }
 
 function nextTurn(doc) {
@@ -36,4 +35,8 @@ function nextTurn(doc) {
     throw new Error('End game not implemented yet!');
   }
   turnNumber.textContent = Number(turnNumber.textContent) + 1;
+  console.debug('Tour suivant >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  const roundToken = doc.getElementsByClassName('round-token');
+  const currentTop = parseInt(roundToken[0].style.top, 10);
+  roundToken[0].style.top = (currentTop + 17) + 'px';
 }
