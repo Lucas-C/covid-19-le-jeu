@@ -1,5 +1,7 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
+const INITIAL_ROUND_POS = [ 1476, 93 ];
+const INITIAL_CRISIS_POS = [ 1676, 142 ];
 const VERSION = 'Codroïd-19 | Jouer en ligne | D4';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
@@ -239,5 +241,28 @@ export class PlanetToken extends GameProp {
   constructor({ board }) {
     super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'planet-token', height: 100, width: 100 });
     this.elem.textContent = '🪐';
+  }
+}
+
+// Marqueur tour
+export class RoundToken extends GameProp {
+  constructor({ board }) {
+    super({ board, pos: INITIAL_ROUND_POS, cssClass: 'round-token', height: 100, width: 100 });
+    this.elem.textContent = '🤖';
+  }
+  nextTurn() {
+    const [ x, y ] = this.getPos();
+    return [
+      x + 20,
+      y,
+    ];
+  }
+}
+
+// Marqueur tour
+export class CrisisToken extends GameProp {
+  constructor({ board }) {
+    super({ board, pos: INITIAL_CRISIS_POS, cssClass: 'crisis-token', height: 100, width: 100 });
+    this.elem.textContent = '🚨';
   }
 }

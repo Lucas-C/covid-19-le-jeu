@@ -1,5 +1,5 @@
 import { Board } from './board.js';
-import { Pawn, Place, Planet, PlanetToken, PublicPlace, TypedPlanet } from './game-props.js';
+import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 export function initializeGame(doc, seed) {
@@ -92,7 +92,8 @@ export function addPawnOnPlanet({ board, state, planet }) {
 
 function addTokens(board) {
   board.planetToken = new PlanetToken({ board });
+  board.roundToken = new RoundToken({ board });
+  board.crisisToken = new CrisisToken({ board });
   const randomPlanet = board.rng.pickOne(board.allPlanets);
   return wrapAnimDelay(() => board.movePlanetTokenTo(randomPlanet));
-  // TODO: ajouter les marqueurs de tour
 }
