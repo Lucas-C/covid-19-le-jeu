@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const INITIAL_PAWNS_POS = [ 0, 0 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D3.3';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D4';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
@@ -132,6 +132,21 @@ export class Place extends GameProp {
     // console.debug('matchingPawns : ', matchingPawns);
     return matchingPawns;
   }
+  /* extractPawn(thePawn) { // extrait un pion en particulier
+    const extraMatchingPawn = this.extraPawns.find((pawn) => pawn === thePawn);
+    if (extraMatchingPawn) {
+      this.extraPawns = this.extraPawns.filter((pawn) => pawn !== extraMatchingPawn);
+      return extraMatchingPawn;
+    }
+    const slotWithMatchingPawn = this.slots.find((slot) => slot.pawn && slot.pawn === thePawn);
+    if (slotWithMatchingPawn) {
+      const matchingPawn = slotWithMatchingPawn.pawn;
+      slotWithMatchingPawn.pawn = null;
+      this.fillEmptySlotsWithExtraPawns();
+      return matchingPawn;
+    }
+    return null;
+  } */
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
     if (extraMatchingPawn) {
@@ -194,7 +209,7 @@ export class Planet extends TypedPlanet {
 // Un pion robot
 export class Pawn extends GameProp {
   constructor({ board, state }) {
-    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'pawn', height: 20, width: 20 });
+    super({ board, pos: INITIAL_PAWNS_POS, cssClass: 'pawn', height: 25, width: 25 });
     this.setState(state || 'sane');
   }
   setState(state) {

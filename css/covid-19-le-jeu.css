@@ -22,10 +22,10 @@ body {
 }
 .game-prop { transition: left 1s ease, top 1s ease; }
 .pawn { background-size: contain; }
-.sane { background: white; }
-.incubating { background-image: url(../assets/pawn-incubating.png); }
-.sick { background-image: url(../assets/pawn-sick.png); }
-.healed { background-image: url(../assets/pawn-healed.png); }
+.sane { background-image: url(../assets/pawn-sane.svg); }
+.incubating { background-image: url(../assets/pawn-incubating.svg); }
+.sick { background-image: url(../assets/pawn-sick.svg); }
+.healed { background-image: url(../assets/pawn-healed.svg); }
 .planet-token { font-size: 5rem; }
 .game-state-label {
     padding: 1rem;
