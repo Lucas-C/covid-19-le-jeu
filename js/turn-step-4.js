@@ -14,7 +14,7 @@ export class TurnStep4 extends TurnStep {
 }
 function returnHome(board) { // ordre : sick, incubating, sane, healed => extractPawns(count,2)
   const pawnsA = board.robotAcademy.extractAllPawns();
-  const pawnsB = board.batterieMarket.extractAllPawns();
+  const pawnsB = board.batterieMarketZ1.extractAllPawns();
   console.debug(pawnsA);
   return chainExec(pawnsA.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),

@@ -12,12 +12,12 @@ export class TurnStep5 extends TurnStep {
     return 'Complication des maladies';
   }
 }
-function manageRobopital(board) { // board.garage
+function manageRobopital(board) { 
   return wrapAnimDelay(
     // TODO
   ).then( () => goRobopital(board));
 }
-function goRobopital(board) { // board.garage
+function goRobopital(board) { 
   return wrapAnimDelay(() => board.allPlanets.forEach( (planet) => { // pour chaque planète
     const sicks = planet.getAllPawnsWithState('sick');// je récupère les pions malades
     console.debug('pions malades : ',sicks);
@@ -28,7 +28,7 @@ function goRobopital(board) { // board.garage
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
         } else if (diceResult > 4) { // je les envoie au robopital
-          board.garage.acquirePawn(pawn);
+          board.garageColA.acquirePawn(pawn);
         }
       });
     }

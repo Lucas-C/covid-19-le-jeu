@@ -39,7 +39,7 @@ function sickedPawns(board) {
         });
       }
     })).then(wrapAnimDelay( () => {
-      var incubating =  board.batterieMarket.getAllPawnsWithState('incubating');// je récupère les pions incubés
+      var incubating =  board.batterieMarketZ1.getAllPawnsWithState('incubating');// je récupère les pions incubés
       if(incubating !== null){// s'il y en a
         incubating.forEach(pawn => { 
           pawn.setState('sick'); // je les passe malade
@@ -80,10 +80,10 @@ function infectPawns(board) {
         }
        }
     })).then(wrapAnimDelay( () => {// **TO-DO** pour le batterie market (supermarché) avec la gestion des zones
-      if (board.batterieMarket.isContaminated()) {
-       var sanes = board.batterieMarket.getAllPawnsWithState('sane');
+      if (board.batterieMarketZ1.isContaminated()) {
+       var sanes = board.batterieMarketZ1.getAllPawnsWithState('sane');
        if(sanes===null) sanes = [];
-       var toIncubate = Math.min(sanes.length, board.batterieMarket.coefInfection*board.batterieMarket.getAllPawnsWithState('sick').length - board.bonusInfection);
+       var toIncubate = Math.min(sanes.length, board.batterieMarketZ1.coefInfection*board.batterieMarketZ1.getAllPawnsWithState('sick').length - board.bonusInfection);
        for ( var i = 0; i < toIncubate; i++){
            sanes[i].setState('incubating');
        }

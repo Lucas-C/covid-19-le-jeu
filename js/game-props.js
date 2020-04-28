@@ -173,6 +173,13 @@ export class Place extends GameProp {
   getFreeSlots() {
     return this.slots.filter((slot) => !slot.pawn);
   }
+  getPosToken() {
+    const [ x, y ] = this.getPos();
+    return [
+      x + 20,
+      y + 20,
+    ];
+  }
   getRandomPos(forProp) { // Return coordinates of a random point on the place
     const [ x, y ] = this.getPos();
     return [

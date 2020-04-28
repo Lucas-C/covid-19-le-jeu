@@ -26,7 +26,7 @@ body {
 .incubating { background-image: url(../assets/pawn-incubating.svg); }
 .sick { background-image: url(../assets/pawn-sick.svg); }
 .healed { background-image: url(../assets/pawn-healed.svg); }
-.planet-token { font-size: 5rem; }
+.planet-token { font-size: 2rem; }
 .game-state-label {
     padding: 1rem;
     font-weight: bold;
