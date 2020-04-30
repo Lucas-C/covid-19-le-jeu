@@ -1,24 +1,36 @@
 import { TurnStep } from './turn-step.js';
-import { chainExec } from './promise-utils.js';
 import { nextTurnStep } from './game-sequence.js';
+import { wrapAnimDelay } from './promise-utils.js';
 
-export class TurnStep4 extends TurnStep {
+export class TurnStep5 extends TurnStep {
   constructor(board) {
     super();
-    board.goOnButton.textContent = 'Faire revenir les robots dans leurs maisons';
-    board.goOnCallback = () => returnHome(board).then(() => nextTurnStep(board));
+    board.goOnButton.textContent = 'Envoyer les malades au robopital ?';
+    board.goOnCallback = () => manageRobopital(board).then(() => nextTurnStep(board));
   }
   getStepName() {
-    return '2e déplacement des habitant.e.s';
+    return 'Complication des maladies';
   }
 }
-function returnHome(board) { // ordre : sick, incubating, sane, healed => extractPawns(count,2)
-  const pawnsA = board.robotAcademy.extractAllPawns();
-  const pawnsB = board.batterieMarketZ1.extractAllPawns();
-  console.debug(pawnsA);
-  return chainExec(pawnsA.map((pawn) =>
-    () => (board.planetTokenAcquirePawn(pawn)),
-  )).then(chainExec(pawnsB.map((pawn) =>
-    () => (board.planetTokenAcquirePawn(pawn)),
-  )));
+function manageRobopital(board) { 
+  return wrapAnimDelay(
+    // TODO
+  ).then( () => goRobopital(board));
+}
+function goRobopital(board) { 
+  return wrapAnimDelay(() => board.allPlanets.forEach( (planet) => { // pour chaque planète
+    const sicks = planet.getAllPawnsWithState('sick');// je récupère les pions malades
+    console.debug('pions malades : ',sicks);
+    if (sicks !== null) { // s'il y en a
+      sicks.forEach(pawn => { 
+        const diceResult = board.rng.rollDie(); // je lance le dé
+        console.log('[Étape 5] Résultat du dé:', diceResult);
+        if (diceResult === 1) {
+          pawn.setState('healed'); // je les passe guéri
+        } else if (diceResult > 4) { // je les envoie au robopital
+          board.garageColA.acquirePawn(pawn);
+        }
+      });
+    }
+  }));
 }
