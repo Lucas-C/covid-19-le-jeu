@@ -1,5 +1,5 @@
 import { Board } from './board.js';
-import { Pawn, Place, Planet, PlanetToken, PublicPlace, TypedPlanet } from './game-props.js';
+import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 export function initializeGame(doc, seed) {
@@ -39,17 +39,35 @@ function initializeBoard(doc, seed) {
     [ 670, 455 ], [ 707, 455 ], [ 744, 455 ], [ 781, 455 ], // 2e rangée
   ] });
   board.robotAcademy.coefInfection = 4;
-  board.batterieMarket = new Place({ board, pos: [ 1430, 300 ], cssClass: 'batterie-market', height: 220, width: 250, slotsPos: [
-    [ 1453, 385 ], [ 1491, 385 ], [ 1529, 385 ], [ 1567, 385 ], [ 1605, 385 ], [ 1643, 385 ], // 1ère rangée
-    [ 1453, 440 ], [ 1491, 440 ], [ 1529, 440 ], [ 1567, 440 ], [ 1605, 440 ], [ 1643, 440 ], // 2e rangée
-
+  board.batterieMarketZ1 = new Place({ board, pos: [ 1400, 340 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [
+    [ 1416, 402 ], [ 1454, 402 ], [ 1492, 402 ], [ 1530, 402 ], [ 1568, 402 ], [ 1606, 402 ],
   ] });
-  board.garage = new Place({ board, pos: [ 1660, 480 ], cssClass: 'garage', height: 300, width: 175, slotsPos: [
-    [ 1690, 552 ], [ 1736, 552 ], [ 1782, 552 ], // 1ère rangée
-    [ 1690, 589 ], [ 1736, 589 ], [ 1782, 589 ], // 2e rangée
-    [ 1690, 626 ], [ 1736, 626 ], [ 1782, 626 ], // 3e rangée
-    [ 1690, 663 ], [ 1736, 663 ], [ 1782, 663 ],
-    [ 1690, 700 ], [ 1736, 700 ], [ 1782, 700 ],
+  board.batterieMarketZ2 = new Place({ board, pos: [ 1400, 450 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [
+    [ 1416, 495 ], [ 1454, 495 ], [ 1492, 495 ], [ 1530, 495 ], [ 1568, 495 ], [ 1606, 495 ],
+  ] });
+  board.garageColA = new Place({ board, pos: [ 1680, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
+    [ 1690, 552 ],
+    [ 1690, 589 ],
+    [ 1690, 626 ],
+    [ 1690, 663 ],
+    [ 1690, 700 ],
+    [ 1690, 737 ],
+  ] });
+  board.garageColB = new Place({ board, pos: [ 1726, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
+    [ 1736, 552 ],
+    [ 1736, 589 ],
+    [ 1736, 626 ],
+    [ 1736, 663 ],
+    [ 1736, 700 ],
+    [ 1736, 737 ],
+  ] });
+  board.garageColC = new Place({ board, pos: [ 1772, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
+    [ 1782, 552 ],
+    [ 1782, 589 ],
+    [ 1782, 626 ],
+    [ 1782, 663 ],
+    [ 1782, 700 ],
+    [ 1782, 737 ],
   ] });
   board.publicPlacesPerType.artificial = []; // temporaire
   board.publicPlacesPerType.crater = []; // temporaire
@@ -74,7 +92,8 @@ export function addPawnOnPlanet({ board, state, planet }) {
 
 function addTokens(board) {
   board.planetToken = new PlanetToken({ board });
+  board.roundToken = new RoundToken({ board });
+  board.crisisToken = new CrisisToken({ board });
   const randomPlanet = board.rng.pickOne(board.allPlanets);
   return wrapAnimDelay(() => board.movePlanetTokenTo(randomPlanet));
-  // TODO: ajouter les marqueurs de tour
 }

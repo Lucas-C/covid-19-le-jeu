@@ -53,7 +53,7 @@ function moveFromPlanet({ board, dieResult, planet }) {
     } else if (dieResult === 4) {
       destPlace = planet.publicPlanet;
     } else if (dieResult === 5) {
-      destPlace = board.batterieMarket;
+      destPlace = board.batterieMarketZ1;
     }
     const [ pawn1, pawn2 ] = planet.extractPawns(2);
     console.debug(`Moving from planet with type ${ planet.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
