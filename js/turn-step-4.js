@@ -2,7 +2,7 @@ import { TurnStep } from './turn-step.js';
 import { nextTurnStep } from './game-sequence.js';
 import { wrapAnimDelay } from './promise-utils.js';
 
-export class TurnStep5 extends TurnStep {
+export class TurnStep4 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Envoyer les malades au robopital ?';

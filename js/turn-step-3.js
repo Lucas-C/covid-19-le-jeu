@@ -2,7 +2,7 @@ import { TurnStep } from './turn-step.js';
 import { chainExec } from './promise-utils.js';
 import { nextTurnStep } from './game-sequence.js';
 
-export class TurnStep4 extends TurnStep {
+export class TurnStep3 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Faire revenir les robots dans leurs maisons';

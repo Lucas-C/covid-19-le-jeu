@@ -1,7 +1,7 @@
 /*eslint-disable */
 import { TurnStep } from './turn-step.js';
 
-export class TurnStep7 extends TurnStep {
+export class TurnStep6 extends TurnStep {
   constructor(board) {
     super();
   }

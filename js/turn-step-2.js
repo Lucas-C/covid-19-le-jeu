@@ -4,7 +4,7 @@ import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { TurnStep } from './turn-step.js';
 import { addPawnOnPlanet } from './init.js';
 
-export class TurnStep3 extends TurnStep {
+export class TurnStep2 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Développer la maladie';
