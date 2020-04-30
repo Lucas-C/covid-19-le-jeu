@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="pion-malade.svg">
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip1">
+      <path
+         id="path815"
+         d="M 0,0 H 340.15625 V 340 H 0 Z m 0,0"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="clip1-0">
+      <path
+         id="path861"
+         d="M 0 0 L 340.15625 0 L 340.15625 340.15625 L 0 340.15625 Z M 0 0 " />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="20.758496"
+     inkscape:cy="709.09592"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     showborder="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-87)">
+    <g
+       id="surface216961"
+       transform="matrix(-0.61736334,0,0,0.61736334,210,87)">
+      <g
+         id="g868"
+         clip-path="url(#clip1-0)"
+         style="clip-rule:nonzero">
+        <path
+           id="path866"
+           d="M 0,340.15625 H 340.15625 V 0 H 0 Z m 0,0"
+           style="fill:#eb192e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           inkscape:connector-curvature="0" />
+      </g>
+      <path
+         id="path870"
+         d="M 242.32422,296.34375 H 97.832031 c -13.507812,0 -24.5625,-11.05469 -24.5625,-24.5625 v -22.90234 c 0,-13.51172 11.054688,-24.56641 24.5625,-24.56641 H 242.32422 c 13.51172,0 24.5625,11.05469 24.5625,24.56641 v 22.90234 c 0,13.50781 -11.05078,24.5625 -24.5625,24.5625"
+         style="fill:#0f0c0c;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path872"
+         d="M 50.171875,121.09766 C 50.378906,144.85547 69.6875,164.05859 93.5,164.05859 c 23.80859,0 43.11719,-19.20312 43.32812,-42.96093 z m 0,0"
+         style="fill:#0f0c0c;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path874"
+         d="m 203.33203,121.09766 c 0.20703,23.75781 19.51563,42.96093 43.32813,42.96093 23.80859,0 43.11718,-19.20312 43.32812,-42.96093 z m 0,0"
+         style="fill:#0f0c0c;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

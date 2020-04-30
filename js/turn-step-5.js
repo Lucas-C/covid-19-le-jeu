@@ -6,6 +6,6 @@ export class TurnStep5 extends TurnStep {
     super();
   }
   getStepName() {
-    return 'Complication des maladies';
+    return 'Prise de mesures de protection';
   }
 }

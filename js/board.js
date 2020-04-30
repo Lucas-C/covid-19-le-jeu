@@ -46,7 +46,7 @@ export class Board {
   }
   movePlanetTokenTo(planet) {
     this.planetTokenPlanet = planet;
-    this.planetToken.setPos(planet.getRandomPos(this.planetToken));
+    this.planetToken.setPos(planet.getPosToken());
   }
   updateCounters() {
     this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;

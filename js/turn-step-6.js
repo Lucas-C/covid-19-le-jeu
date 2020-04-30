@@ -6,6 +6,6 @@ export class TurnStep6 extends TurnStep {
     super();
   }
   getStepName() {
-    return 'Prise de mesures de protection';
+    return 'Gestion des évènements';
   }
 }
