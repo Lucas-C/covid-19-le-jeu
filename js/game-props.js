@@ -134,7 +134,7 @@ export class Place extends GameProp {
     // console.debug('matchingPawns : ', matchingPawns);
     return matchingPawns;
   }
-  /* extractPawn(thePawn) { // extrait un pion en particulier
+  extractPawn(thePawn) { // extrait un pion en particulier
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn === thePawn);
     if (extraMatchingPawn) {
       this.extraPawns = this.extraPawns.filter((pawn) => pawn !== extraMatchingPawn);
@@ -148,7 +148,7 @@ export class Place extends GameProp {
       return matchingPawn;
     }
     return null;
-  } */
+  } 
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
     if (extraMatchingPawn) {
@@ -233,7 +233,6 @@ export class Pawn extends GameProp {
       this.elem.classList.add(state);
     }
   }
-}
 Pawn.STATES = [ 'sane', 'incubating', 'sick', 'healed' ];
 
 // Marqueur planète
