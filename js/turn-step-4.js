@@ -19,6 +19,7 @@ function manageRobopital(board) {
     if (sicks !== null) { // s'il y en a
       sicks.forEach((pawn) => {
         const diceResult = board.rng.rollDie(); // je lance le dé
+        console.log('[Etape 4] Résultat du dé colC : ', diceResult);
         if (diceResult === 6) {
           board.garageColC.extractPawn(pawn);// je retire le pion du jeu
           pawn.setPos(INITIAL_PAWNS_POS);
@@ -34,6 +35,7 @@ function manageRobopital(board) {
     if (sicks !== null) { // s'il y en a
       sicks.forEach((pawn) => {
         const diceResult = board.rng.rollDie(); // je lance le dé
+        console.log('[Etape 4] Résultat du dé colB : ', diceResult);
         if (diceResult < 2) { // le pion est guéri et retourne sur le plateau
           pawn.setState('healed');
           board.planetTokenAcquirePawn(pawn);
@@ -65,6 +67,7 @@ function goRobopital(board) {
     if (sicks !== null) { // s'il y en a
       sicks.forEach((pawn) => {
         const diceResult = board.rng.rollDie(); // je lance le dé
+        console.debug('[Etape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
         } else if (diceResult > 4) { // je les envoie au robopital

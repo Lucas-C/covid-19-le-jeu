@@ -6,6 +6,7 @@ body {
     display: flex;
     flex-flow: column;
     align-content: center;
+    color:#04090E;
     font-size: 0.8rem;
     font-family: "Share Tech Mono";
 }
@@ -14,7 +15,7 @@ body {
     font-family: 'Share Tech Mono';
     font-style: normal;
     font-weight: 400;
-    src: local('Share Tech Mono'), local('ShareTechMono-Regular'), url(/assets/fonts/sharetechmono.woff2) format('woff2');
+    src: local('Share Tech Mono'), local('ShareTechMono-Regular'), url(../assets/fonts/sharetechmono.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 #board {
@@ -29,6 +30,16 @@ body {
     justify-content: space-between;
     padding: 0 10rem;
 }
+.controls button {
+    background: -webkit-linear-gradient(top, #91D9D8 0%,#2E3388 100%);
+    color: white;
+    font-family: "share tech mono";
+}
+#seed, #turn-number, #turn-step-id {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
 .game-prop { transition: left 1s ease, top 1s ease; }
 .pawn { background-size: contain; }
 .sane { background-image: url(../assets/pawn-sane.svg); }
@@ -49,7 +60,7 @@ body {
     padding-top:auto; padding-bottom: auto;
     border: 1px solid white;
     border-radius:100px;
-    background: -webkit-linear-gradient(top, #00fff2 0%,#0099ff 100%);
+    background: -webkit-linear-gradient(top, #91D9D8 0%,#2E3388 100%);
     box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.4), 0 0 1px rgba(0,0,0,.7) inset, 0 10px 0px rgba(255,255,255,.11) inset; 
     background-clip: padding-box;
     -webkit-background-clip: padding-box;
