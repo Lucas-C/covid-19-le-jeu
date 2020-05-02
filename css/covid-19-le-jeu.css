@@ -6,7 +6,16 @@ body {
     display: flex;
     flex-flow: column;
     align-content: center;
-    font-size: 2rem;
+    font-size: 0.8rem;
+    font-family: "Share Tech Mono";
+}
+
+@font-face {
+    font-family: 'Share Tech Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Share Tech Mono'), local('ShareTechMono-Regular'), url(/assets/fonts/sharetechmono.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 #board {
     flex: 1;
@@ -35,12 +44,25 @@ body {
 }
 .counter {
     position: absolute;
-    width: 40px; height: 40px;
+    width: 20px; height: 20px;
+    padding: 0px;
+    padding-top:auto; padding-bottom: auto;
+    border: 1px solid white;
+    border-radius:100px;
+    background: -webkit-linear-gradient(top, #00fff2 0%,#0099ff 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.4), 0 0 1px rgba(0,0,0,.7) inset, 0 10px 0px rgba(255,255,255,.11) inset; 
+    background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    font:bold 12px/16px "Helvetica Neue", sans-serif; 
+    color: white;
+    text-decoration: none;
+    text-align:center;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.6);
 }
-#sane { left: 1370px; top: 640px; }
-#incubating { left: 1370px; top: 702px; }
-#sick { left: 1370px; top: 764px; }
-#healed { left: 1370px; top: 826px; }
+#sane { left: 1400px; top: 630px; }
+#incubating { left: 1400px; top: 692px; }
+#sick { left: 1400px; top: 754px; }
+#healed { left: 1400px; top: 817px; }
 #measures-overlay {
     position: absolute; left: 0; top: 0;
     width: 100%; height: 100%;
@@ -58,6 +80,9 @@ body {
     display: block;
     width: 12.5%;
 }
+.no-contamined {
+    filter: opacity(0);
+}
 .contamined {
-    border:3px dot red;
+    filter: opacity(0.5);
 }
