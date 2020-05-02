@@ -148,7 +148,7 @@ export class Place extends GameProp {
       return matchingPawn;
     }
     return null;
-  } 
+  }
   extractPawnWithState(state) {
     const extraMatchingPawn = this.extraPawns.find((pawn) => pawn.state === state);
     if (extraMatchingPawn) {
@@ -233,6 +233,7 @@ export class Pawn extends GameProp {
       this.elem.classList.add(state);
     }
   }
+}
 Pawn.STATES = [ 'sane', 'incubating', 'sick', 'healed' ];
 
 // Marqueur planète
