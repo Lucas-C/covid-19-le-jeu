@@ -74,7 +74,7 @@ export class Place extends GameProp {
     const nbFullSlots = this.slots.length - freeSlots.length;
     return nbFullSlots + this.extraPawns.length;
   }
-  acquirePawn(pawn) { // Attention : remplir les slots dispo de la planète source
+  acquirePawn(pawn) { 
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
       freeSlots[0].pawn = pawn;
@@ -206,6 +206,13 @@ export class TypedPlanet extends Place {
     super({ board, pos, cssClass, slotsPos, height, width });
     this.type = type;
     this.elem.classList.add(type);
+    const contaminedImg = document.createElement('img');
+    contaminedImg.setAttribute('src', '/assets/contamined.png');
+    contaminedImg.setAttribute('width', this.width + 30);
+    contaminedImg.setAttribute('height', this.height + 30);
+    contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
+    contaminedImg.classList.add('no-contamined');
+    this.elem.appendChild(contaminedImg);
   }
 }
 TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
