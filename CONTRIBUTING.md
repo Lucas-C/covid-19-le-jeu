@@ -13,6 +13,7 @@
     * [Query params](#query-params)
     * [Intégration continue](#integration-continue)
     * [Revues de code](#revues-de-code)
+    * [Astuces](#astuces)
 - [Remerciements](#remerciements)
 
 <!-- tocstop -->
@@ -41,7 +42,8 @@ L'onglet [projects](https://github.com/covid19lejeu/covid-19-le-jeu/projects/2) 
 Les contributions à ce projet se font via des _pull requests_.
 
 Voici un peu de documentation sur le sujet, si vous êtes peu familier du principe :
-- [tuto sur OpenClassRooms](https://openclassrooms.com/fr/courses/2342361-gerez-votre-code-avec-git-et-github/2433731-contribuez-a-des-projets-open-source)- [tuto sur git-scm.com](https://git-scm.com/book/fr/v2/GitHub-Contribution-%C3%A0-un-projet)
+- [tuto sur OpenClassRooms](https://openclassrooms.com/fr/courses/2342361-gerez-votre-code-avec-git-et-github/2433731-contribuez-a-des-projets-open-source)
+- [tuto sur git-scm.com](https://git-scm.com/book/fr/v2/GitHub-Contribution-%C3%A0-un-projet)
 
 Globalement, voici le processus à suivre pour contribuer :
 1. Mettez en place votre [environnement de développement](#environnement-de-developpement)
