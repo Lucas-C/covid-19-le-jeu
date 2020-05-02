@@ -19,7 +19,7 @@ export function nextTurnStep(board) {
   let turnStepNumber = Number(turnStepIdElem.textContent);
   if (++turnStepNumber > 6) {
     turnStepNumber = 1;
-    nextTurn(board.doc);
+    nextTurn(board);
   }
   turnStepIdElem.textContent = turnStepNumber;
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
@@ -27,7 +27,8 @@ export function nextTurnStep(board) {
   board.updateCounters();
 }
 
-function nextTurn(doc) {
+function nextTurn(board) {
+  const doc = board.doc;
   const turnNumber = doc.getElementById('turn-number');
   if (turnNumber === '10') {
     throw new Error('End game not implemented yet!');
@@ -37,4 +38,5 @@ function nextTurn(doc) {
   const roundToken = doc.getElementsByClassName('round-token');
   const currentTop = parseInt(roundToken[0].style.top, 10);
   roundToken[0].style.top = `${ currentTop + 17 }px`;
+  board.printState();
 }

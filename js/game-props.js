@@ -48,6 +48,14 @@ export class Place extends GameProp {
     this.slots = slotsPos.map((slotPos) => new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
     // Les pions supplémentaires sont listés dans cet attribut :
     this.extraPawns = [];
+    // image de contamination
+    const contaminedImg = document.createElement('img');
+    contaminedImg.setAttribute('src', 'assets/contamined.png');
+    contaminedImg.setAttribute('width', this.width + 30);
+    contaminedImg.setAttribute('height', this.height + 30);
+    contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
+    contaminedImg.classList.add('no-contamined');
+    this.elem.appendChild(contaminedImg);
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
     if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
@@ -61,16 +69,12 @@ export class Place extends GameProp {
     imgContamined.classList.remove('contamined');
     return false;
   }
-  getNumberPawns() { // ** NE FONCTIONNE PAS **
+  getNumberPawns() {
     const freeSlots = this.getFreeSlots();
     const nbFullSlots = this.slots.length - freeSlots.length;
-    /* console.debug('Nb freeSLots :', freeSlots.length);
-    console.debug('Nb slots :', this.slots.length);
-    console.debug('Nb extra :', this.extraPawns.length);
-    console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);*/
     return nbFullSlots + this.extraPawns.length;
   }
-  acquirePawn(pawn) { /* BUG : mettre à jour les slots dispo */
+  acquirePawn(pawn) { 
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
       freeSlots[0].pawn = pawn;

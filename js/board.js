@@ -54,4 +54,11 @@ export class Board {
     this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
     this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
   }
+  printState() {
+    console.log('********** ROBOPITAL **********');
+    console.log('Colonne A > Nb pions : ', this.garageColA.getNumberPawns());
+    console.log('Colonne B > Nb pions : ', this.garageColB.getNumberPawns());
+    console.log('Colonne C > Nb pions : ', this.garageColC.getNumberPawns());
+    console.log('*******************************');
+  }
 }
