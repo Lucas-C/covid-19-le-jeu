@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-const INITIAL_PAWNS_POS = [ 0, 0 ];
+export const INITIAL_PAWNS_POS = [ 0, 0 ];
 const INITIAL_ROUND_POS = [ 1476, 93 ];
 const INITIAL_CRISIS_POS = [ 1676, 142 ];
 const VERSION = 'Codroïd-19 | Jouer en ligne | D4';
@@ -51,9 +51,14 @@ export class Place extends GameProp {
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
     if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
-      this.elem.classList.add('contamined');
+      const imgContamined = this.elem.childNodes[0];
+      imgContamined.classList.remove('no-contamined');
+      imgContamined.classList.add('contamined');
       return true;
     }
+    const imgContamined = this.elem.childNodes[0];
+    imgContamined.classList.add('no-contamined');
+    imgContamined.classList.remove('contamined');
     return false;
   }
   getNumberPawns() { // ** NE FONCTIONNE PAS **
@@ -65,7 +70,7 @@ export class Place extends GameProp {
     console.debug('Nb pawns :', nbFullSlots + this.extraPawns.length);*/
     return nbFullSlots + this.extraPawns.length;
   }
-  acquirePawn(pawn) {
+  acquirePawn(pawn) { /* BUG : mettre à jour les slots dispo */
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
       freeSlots[0].pawn = pawn;
@@ -197,6 +202,13 @@ export class TypedPlanet extends Place {
     super({ board, pos, cssClass, slotsPos, height, width });
     this.type = type;
     this.elem.classList.add(type);
+    const contaminedImg = document.createElement('img');
+    contaminedImg.setAttribute('src', '/assets/contamined.png');
+    contaminedImg.setAttribute('width', this.width + 30);
+    contaminedImg.setAttribute('height', this.height + 30);
+    contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
+    contaminedImg.classList.add('no-contamined');
+    this.elem.appendChild(contaminedImg);
   }
 }
 TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
