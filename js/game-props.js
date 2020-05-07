@@ -23,6 +23,8 @@ class GameProp {
     this.setPos(pos);
   }
   setPos(pos) {
+    // this.elem.style.left = `${ pos[0] - 90 }px`;
+    // this.elem.style.top = `${ pos[1] - 90 }px`;
     this.elem.style.left = `${ pos[0] }px`;
     this.elem.style.top = `${ pos[1] }px`;
   }
@@ -274,4 +276,16 @@ export class CrisisToken extends GameProp {
     super({ board, pos: INITIAL_CRISIS_POS, cssClass: 'crisis-token', height: 100, width: 100 });
     this.elem.textContent = '🚨';
   }
+}
+
+// Fonctions annexes
+export function messageDesc(board, message, variable = null) {
+  const doc = board.doc;
+  const elem = doc.getElementById('terminal');
+  elem.innerHTML += '<br/>';
+  elem.innerHTML += message;
+  if (variable !== null) {
+    elem.innerHTML += variable;
+  }
+  elem.scrollTop = elem.scrollHeight;
 }
