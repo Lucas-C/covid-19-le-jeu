@@ -53,10 +53,10 @@ function initializeBoard(doc, seed) {
   const circuit3 = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 1154, 278 ], slotsPos: [ [ 1207, 332 ], [ 1247, 332 ], [ 1207, 372 ], [ 1247, 372 ], ] }));
   const circuit2 = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 772, 57 ], slotsPos: [ [ 805, 138 ], [ 844, 138 ], [ 885, 137 ], ] }));
   const circuit1 = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 61, 71 ], slotsPos: [ [ 113, 174 ], [ 153, 174 ], [ 113, 134 ], [ 153, 134 ], ] }));
-  const bar = board.addPublicPlace(new Planet({ board, type: 'gaseous', pos: [ 356, 198 ], slotsPos: [ [ 422, 273 ], [ 458, 256 ], [ 384, 289 ], [ 494, 238 ] ] }));
-  const restaurant = board.addPublicPlace(new Planet({ board, type: 'crater', pos: [ 343, 496 ], slotsPos: [ [ 401, 562 ], [ 437, 585 ], [ 373, 527 ], [ 465, 621 ] ] }));
-  const cinema = board.addPublicPlace(new Planet({ board, type: 'crater', pos: [ 901, 212 ], slotsPos: [ [ 938, 297 ], [ 977, 297 ], [ 938, 337 ], [ 977, 337 ] ] }));
-  const musee = board.addPublicPlace(new Planet({ board, type: 'gaseous', pos: [ 903, 482 ], slotsPos: [ [ 949, 504 ], [ 967, 539 ], [ 931, 467 ], [ 986, 574 ] ] }));
+  const bar = board.addPublicPlace(new PublicPlace({ board, pos: [ 356, 198 ], type: 'gaseous', slotsPos: [ [ 422, 273 ], [ 458, 256 ], [ 384, 289 ], [ 494, 238 ] ] }));
+  const restaurant = board.addPublicPlace(new PublicPlace({ board, pos: [ 343, 496 ], type: 'crater', slotsPos: [ [ 401, 562 ], [ 437, 585 ], [ 373, 527 ], [ 465, 621 ] ] }));
+  const cinema = board.addPublicPlace(new PublicPlace({ board, pos: [ 901, 212 ], type: 'crater', slotsPos: [ [ 938, 297 ], [ 977, 297 ], [ 938, 337 ], [ 977, 337 ] ] }));
+  const musee = board.addPublicPlace(new PublicPlace({ board, pos: [ 903, 482 ], type: 'gaseous', slotsPos: [ [ 949, 504 ], [ 967, 539 ], [ 931, 467 ], [ 986, 574 ] ] }));
   //chainage
   gaz5.nextPlanet = cratere6;
   gaz5.prevPlanet = cratere5;
