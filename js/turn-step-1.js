@@ -1,6 +1,6 @@
 // 1er déplacement des habitant.e.s
 
-import { TypedPlanet } from './game-props.js';
+import { TypedPlanet, messageDesc } from './game-props.js';
 import { nextTurnStep } from './game-sequence.js';
 import { addPawnOnPlanet } from './init.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
@@ -26,6 +26,7 @@ function moveAllPawns(board) {
 function moveAllPlanetsOfType({ board, planetType }) {
   const dieResult = board.rng.rollDie();
   console.log('[Étape 1] Résultat du dé:', dieResult);
+  messageDesc(board, '[Étape 1] Résultat du dé:', dieResult);
   if (dieResult === 6) {
     return addPawnOnPlanet({ board, state: 'incubating', planet: board.planetTokenPlanet })
       .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))

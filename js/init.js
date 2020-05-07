@@ -1,5 +1,5 @@
 import { Board } from './board.js';
-import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet } from './game-props.js';
+import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet, messageDesc } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 export function initializeGame(doc, seed) {
@@ -68,6 +68,7 @@ function initializeBoard(doc, seed) {
   ] });
   board.publicPlacesPerType.artificial = []; // temporaire
   board.publicPlacesPerType.crater = []; // temporaire
+  messageDesc(board, 'Initialisation du jeu...');
   return board;
 }
 

@@ -277,3 +277,15 @@ export class CrisisToken extends GameProp {
     this.elem.textContent = '🚨';
   }
 }
+
+// Fonctions annexes
+export function messageDesc(board, message, variable = null) {
+  const doc = board.doc;
+  const elem = doc.getElementById('terminal');
+  elem.innerHTML += '<br/>';
+  elem.innerHTML += message;
+  if (variable !== null) {
+    elem.innerHTML += variable;
+  }
+  elem.scrollTop = elem.scrollHeight;
+}
