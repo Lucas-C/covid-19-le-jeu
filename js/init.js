@@ -24,6 +24,7 @@ function initializeBoard(doc, seed) {
     [ 555, 105 ], [ 595, 105 ], // 2e rangée
     [ 575, 145 ], // 3e rangée
   ] }));
+  // const Gaz2 = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 1283, 160 ], slotsPos: [ [ 1225, 125 ], [ 1265, 125 ], [ 1225, 165 ], [ 1265, 165 ], [ 1305, 125 ], [ 1305, 165 ] ] }));
   artificialPlanet.nextPlanet = craterPlanet;
   artificialPlanet.prevPlanet = gaseousPlanet;// FAUX, temporaire
   craterPlanet.prevPlanet = artificialPlanet;

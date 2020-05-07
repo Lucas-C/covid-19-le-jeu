@@ -23,6 +23,8 @@ class GameProp {
     this.setPos(pos);
   }
   setPos(pos) {
+    // this.elem.style.left = `${ pos[0] - 90 }px`;
+    // this.elem.style.top = `${ pos[1] - 90 }px`;
     this.elem.style.left = `${ pos[0] }px`;
     this.elem.style.top = `${ pos[1] }px`;
   }
