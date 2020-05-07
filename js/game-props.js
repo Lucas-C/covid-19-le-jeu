@@ -76,7 +76,7 @@ export class Place extends GameProp {
     const nbFullSlots = this.slots.length - freeSlots.length;
     return nbFullSlots + this.extraPawns.length;
   }
-  acquirePawn(pawn) { 
+  acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
       freeSlots[0].pawn = pawn;
