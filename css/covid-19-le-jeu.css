@@ -35,6 +35,28 @@ body {
     color: white;
     font-family: "share tech mono";
 }
+.step-desc{
+    border: 1px solid silver;
+    height:70px;
+    width: 350px;
+    background-color:black;
+    color:white;
+    font-size:0.9em;
+    padding-left:1em; padding-right:1em;
+    padding-top:0.2em; padding-bottom:0.2em;
+    overflow: auto;
+}
+.step-desc::-webkit-scrollbar {
+    width: 10px;
+}
+
+.step-desc::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.8); 
+}
+
+..step-desc::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.8); 
+}
 #seed, #turn-number, #turn-step-id {
     font-weight: bold;
     font-size: 1.1rem;
@@ -70,10 +92,10 @@ body {
     text-align:center;
     text-shadow: 0 -1px 0 rgba(0,0,0,.6);
 }
-#sane { left: 1400px; top: 630px; }
-#incubating { left: 1400px; top: 692px; }
-#sick { left: 1400px; top: 754px; }
-#healed { left: 1400px; top: 817px; }
+#sane { left: 1418px; top: 634px; }
+#incubating { left: 1418px; top: 698px; }
+#sick { left: 1418px; top: 762px; }
+#healed { left: 1418px; top: 826px; }
 #measures-overlay {
     position: absolute; left: 0; top: 0;
     width: 100%; height: 100%;
