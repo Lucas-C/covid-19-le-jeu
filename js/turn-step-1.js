@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 // 1er déplacement des habitant.e.s
 import { TypedPlanet, messageDesc } from './game-props.js';
 import { nextTurnStep } from './game-sequence.js';
@@ -65,12 +66,61 @@ function moveFromPlanet({ board, dieResult, planet }) {
     if (pawn2) {
       destPlace.acquirePawn(pawn2);
     }
-    console.debug('=== Pions ===');
-    console.debug(destPlace.slots);
   });
 }
 
-/*eslint-disable */
 function moveFromPublicPlace({ board, dieResult, publicPlace }) {
-  // TODO
+  return wrapAnimDelay(() => {
+    let destPlace = null;
+    if (dieResult === 1) {
+      destPlace = board.robotAcademy;
+    } else if (dieResult === 2) {
+      // déplacer 1 robot dans chaque maison du quartier
+      const pawns = publicPlace.extractPawns(4);
+      const planets = board.getAllPlanetsWithPublicPlace(publicPlace);
+      let np = 0;
+      planets.forEach((planet) => { // pour chaque planète
+        const pawn = pawns.pop();
+        if (pawn) {
+          np++;
+          planet.acquirePawn(pawn);
+        }
+      });
+      messageDesc(board, `${ np } pion(s) se déplacent du ${ publicPlace.name } vers les maisons`);
+    } else if (dieResult === 3) {
+      // déplacer 1 robot dans chaque maison du quartier
+      const pawns = publicPlace.extractPawns(4);
+      const planets = board.getAllPlanetsWithPublicPlace(publicPlace);
+      let np = 0;
+      planets.forEach((planet) => { // pour chaque planète
+        const pawn = pawns.pop();
+        console.debug('Pawn from PublicPlace : ', pawn);
+        if (pawn) {
+          np++;
+          planet.acquirePawn(pawn);
+        }
+      });
+      messageDesc(board, `${ np } pion(s) se déplacent du ${ publicPlace.name } vers les maisons`);
+    } else if (dieResult === 4) {
+      // déplacer 2 robots dans le lieu public suivant
+      destPlace = publicPlace.nextPlace;
+    } else if (dieResult === 5) {
+      // déplacer 2 robots dans le lieu public précédént
+      destPlace = publicPlace.prevPlace;
+    }
+    if (destPlace) {
+      const [ pawn1, pawn2 ] = publicPlace.extractPawns(2);
+      let np = 0;
+      console.debug(`Moving from planet ${ publicPlace.name } with type ${ publicPlace.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
+      if (pawn1) {
+        np++;
+        destPlace.acquirePawn(pawn1);
+      }
+      if (pawn2) {
+        np++;
+        destPlace.acquirePawn(pawn2);
+      }
+      messageDesc(board, `${ np } pion(s) se déplacent du ${ publicPlace.name } vers ${ destPlace.name } `);
+    }
+  });
 }
