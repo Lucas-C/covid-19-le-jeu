@@ -14,12 +14,20 @@ export class RandomGenerator { // un instance de cette classe est stockée et ac
   rollDie() {
     return 1 + Math.floor(6 * this.prng.quick());
   }
+  randLetter() {
+    const letters = 'AZERTYUIOPQSDFGHJKLMWXCVBN';
+    return this.pickOne(letters);
+  }
 }
 
-const SEED_WORDS = [ 'robot', 'covid' ]; // liste à compléter avec des mots en rapport avec le jeu
+const SEED_WORDS = [ 'robot', 'covid', 'bot', 'droid', 'cyborg', 'bionic', 'clone', 'mecha', 'drone' ]; // liste à compléter avec des mots en rapport avec le jeu
 
 export function randomSeedWord() {
   return SEED_WORDS[1]; // Temporaire : pour l'instant on est déterministe
   // eslint-disable-next-line
-  return (new RandomGenerator()).pickOne(SEED_WORDS);
+  const seed = new RandomGenerator();
+  const word = seed.pickOne(SEED_WORDS);
+  const letter = seed.randLetter();
+  const number = 1 + Math.floor(99 * seed.prng.quick());
+  return `${ word }-${ letter }-${ number }`;
 }
