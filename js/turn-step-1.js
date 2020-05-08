@@ -25,8 +25,8 @@ function moveAllPawns(board) {
 function moveAllPlanetsOfType({ board, planetType }) {
   const dieResult = board.rng.rollDie();
   console.log('[Étape 1] Résultat du dé:', dieResult);
-  const planetTypes = {'crater':'Cratère','gaseous':'Gaz','artificial':'Circuit'};
-  messageDesc(board, `[Étape 1] Planète ${planetTypes[planetType]} - Résultat du dé:`, dieResult);
+  const planetTypes = { 'crater': 'Cratère', 'gaseous': 'Gaz', 'artificial': 'Circuit' };
+  messageDesc(board, `[Étape 1] Planète ${ planetTypes[planetType] } - Résultat du dé:`, dieResult);
   if (dieResult === 6) {
     return addPawnOnPlanet({ board, state: 'incubating', planet: board.planetTokenPlanet })
       .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))

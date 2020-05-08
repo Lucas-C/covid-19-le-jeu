@@ -1,6 +1,7 @@
 import { MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
+import { messageDesc } from './game-props.js';
 
 export class Board {
   constructor(doc, seed) {
@@ -49,10 +50,10 @@ export class Board {
     this.planetToken.setPos(planet.getPosToken());
   }
   updatePlanets(board) {
-    board.allPlanets.forEach(planet => { // pour chaque planète
+    board.allPlanets.forEach((planet) => { // pour chaque planète
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.allPublicPlaces.forEach(planet => { // pour chaque planète
+    board.allPublicPlaces.forEach((planet) => { // pour chaque planète
       planet.isContaminated(); // mise à jour du statut de contamination
     });
     board.robotAcademy.isContaminated();
@@ -71,5 +72,50 @@ export class Board {
     console.log('Colonne B > Nb pions : ', this.garageColB.getNumberPawns());
     console.log('Colonne C > Nb pions : ', this.garageColC.getNumberPawns());
     console.log('*******************************');
+  }
+  evalWinning() {
+    messageDesc(this, 'Avez-vous gagné, perdu ou pouvez-vous continuer ?');
+    /*
+      Pour chaque lieu hors hôpital :
+      Nombre total de malades += Nombre de malades du lieu
+      Nombre total de guéris += Nombre de guéris du lieu
+      Si(Nombre total de malades = 0) :
+          YOU WIN !
+      Si(Nombre total de guéris >= 40) :
+          YOU WIN !
+      Pour l'hôpital :
+      Si(Nombre de malades > capacité totale ) :
+          YOU LOSE !
+      Si(Numero du tour > 10) :
+          YOU LOSE !
+    */
+    let nbSick = 0;
+    let nbHealed = 0;
+    this.allPlanets.forEach((planet) => {
+      nbSick += planet.getAllPawnsWithState('sick').length;
+      nbHealed += planet.getAllPawnsWithState('healed').length;
+    });
+    this.allPublicPlaces.forEach((element) => {
+      nbSick += element.getAllPawnsWithState('sick').length;
+      nbHealed += element.getAllPawnsWithState('healed').length;
+    });
+    nbSick += this.robotAcademy.getAllPawnsWithState('sick').length;
+    nbHealed += this.robotAcademy.getAllPawnsWithState('healed').length;
+    nbSick += this.batterieMarketZ1.getAllPawnsWithState('sick').length;
+    nbHealed += this.batterieMarketZ1.getAllPawnsWithState('healed').length;
+    nbSick += this.batterieMarketZ2.getAllPawnsWithState('sick').length;
+    nbHealed += this.batterieMarketZ2.getAllPawnsWithState('healed').length;
+    messageDesc(this, 'Nb de pions malades (hors Robopital) : ', nbSick);
+    if (nbSick === 0 && this.garageColA.extraPawns.length === 0) {
+      messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+    }
+    messageDesc(this, 'Nb de pions guéris : ', nbHealed);
+    if (nbHealed > 39 && this.garageColA.extraPawns.length === 0) {
+      messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+    }
+    if (this.garageColA.extraPawns.length > 0) {
+      messageDesc(this, `Robopital surchargé de ${ this.garageColA.extraPawns.length } robots ... `);
+      messageDesc(this, 'PARTIE FINIE : Vous avez perdu !');
+    }
   }
 }

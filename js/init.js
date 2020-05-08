@@ -57,7 +57,7 @@ function initializeBoard(doc, seed) {
   const restaurant = board.addPublicPlace(new PublicPlace({ board, pos: [ 343, 496 ], type: 'crater', slotsPos: [ [ 401, 562 ], [ 437, 585 ], [ 373, 527 ], [ 465, 621 ] ], name: 'Restaurant' }));
   const cinema = board.addPublicPlace(new PublicPlace({ board, pos: [ 901, 212 ], type: 'crater', slotsPos: [ [ 938, 297 ], [ 977, 297 ], [ 938, 337 ], [ 977, 337 ] ], name: 'Cinéma' }));
   const musee = board.addPublicPlace(new PublicPlace({ board, pos: [ 903, 482 ], type: 'gaseous', slotsPos: [ [ 949, 504 ], [ 967, 539 ], [ 931, 467 ], [ 986, 574 ] ], name: 'Musée' }));
-  //chainage
+  // chainage
   gaz5.nextPlanet = cratere6;
   gaz5.prevPlanet = cratere5;
   gaz5.publicPlanet = restaurant;
@@ -109,7 +109,7 @@ function initializeBoard(doc, seed) {
   circuit1.prevPlanet = cratere6;
   circuit1.publicPlanet = bar;
   /**************************************/
-  board.robotAcademy = new Place({ board,  pos: [ 619, 345 ], cssClass: 'robot-academy', height: 250, width: 250, slotsPos: [ [ 675, 422 ], [ 711, 422 ], [ 675, 459 ], [ 711, 459 ], [ 748, 422 ], [ 785, 422 ], [ 748, 459 ], [ 785, 459 ] ], name: 'Robot Académie' });
+  board.robotAcademy = new Place({ board, pos: [ 619, 345 ], cssClass: 'robot-academy', height: 250, width: 250, slotsPos: [ [ 675, 422 ], [ 711, 422 ], [ 675, 459 ], [ 711, 459 ], [ 748, 422 ], [ 785, 422 ], [ 748, 459 ], [ 785, 459 ] ], name: 'Robot Académie' });
   board.robotAcademy.coefInfection = 4;
   board.batterieMarketZ1 = new Place({ board, pos: [ 1400, 340 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [ [ 1416, 402 ], [ 1454, 402 ], [ 1492, 402 ], [ 1530, 402 ], [ 1568, 402 ], [ 1606, 402 ] ], name: 'BatterieMarket Zone 1' });
   board.batterieMarketZ2 = new Place({ board, pos: [ 1400, 450 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [ [ 1416, 495 ], [ 1454, 495 ], [ 1492, 495 ], [ 1530, 495 ], [ 1568, 495 ], [ 1606, 495 ] ], name: 'BatterieMarket Zone 2' });
