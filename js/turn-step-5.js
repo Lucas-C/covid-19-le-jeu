@@ -7,6 +7,7 @@ export class TurnStep5 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Choisir les mesures à prendre';
+    board.buttonEnable();
     board.goOnCallback = () => mesureCards(board).then(() => nextTurnStep(board));
   }
   getStepName() {
