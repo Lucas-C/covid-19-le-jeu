@@ -42,8 +42,9 @@ class PlaceSlot extends GameProp {
 
 // Un lieu pouvant héberger des pions
 export class Place extends GameProp {
-  constructor({ board, pos, cssClass, slotsPos, height, width }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
+  constructor({ board, pos, cssClass, slotsPos, height, width, name }) { // slotsPos correspond aux coordonnés des emplacements de pion sur le bâtiment
     super({ board, pos, cssClass, height, width });
+    this.name = name;
     this.rng = board.rng;
     this.coefInfection = 2; // nombre d'infectés par malade
     // Les pions sont toujours stockés en priorité dans les emplacements du lieu :
@@ -204,8 +205,8 @@ export class Place extends GameProp {
 
 // Planète "lieu public" ou "maison"
 export class TypedPlanet extends Place {
-  constructor({ board, pos, cssClass, slotsPos, type, height, width }) {
-    super({ board, pos, cssClass, slotsPos, height, width });
+  constructor({ board, pos, cssClass, slotsPos, type, height, width, name }) {
+    super({ board, pos, cssClass, slotsPos, height, width, name });
     this.type = type;
     this.elem.classList.add(type);
     const contaminedImg = document.createElement('img');
@@ -221,15 +222,15 @@ TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
 
 // Planète "lieu public"
 export class PublicPlace extends TypedPlanet {
-  constructor({ board, pos, slotsPos, type }) {
-    super({ board, pos, cssClass: 'public-place', slotsPos, type, height: 180, width: 180 });
+  constructor({ board, pos, slotsPos, type, name }) {
+    super({ board, pos, cssClass: 'public-place', slotsPos, type, height: 180, width: 180, name });
   }
 }
 
 // Planète "maison"
 export class Planet extends TypedPlanet {
-  constructor({ board, pos, slotsPos, type }) {
-    super({ board, pos, cssClass: 'planet', slotsPos, type, height: 180, width: 180 });
+  constructor({ board, pos, slotsPos, type, name }) {
+    super({ board, pos, cssClass: 'planet', slotsPos, type, height: 180, width: 180, name });
   }
 }
 

@@ -6,7 +6,7 @@ import { MOCK_BOARD } from './test-utils.js';
 
 test('acquirePawn accepte des pions au-delà de la capacité du lieu', () => {
   const board = MOCK_BOARD;
-  const testPlace = new Place({ board, pos: [ 0, 0 ], cssClass: 'test', height: 10, width: 10, slotsPos: [ [ 1, 1 ], [ 2, 2 ] ] });
+  const testPlace = new Place({ board, pos: [ 0, 0 ], cssClass: 'test', height: 10, width: 10, slotsPos: [ [ 1, 1 ], [ 2, 2 ] ], name: 'testPlace' });
   testPlace.acquirePawn(new Pawn({ board }));
   testPlace.acquirePawn(new Pawn({ board }));
   testPlace.acquirePawn(new Pawn({ board }));
@@ -16,7 +16,7 @@ test('acquirePawn accepte des pions au-delà de la capacité du lieu', () => {
 
 test('extractPawns retourne le nombre d\'éléments requis mais certains peuvent être null', () => {
   const board = MOCK_BOARD;
-  const testPlace = new Place({ board, pos: [ 0, 0 ], cssClass: 'test', height: 10, width: 10, slotsPos: [ [ 1, 1 ], [ 2, 2 ] ] });
+  const testPlace = new Place({ board, pos: [ 0, 0 ], cssClass: 'test', height: 10, width: 10, slotsPos: [ [ 1, 1 ], [ 2, 2 ] ], name: 'testPlace' });
   testPlace.acquirePawn(new Pawn({ board }));
   const extractedPawns = testPlace.extractPawns(2);
   expect(extractedPawns.length).toStrictEqual(2);
