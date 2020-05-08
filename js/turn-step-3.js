@@ -19,10 +19,10 @@ function returnHome(board) { // ordre : sick, incubating, sane, healed => extrac
   const pawnsC = board.batterieMarketZ2.extractAllPawns();
   return chainExec(pawnsB.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  )).then(messageDesc(board, 'Retour de la robot académie')).then(chainExec(pawnsC.map((pawn) =>
+  )).then(messageDesc(board, '[Étape 3] Retour de la robot académie')).then(chainExec(pawnsC.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  ))).then(messageDesc(board, 'Retour du batterieMarket')).then(chainExec(pawnsA.map((pawn) =>
+  ))).then(messageDesc(board, '[Étape 3] Retour du batterieMarket')).then(chainExec(pawnsA.map((pawn) =>
     () => (board.batterieMarketZ2.acquirePawn(pawn)),
   )))
-    .then(messageDesc(board, 'Déplacement batterieMarket Zone1 vers Zone2'));
+    .then(messageDesc(board, '[Étape 3] Déplacement batterieMarket Zone1 vers Zone2'));
 }
