@@ -71,6 +71,7 @@ body {
 .planet-token { font-size: 2rem; }
 .round-token { font-size: 1rem; }
 .crisis-token { font-size: 1rem; }
+.game-state { width: 450px }
 .game-state-label {
     padding: 1rem;
     font-weight: bold;

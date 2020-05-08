@@ -25,6 +25,7 @@ export function nextTurnStep(board) {
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
   board.doc.getElementById('turn-step-name').textContent = turnStepDirector.getStepName();
   board.updateCounters();
+  board.updatePlanets(board);
 }
 
 function nextTurn(board) {
