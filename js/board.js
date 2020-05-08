@@ -48,6 +48,17 @@ export class Board {
     this.planetTokenPlanet = planet;
     this.planetToken.setPos(planet.getPosToken());
   }
+  updatePlanets(board) {
+    board.allPlanets.forEach((planet) => { // pour chaque planète
+      planet.isContaminated(); // mise à jour du statut de contamination
+    });
+    board.allPublicPlaces.forEach((planet) => { // pour chaque planète
+      planet.isContaminated(); // mise à jour du statut de contamination
+    });
+    board.robotAcademy.isContaminated();
+    board.batterieMarketZ1.isContaminated();
+    board.batterieMarketZ2.isContaminated();
+  }
   updateCounters() {
     this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;
     this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
