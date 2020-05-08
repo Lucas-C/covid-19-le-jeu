@@ -9,6 +9,7 @@ export class TurnStep1 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Effectuer le déplacement';
+    board.buttonEnable();
     board.goOnCallback = () => moveAllPawns(board).then(() => nextTurnStep(board));
   }
   getStepName() {
@@ -57,7 +58,7 @@ function moveFromPlanet({ board, dieResult, planet }) {
       destPlace = board.batterieMarketZ1;
     }
     const [ pawn1, pawn2 ] = planet.extractPawns(2);
-    console.debug(`Moving from planet with type ${ planet.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
+    console.debug(`Moving from planet ${ planet.name } with type ${ planet.type }: ${ pawn1 && pawn1.state }, ${ pawn2 && pawn2.state }`);
     if (pawn1) {
       destPlace.acquirePawn(pawn1);
     }

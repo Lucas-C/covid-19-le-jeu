@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+/* eslint max-statements: ["error", 100, { "ignoreTopLevelFunctions": true }] */
 import { Board } from './board.js';
 import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet, messageDesc } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';

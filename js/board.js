@@ -13,6 +13,7 @@ export class Board {
     this.goOnButton = doc.getElementById('go-on');
     this.goOnButton.onclick = () => {
       if (this.goOnCallback) {
+        this.buttonDisable();
         this.goOnCallback();
       }
     };
@@ -65,6 +66,14 @@ export class Board {
     this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
     this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
     this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
+  }
+  buttonEnable() {
+    this.goOnButton.disabled = false;
+    this.goOnButton.classList.remove('disabled');
+  }
+  buttonDisable() {
+    this.goOnButton.disabled = true;
+    this.goOnButton.classList.add('disabled');
   }
   printState() {
     console.log('********** ROBOPITAL **********');

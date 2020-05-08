@@ -35,6 +35,11 @@ body {
     color: white;
     font-family: "share tech mono";
 }
+.controls button.disabled {
+    background: -webkit-linear-gradient(top, rgb(180, 180, 180) 0%,rgb(78, 78, 82) 100%);
+    color: rgb(218, 218, 218);
+    font-family: "share tech mono";
+}
 .step-desc{
     border: 1px solid silver;
     height:70px;

@@ -7,6 +7,7 @@ export class TurnStep6 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Tirer une carte événement';
+    board.buttonEnable();
     board.goOnCallback = () => eventCards(board).then(() => nextTurnStep(board));
   }
   getStepName() {
