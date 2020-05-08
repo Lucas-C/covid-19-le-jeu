@@ -1,3 +1,4 @@
+import { messageDesc } from './game-props.js';
 const TURN_STEP_DIRECTORS = {};
 
 import { TurnStep1 } from './turn-step-1.js';
@@ -31,13 +32,20 @@ export function nextTurnStep(board) {
 function nextTurn(board) {
   const doc = board.doc;
   const turnNumber = doc.getElementById('turn-number');
-  if (turnNumber === '10') {
+  if (turnNumber === '11') {
+    messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
     throw new Error('End game not implemented yet!');
+  } else {
+    // affichage de l'état du plateau
+    board.printState();
+    // evaluation des critères de victoire ou défaite
+    board.evalWinning();
+    turnNumber.textContent = Number(turnNumber.textContent) + 1;
+    console.debug('Tour suivant >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    messageDesc(board, '******** Nouveau tour ********');
+    // décalage du pion tour
+    const roundToken = doc.getElementsByClassName('round-token');
+    const currentTop = parseInt(roundToken[0].style.top, 10);
+    roundToken[0].style.top = `${ currentTop + 17 }px`;
   }
-  turnNumber.textContent = Number(turnNumber.textContent) + 1;
-  console.debug('Tour suivant >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-  const roundToken = doc.getElementsByClassName('round-token');
-  const currentTop = parseInt(roundToken[0].style.top, 10);
-  roundToken[0].style.top = `${ currentTop + 17 }px`;
-  board.printState();
 }
