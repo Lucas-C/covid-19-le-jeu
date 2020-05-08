@@ -231,6 +231,7 @@ export class PublicPlace extends TypedPlanet {
 export class Planet extends TypedPlanet {
   constructor({ board, pos, slotsPos, type, name }) {
     super({ board, pos, cssClass: 'planet', slotsPos, type, height: 180, width: 180, name });
+    this.publicPlanet = null;
   }
 }
 

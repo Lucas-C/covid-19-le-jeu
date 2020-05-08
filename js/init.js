@@ -108,6 +108,15 @@ function initializeBoard(doc, seed) {
   circuit1.nextPlanet = cratere1;
   circuit1.prevPlanet = cratere6;
   circuit1.publicPlanet = bar;
+  //
+  bar.nextPlace = cinema;
+  bar.prevPlace = restaurant;
+  cinema.nextPlace = musee;
+  cinema.prevPlace = bar;
+  musee.nextPlace = restaurant;
+  musee.prevPlace = cinema;
+  restaurant.nextPlace = bar;
+  restaurant.prevPlace = musee;
   /**************************************/
   board.robotAcademy = new Place({ board, pos: [ 619, 345 ], cssClass: 'robot-academy', height: 250, width: 250, slotsPos: [ [ 675, 422 ], [ 711, 422 ], [ 675, 459 ], [ 711, 459 ], [ 748, 422 ], [ 785, 422 ], [ 748, 459 ], [ 785, 459 ] ], name: 'Robot Académie' });
   board.robotAcademy.coefInfection = 4;

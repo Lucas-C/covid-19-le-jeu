@@ -43,6 +43,15 @@ export class Board {
     this.publicPlacesPerType[publicPlace.type].push(publicPlace);
     return publicPlace;
   }
+  getAllPlanetsWithPublicPlace(place) {
+    const planets = [];
+    this.allPlanets.forEach((planet) => { // pour chaque planète
+      if (planet.publicPlanet === place) {
+        planets.push(planet);
+      }
+    });
+    return planets;
+  }
   planetTokenAcquirePawn(pawn) {
     return wrapAnimDelay(() => this.planetTokenPlanet.acquirePawn(pawn)).then(() => wrapAnimDelay(() => this.movePlanetTokenTo(this.planetTokenPlanet.nextPlanet)));
   }
@@ -54,7 +63,7 @@ export class Board {
     board.allPlanets.forEach((planet) => { // pour chaque planète
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.allPublicPlaces.forEach((planet) => { // pour chaque planète
+    board.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
       planet.isContaminated(); // mise à jour du statut de contamination
     });
     board.robotAcademy.isContaminated();
