@@ -7,6 +7,7 @@ export class TurnStep4 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Envoyer les malades au robopital ?';
+    board.buttonEnable();
     board.goOnCallback = () => manageRobopital(board).then(() => nextTurnStep(board));
   }
   getStepName() {
@@ -45,7 +46,8 @@ function manageRobopital(board) {
           messageDesc(board, '[Étape 4] Les pions de la colonne B vont en colonne C');
           const freeSlots = board.garageColC.getFreeSlots();
           if (freeSlots.length) {
-            board.garageColC.acquirePawn(pawn);
+            const thePawn = board.garageColB.extractPawn(pawn);
+            board.garageColC.acquirePawn(thePawn);
           }
         }
       });
@@ -58,7 +60,8 @@ function manageRobopital(board) {
       // le pion passe en COlB
         const freeSlots = board.garageColB.getFreeSlots();
         if (freeSlots.length) {
-          board.garageColB.acquirePawn(pawn);
+          const thePawn = board.garageColA.extractPawn(pawn);
+          board.garageColB.acquirePawn(thePawn);
         }
       });
     }
@@ -75,8 +78,9 @@ function goRobopital(board) {
         messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
-        } else if (diceResult > 4) { // je les envoie au robopital
-          board.garageColA.acquirePawn(pawn);
+        } else if (diceResult > 4) { // je les envoie au robopital : BUG : il faut les détacher
+          const thePawn = planet.extractPawn(pawn);
+          board.garageColA.acquirePawn(thePawn);
         }
       });
     }

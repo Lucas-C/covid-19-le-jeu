@@ -7,6 +7,7 @@ export class TurnStep3 extends TurnStep {
   constructor(board) {
     super();
     board.goOnButton.textContent = 'Faire revenir les robots dans leurs maisons';
+    board.buttonEnable();
     board.goOnCallback = () => returnHome(board).then(() => nextTurnStep(board));
   }
   getStepName() {
