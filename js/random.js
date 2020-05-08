@@ -27,7 +27,8 @@ export function randomSeedWord() {
   // eslint-disable-next-line
   const seed = new RandomGenerator();
   const word = seed.pickOne(SEED_WORDS);
-  const letter = seed.randLetter();
-  const number = 1 + Math.floor(99 * seed.prng.quick());
-  return `${ word }-${ letter }-${ number }`;
+  const letter1 = seed.randLetter();
+  const letter2 = seed.randLetter();
+  const number = 1 + Math.floor(999 * seed.prng.quick());
+  return `${ word }-${ letter1 }${ letter2 }-${ number }`; // 4 051 944 de combinaisons
 }
