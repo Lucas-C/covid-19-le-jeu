@@ -146,15 +146,16 @@ function initializeBoard(doc, seed) {
     [ 1690, 626 ],
     [ 1690, 663 ],
     [ 1690, 700 ],
-    [ 1690, 737 ],
+    // [ 1690, 737 ],
   ], name: 'Robopital Col A' });
+  // board.garageColA.addSlot(board, [ 1690, 737 ]); // Test
   board.garageColB = new Place({ board, pos: [ 1726, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
     [ 1736, 552 ],
     [ 1736, 589 ],
     [ 1736, 626 ],
     [ 1736, 663 ],
     [ 1736, 700 ],
-    [ 1736, 737 ],
+    // [ 1736, 737 ],
   ], name: 'Robopital Col B' });
   board.garageColC = new Place({ board, pos: [ 1772, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
     [ 1782, 552 ],
@@ -162,7 +163,7 @@ function initializeBoard(doc, seed) {
     [ 1782, 626 ],
     [ 1782, 663 ],
     [ 1782, 700 ],
-    [ 1782, 737 ],
+    // [ 1782, 737 ],
   ], name: 'Robopital Col C' });
   board.publicPlacesPerType.artificial = []; // temporaire
   board.publicPlacesPerType.crater = []; // temporaire

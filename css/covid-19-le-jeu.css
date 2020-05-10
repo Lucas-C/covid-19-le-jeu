@@ -113,6 +113,17 @@ body {
     color:rgb(50,50,255);
     margin:auto;
 }
+#end-overlay {
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.8);
+    border-radius: 30rem;
+    z-index: 1;
+}
+#end-overlay .content {
+    color:rgb(50,50,255);
+    margin:auto;
+}
 #measures-overlay {
     position: absolute; left: 0; top: 0;
     width: 100%; height: 100%;
