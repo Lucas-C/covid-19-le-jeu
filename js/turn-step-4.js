@@ -78,9 +78,23 @@ function goRobopital(board) {
         messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
-        } else if (diceResult > 4) { // je les envoie au robopital : BUG : il faut les détacher
+        } else if (diceResult > 4) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
+          board.printState();
           const thePawn = planet.extractPawn(pawn);
-          board.garageColA.acquirePawn(thePawn);
+          if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A
+            console.debug('[GoRobopital] Colonne A non pleine : remplissage Colonne A');
+            board.garageColA.acquirePawn(thePawn);
+          } else if (board.garageColB.getFreeSlots().length > 0) { // s'il y a une place en colonne B
+            console.debug('[GoRobopital] Colonne A pleine : remplissage Colonne B');
+            board.garageColB.acquirePawn(thePawn);
+          } else if (board.garageColC.getFreeSlots().length > 0) { // s'il y a une place en colonne C
+            console.debug('[GoRobopital] Colonnes A et B pleines : remplissage Colonne C');
+            board.garageColC.acquirePawn(thePawn);
+          } else {
+            console.debug('[GoRobopital]Colonnes A, B et C pleines : remplissage Colonne A');
+            board.garageColA.acquirePawn(thePawn); // sinon je surcharge la colonne A
+          }
+          board.printState();
         }
       });
     }

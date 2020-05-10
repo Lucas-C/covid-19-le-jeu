@@ -2,7 +2,7 @@
 export const INITIAL_PAWNS_POS = [ 0, 0 ];
 const INITIAL_ROUND_POS = [ 1476, 93 ];
 const INITIAL_CRISIS_POS = [ 1676, 142 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D4';
+const VERSION = 'Codroïd-19 | Jouer en ligne | D5';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 
 // Un élément "physique" du jeu
@@ -59,6 +59,9 @@ export class Place extends GameProp {
     contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
     contaminedImg.classList.add('no-contamined');
     this.elem.appendChild(contaminedImg);
+  }
+  addSlot(board, slotPos) { // ajouter un slot à un lieu : utile pour la carte mesure hôpital de campagne
+    this.slots.push(new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
   }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
     if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {

@@ -1,17 +1,13 @@
-import { animateCSS } from './animate.js';
+import { SplashOverlay } from './animate.js';
 
-export class MeasuresOverlay {
+export class MeasuresOverlay extends SplashOverlay {
   constructor(doc) {
-    this.overlayElem = doc.getElementById('measures-overlay');
+    super(doc, 'measures-overlay');
   }
-  toggleDisplay() {
-    if (this.overlayElem.style.display === 'none') {
-      this.overlayElem.style.display = 'flex';
-      animateCSS(this.overlayElem, 'slideInDown');
-    } else {
-      animateCSS(this.overlayElem, 'slideOutUp', () => {
-        this.overlayElem.style.display = 'none';
-      });
-    }
+}
+
+export class EndOverlay extends SplashOverlay {
+  constructor(doc) {
+    super(doc, 'end-overlay');
   }
 }

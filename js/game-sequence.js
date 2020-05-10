@@ -34,6 +34,7 @@ function nextTurn(board) {
   const turnNumber = doc.getElementById('turn-number');
   if (turnNumber === '11') {
     messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
+    board.endOverlay.toggleDisplay();
     throw new Error('End game not implemented yet!');
   } else {
     // affichage de l'état du plateau

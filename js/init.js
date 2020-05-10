@@ -2,7 +2,25 @@
 import { Board } from './board.js';
 import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet, messageDesc } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
+import { SplashOverlay } from './animate.js';
 
+export async function launcher(doc, seed) {
+  const board = initializeBoard(doc, seed);
+  await introduction(doc, board);
+  while (board.intro === true) {
+    await new Promise((res) => setTimeout(res, 50));
+  }
+  board.intro = true;
+  return addPawns(board).then(() => addTokens(board)).then(() => board);
+}
+function introduction(doc, board) {
+  const intro = new SplashOverlay(doc, 'intro-overlay');
+  doc.getElementById('play').onclick = () => {
+    intro.toggleDisplay();
+    board.intro = false;
+  };
+  intro.toggleDisplay();
+}
 export function initializeGame(doc, seed) {
   const board = initializeBoard(doc, seed);
   return addPawns(board).then(() => addTokens(board)).then(() => board);
@@ -100,7 +118,7 @@ function initializeBoard(doc, seed) {
   circuit4.prevPlanet = cratere3;
   circuit4.publicPlanet = musee;
   circuit3.nextPlanet = gaz3;
-  circuit3.prevPlanet = cratere2;
+  circuit3.prevPlanet = gaz2;
   circuit3.publicPlanet = cinema;
   circuit2.nextPlanet = cratere2;
   circuit2.prevPlanet = gaz1;
@@ -128,15 +146,16 @@ function initializeBoard(doc, seed) {
     [ 1690, 626 ],
     [ 1690, 663 ],
     [ 1690, 700 ],
-    [ 1690, 737 ],
+    // [ 1690, 737 ],
   ], name: 'Robopital Col A' });
+  // board.garageColA.addSlot(board, [ 1690, 737 ]); // Test
   board.garageColB = new Place({ board, pos: [ 1726, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
     [ 1736, 552 ],
     [ 1736, 589 ],
     [ 1736, 626 ],
     [ 1736, 663 ],
     [ 1736, 700 ],
-    [ 1736, 737 ],
+    // [ 1736, 737 ],
   ], name: 'Robopital Col B' });
   board.garageColC = new Place({ board, pos: [ 1772, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
     [ 1782, 552 ],
@@ -144,7 +163,7 @@ function initializeBoard(doc, seed) {
     [ 1782, 626 ],
     [ 1782, 663 ],
     [ 1782, 700 ],
-    [ 1782, 737 ],
+    // [ 1782, 737 ],
   ], name: 'Robopital Col C' });
   board.publicPlacesPerType.artificial = []; // temporaire
   board.publicPlacesPerType.crater = []; // temporaire
