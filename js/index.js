@@ -1,4 +1,4 @@
-import { initializeGame } from './init.js';
+import { launcher } from './init.js';
 import { nextTurnStep } from './game-sequence.js';
 import { enableFastAnimations } from './timing.js';
 import { randomSeedWord } from './random.js';
@@ -12,5 +12,6 @@ if (typeof window !== 'undefined') { // == le code est exécuté dans un navigat
     enableFastAnimations();
   }
   const seed = queryParams.get('seed') || randomSeedWord();
-  initializeGame(document, seed).then(nextTurnStep);
+  launcher(document, seed).then(nextTurnStep);
+  // initializeGame(document, seed).then(nextTurnStep);
 }

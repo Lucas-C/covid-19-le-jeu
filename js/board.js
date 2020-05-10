@@ -1,4 +1,4 @@
-import { MeasuresOverlay } from './measures.js';
+import { EndOverlay, MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
 import { messageDesc } from './game-props.js';
@@ -17,8 +17,11 @@ export class Board {
         this.goOnCallback();
       }
     };
+    this.intro = true;
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
+    doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
+    this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
     this.planetTokenPlanet = null;
     this.allPlanets = [];
@@ -126,14 +129,17 @@ export class Board {
     messageDesc(this, 'Nb de pions malades (hors Robopital) : ', nbSick);
     if (nbSick === 0 && this.garageColA.extraPawns.length === 0) {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      this.endOverlay.toggleDisplay();
     }
     messageDesc(this, 'Nb de pions guéris : ', nbHealed);
     if (nbHealed > 39 && this.garageColA.extraPawns.length === 0) {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      this.endOverlay.toggleDisplay();
     }
     if (this.garageColA.extraPawns.length > 0) {
       messageDesc(this, `Robopital surchargé de ${ this.garageColA.extraPawns.length } robots ... `);
       messageDesc(this, 'PARTIE FINIE : Vous avez perdu !');
+      this.endOverlay.toggleDisplay();
     }
   }
 }
