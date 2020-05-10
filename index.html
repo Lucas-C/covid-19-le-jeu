@@ -24,6 +24,28 @@
       <div>Nom de la partie en cours : <span id="seed"></span></div>
     </div>
     <div id="board">
+      <div id="intro-overlay" style="display: none">
+        <div class="content">
+          <h1>INTRO #TODO</h1>
+          <p>
+            <input type="checkbox" id="fast_mode"/> Activer le mode de déplacement rapide (à implémenter)
+          </p>
+          <p>
+            <button id="play">Commencer à jouer</button>
+          </p>
+        </div>
+      </div>
+      <div id="end-overlay" style="display: none">
+        <div class="content">
+          <h1>Bravo vous avez gagné ! / Dommage, vous avez perdu ...</h1>
+          <p>
+            Calcul du score...
+          </p>
+          <p>
+            <button id="play">Rejouer une nouvelle partie</button>&nbsp;<button id="replay">Rejouer la même partie</button>
+          </p>
+        </div>
+      </div>
       <div id="sane" class="counter"></div>
       <div id="incubating" class="counter"></div>
       <div id="sick" class="counter"></div>
