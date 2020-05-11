@@ -1,5 +1,5 @@
 import { SplashOverlay } from './animate.js';
-import { MeasureCard } from './game-props.js';
+import { MeasureCard, messageDesc } from './game-props.js';
 
 export class MeasuresOverlay extends SplashOverlay {
   constructor(doc) {
@@ -19,6 +19,7 @@ export function initMeasuresCards(board) {
 
 function publicPlaceClosing(board, activation = true) {
   if (activation) {
+    messageDesc(board, 'CARTE MESURE activée : Fermeture des lieux publics');
     board.allPlanets.forEach((planet) => {
       planet.moves[4] = 0;
       // Si la maison contient au - 4 robots, 1 robot est envoyé dans le lieu public de son quartier
