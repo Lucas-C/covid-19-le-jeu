@@ -275,7 +275,7 @@ export class RoundToken extends GameProp {
   }
 }
 
-// Marqueur tour
+// Marqueur crise
 export class CrisisToken extends GameProp {
   constructor({ board }) {
     super({ board, pos: INITIAL_CRISIS_POS, cssClass: 'crisis-token', height: 100, width: 100 });
@@ -293,4 +293,12 @@ export function messageDesc(board, message, variable = null) {
     elem.innerHTML += variable;
   }
   elem.scrollTop = elem.scrollHeight;
+}
+export function endSplash(board, title, message) {
+  const doc = board.doc;
+  const elem = doc.getElementById('end-overlay');
+  const titleElement = elem.getElementsByTagName('h1')[0];
+  titleElement.innerHTML = title;
+  const messageElement = elem.getElementsByTagName('p')[0];
+  messageElement.innerHTML = message;
 }

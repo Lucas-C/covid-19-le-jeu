@@ -1,4 +1,4 @@
-import { messageDesc } from './game-props.js';
+import { messageDesc, endSplash } from './game-props.js';
 const TURN_STEP_DIRECTORS = {};
 
 import { TurnStep1 } from './turn-step-1.js';
@@ -26,14 +26,16 @@ export function nextTurnStep(board) {
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
   board.doc.getElementById('turn-step-name').textContent = turnStepDirector.getStepName();
   board.updateCounters();
-  board.updatePlanets(board);
+  board.updatePlanets();
 }
 
 function nextTurn(board) {
   const doc = board.doc;
   const turnNumber = doc.getElementById('turn-number');
   if (turnNumber === '11') {
+    board.buttonDisable();
     messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
+    endSplash(board, 'Dommage, vous avez perdu ...', 'Vous avez atteint les 10 tours. Vous avez mis trop de temps à juguler l\'épidémie ...<br/>Sentez-vous libre de rejouer ;-)');
     board.endOverlay.toggleDisplay();
     throw new Error('End game not implemented yet!');
   } else {
@@ -44,7 +46,8 @@ function nextTurn(board) {
     turnNumber.textContent = Number(turnNumber.textContent) + 1;
     console.debug('Tour suivant >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     messageDesc(board, '******** Nouveau tour ********');
-    // décalage du pion tour
+    board.updateCrisisToken();
+    // décalage du curseur tour
     const roundToken = doc.getElementsByClassName('round-token');
     const currentTop = parseInt(roundToken[0].style.top, 10);
     roundToken[0].style.top = `${ currentTop + 17 }px`;
