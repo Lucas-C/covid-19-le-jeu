@@ -26,7 +26,7 @@ export function nextTurnStep(board) {
   const turnStepDirector = new TURN_STEP_DIRECTORS[turnStepNumber](board);
   board.doc.getElementById('turn-step-name').textContent = turnStepDirector.getStepName();
   board.updateCounters();
-  board.updatePlanets(board);
+  board.updatePlanets();
 }
 
 function nextTurn(board) {
@@ -44,7 +44,8 @@ function nextTurn(board) {
     turnNumber.textContent = Number(turnNumber.textContent) + 1;
     console.debug('Tour suivant >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     messageDesc(board, '******** Nouveau tour ********');
-    // décalage du pion tour
+    board.updateCrisisToken();
+    // décalage du curseur tour
     const roundToken = doc.getElementsByClassName('round-token');
     const currentTop = parseInt(roundToken[0].style.top, 10);
     roundToken[0].style.top = `${ currentTop + 17 }px`;

@@ -275,7 +275,7 @@ export class RoundToken extends GameProp {
   }
 }
 
-// Marqueur tour
+// Marqueur crise
 export class CrisisToken extends GameProp {
   constructor({ board }) {
     super({ board, pos: INITIAL_CRISIS_POS, cssClass: 'crisis-token', height: 100, width: 100 });

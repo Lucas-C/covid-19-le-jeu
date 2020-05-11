@@ -18,6 +18,7 @@ export class Board {
       }
     };
     this.intro = true;
+    this.crisisLevel = 0;
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
     doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
@@ -62,22 +63,74 @@ export class Board {
     this.planetTokenPlanet = planet;
     this.planetToken.setPos(planet.getPosToken());
   }
-  updatePlanets(board) {
-    board.allPlanets.forEach((planet) => { // pour chaque planète
+  updatePlanets() {
+    this.allPlanets.forEach((planet) => { // pour chaque planète
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
+    this.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.robotAcademy.isContaminated();
-    board.batterieMarketZ1.isContaminated();
-    board.batterieMarketZ2.isContaminated();
+    this.robotAcademy.isContaminated();
+    this.batterieMarketZ1.isContaminated();
+    this.batterieMarketZ2.isContaminated();
   }
   updateCounters() {
     this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;
     this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
     this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
     this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
+  }
+  setCrisis(level) {
+    let diff = this.crisisLevel;
+    this.crisisLevel = Math.max(level, this.crisisLevel); // le niveau de crise ne peut pas redescendre
+    messageDesc(this, 'Le niveau de crise est à ', this.crisisLevel);
+    diff = this.crisisLevel - diff;
+    // décalage du curseur crise
+    console.debug('Décalage du curseur crise de : ', diff);
+    const doc = this.doc;
+    const crisisToken = doc.getElementsByClassName('crisis-token');
+    for (let i = 0; i < diff; i++) {
+      const currentTop = parseInt(crisisToken[0].style.top, 10);
+      crisisToken[0].style.top = `${ currentTop + 24 }px`;
+    }
+  }
+  updateCrisisToken() {
+    /*
+      Si (nombre de lieux avec au moins un malade > 10)
+        echelle crise = max(2, echelle crise)
+      Sinon si (nombre de lieux avec au moins un malade > 5)
+        echelle crise = max(1, echelle crise)
+      Sinon echelle crise = max(0, echelle crise)
+    */
+    let nbPlace = 0;
+    this.allPlanets.forEach((planet) => { // pour chaque planète
+      if (planet.getAllPawnsWithState('sick').length > 0) {
+        nbPlace++;
+      }
+    });
+    this.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
+      if (planet.getAllPawnsWithState('sick').length > 0) {
+        nbPlace++;
+      }
+    });
+    if (this.robotAcademy.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    if (this.batterieMarketZ1.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    if (this.batterieMarketZ2.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    console.debug(`${ nbPlace } lieu(x) avec au moins 1 malade`);
+    messageDesc(this, `${ nbPlace } lieu(x) avec au moins 1 malade`);
+    if (nbPlace > 10) {
+      this.setCrisis(2);
+    } else if (nbPlace > 4) {
+      this.setCrisis(1);
+    } else {
+      this.setCrisis(0);
+    }
   }
   buttonEnable() {
     this.goOnButton.disabled = false;
