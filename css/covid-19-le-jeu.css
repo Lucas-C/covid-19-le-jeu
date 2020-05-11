@@ -135,11 +135,13 @@ body {
     padding: 8rem;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 4%;
+    margin-right: 5%;
 }
 .card.measure {
-    flex: 1 12.5%;
+    flex: 1;
     display: block;
-    width: 12.5%;
+    width: 13%;
 }
 .no-contamined {
     filter: opacity(0);

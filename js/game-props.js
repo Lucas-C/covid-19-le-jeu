@@ -219,6 +219,7 @@ export class TypedPlanet extends Place {
     contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
     contaminedImg.classList.add('no-contamined');
     this.elem.appendChild(contaminedImg);
+    this.moves = { 1: 2, 2: 2, 3: 2, 4: 2, 5: 2 };
   }
 }
 TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
@@ -227,6 +228,9 @@ TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
 export class PublicPlace extends TypedPlanet {
   constructor({ board, pos, slotsPos, type, name }) {
     super({ board, pos, cssClass: 'public-place', slotsPos, type, height: 180, width: 180, name });
+    this.closed = false;
+    this.moves[2] = 4;
+    this.moves[3] = 4;
   }
 }
 
@@ -283,6 +287,24 @@ export class CrisisToken extends GameProp {
   }
 }
 
+// Classe cartes mesures
+export class MeasureCard {
+  constructor(board, id, callback) {
+    this.id = id;
+    this.elem = board.doc.getElementById(id);
+    this.active = false;
+    this.elem.onclick = () => {
+      this.toggle();
+      if (typeof callback === 'function') {
+        callback(board, this.active);
+      }
+    };
+  }
+  toggle() {
+    this.active = !this.active;
+  }
+}
+
 // Fonctions annexes
 export function messageDesc(board, message, variable = null) {
   const doc = board.doc;
@@ -294,6 +316,7 @@ export function messageDesc(board, message, variable = null) {
   }
   elem.scrollTop = elem.scrollHeight;
 }
+
 export function endSplash(board, title, message) {
   const doc = board.doc;
   const elem = doc.getElementById('end-overlay');
