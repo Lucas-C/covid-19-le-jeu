@@ -33,6 +33,7 @@ function nextTurn(board) {
   const doc = board.doc;
   const turnNumber = doc.getElementById('turn-number');
   if (turnNumber === '11') {
+    board.buttonDisable();
     messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
     endSplash(board, 'Dommage, vous avez perdu ...', 'Vous avez atteint les 10 tours. Vous avez mis trop de temps à juguler l\'épidémie ...<br/>Sentez-vous libre de rejouer ;-)');
     board.endOverlay.toggleDisplay();
