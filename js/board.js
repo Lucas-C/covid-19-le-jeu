@@ -1,7 +1,7 @@
 import { EndOverlay, MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
-import { messageDesc } from './game-props.js';
+import { messageDesc, endSplash } from './game-props.js';
 
 export class Board {
   constructor(doc, seed) {
@@ -18,6 +18,7 @@ export class Board {
       }
     };
     this.intro = true;
+    this.crisisLevel = 0;
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
     doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
@@ -62,22 +63,74 @@ export class Board {
     this.planetTokenPlanet = planet;
     this.planetToken.setPos(planet.getPosToken());
   }
-  updatePlanets(board) {
-    board.allPlanets.forEach((planet) => { // pour chaque planète
+  updatePlanets() {
+    this.allPlanets.forEach((planet) => { // pour chaque planète
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
+    this.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
       planet.isContaminated(); // mise à jour du statut de contamination
     });
-    board.robotAcademy.isContaminated();
-    board.batterieMarketZ1.isContaminated();
-    board.batterieMarketZ2.isContaminated();
+    this.robotAcademy.isContaminated();
+    this.batterieMarketZ1.isContaminated();
+    this.batterieMarketZ2.isContaminated();
   }
   updateCounters() {
     this.doc.getElementById('sane').textContent = this.doc.getElementsByClassName('sane').length;
     this.doc.getElementById('incubating').textContent = this.doc.getElementsByClassName('incubating').length;
     this.doc.getElementById('sick').textContent = this.doc.getElementsByClassName('sick').length;
     this.doc.getElementById('healed').textContent = this.doc.getElementsByClassName('healed').length;
+  }
+  setCrisis(level) {
+    let diff = this.crisisLevel;
+    this.crisisLevel = Math.max(level, this.crisisLevel); // le niveau de crise ne peut pas redescendre
+    messageDesc(this, 'Le niveau de crise est à ', this.crisisLevel);
+    diff = this.crisisLevel - diff;
+    // décalage du curseur crise
+    console.debug('Décalage du curseur crise de : ', diff);
+    const doc = this.doc;
+    const crisisToken = doc.getElementsByClassName('crisis-token');
+    for (let i = 0; i < diff; i++) {
+      const currentTop = parseInt(crisisToken[0].style.top, 10);
+      crisisToken[0].style.top = `${ currentTop + 24 }px`;
+    }
+  }
+  updateCrisisToken() {
+    /*
+      Si (nombre de lieux avec au moins un malade > 10)
+        echelle crise = max(2, echelle crise)
+      Sinon si (nombre de lieux avec au moins un malade > 5)
+        echelle crise = max(1, echelle crise)
+      Sinon echelle crise = max(0, echelle crise)
+    */
+    let nbPlace = 0;
+    this.allPlanets.forEach((planet) => { // pour chaque planète
+      if (planet.getAllPawnsWithState('sick').length > 0) {
+        nbPlace++;
+      }
+    });
+    this.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
+      if (planet.getAllPawnsWithState('sick').length > 0) {
+        nbPlace++;
+      }
+    });
+    if (this.robotAcademy.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    if (this.batterieMarketZ1.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    if (this.batterieMarketZ2.getAllPawnsWithState('sick').length > 0) {
+      nbPlace++;
+    }
+    console.debug(`${ nbPlace } lieu(x) avec au moins 1 malade`);
+    messageDesc(this, `${ nbPlace } lieu(x) avec au moins 1 malade`);
+    if (nbPlace > 10) {
+      this.setCrisis(2);
+    } else if (nbPlace > 4) {
+      this.setCrisis(1);
+    } else {
+      this.setCrisis(0);
+    }
   }
   buttonEnable() {
     this.goOnButton.disabled = false;
@@ -128,17 +181,23 @@ export class Board {
     nbHealed += this.batterieMarketZ2.getAllPawnsWithState('healed').length;
     messageDesc(this, 'Nb de pions malades (hors Robopital) : ', nbSick);
     if (nbSick === 0 && this.garageColA.extraPawns.length === 0) {
+      this.buttonDisable();
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      endSplash(this, 'Bravo vous avez gagné !', 'Vous n\'avez plus de robots malades hors de l\'hôpital.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
     }
     messageDesc(this, 'Nb de pions guéris : ', nbHealed);
     if (nbHealed > 39 && this.garageColA.extraPawns.length === 0) {
+      this.buttonDisable();
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      endSplash(this, 'Bravo vous avez gagné !', 'Vous avez 40 robots guéris. L\'épidémie ne se propage plus.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
     }
     if (this.garageColA.extraPawns.length > 0) {
+      this.buttonDisable();
       messageDesc(this, `Robopital surchargé de ${ this.garageColA.extraPawns.length } robots ... `);
       messageDesc(this, 'PARTIE FINIE : Vous avez perdu !');
+      endSplash(this, 'Dommage, vous avez perdu ...', `Votre Robopital a été surchargé de ${ this.garageColA.extraPawns.length } robots ...<br/>Sentez-vous libre de rejouer ;-)`);
       this.endOverlay.toggleDisplay();
     }
   }
