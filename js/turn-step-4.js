@@ -26,8 +26,9 @@ function manageRobopital(board) {
           board.garageColC.extractPawn(pawn);// je retire le pion du jeu
           pawn.setPos(INITIAL_PAWNS_POS);
         } else if (diceResult < 3) { // le pion est guéri et retourne sur le plateau
-          pawn.setState('healed');
-          board.planetTokenAcquirePawn(pawn);
+          const thePawn = board.garageColC.extractPawn(pawn);
+          thePawn.setState('healed');
+          board.planetTokenAcquirePawn(thePawn);
         }
       });
     }
@@ -40,8 +41,9 @@ function manageRobopital(board) {
         console.log('[Étape 4] Résultat du dé colB : ', diceResult);
         messageDesc(board, '[Étape 4] Résultat du dé colB : ', diceResult);
         if (diceResult < 2) { // le pion est guéri et retourne sur le plateau
-          pawn.setState('healed');
-          board.planetTokenAcquirePawn(pawn);
+          const thePawn = board.garageColB.extractPawn(pawn);
+          thePawn.setState('healed');
+          board.planetTokenAcquirePawn(thePawn);
         } else { // sinon le pion passe en COlC
           messageDesc(board, '[Étape 4] Les pions de la colonne B vont en colonne C');
           const freeSlots = board.garageColC.getFreeSlots();

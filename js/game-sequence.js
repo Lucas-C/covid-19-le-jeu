@@ -1,4 +1,4 @@
-import { messageDesc } from './game-props.js';
+import { messageDesc, endSplash } from './game-props.js';
 const TURN_STEP_DIRECTORS = {};
 
 import { TurnStep1 } from './turn-step-1.js';
@@ -34,6 +34,7 @@ function nextTurn(board) {
   const turnNumber = doc.getElementById('turn-number');
   if (turnNumber === '11') {
     messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
+    endSplash(board, 'Dommage, vous avez perdu ...', 'Vous avez atteint les 10 tours. Vous avez mis trop de temps à juguler l\'épidémie ...<br/>Sentez-vous libre de rejouer ;-)');
     board.endOverlay.toggleDisplay();
     throw new Error('End game not implemented yet!');
   } else {

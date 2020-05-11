@@ -1,7 +1,7 @@
 import { EndOverlay, MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
-import { messageDesc } from './game-props.js';
+import { messageDesc, endSplash } from './game-props.js';
 
 export class Board {
   constructor(doc, seed) {
@@ -182,16 +182,19 @@ export class Board {
     messageDesc(this, 'Nb de pions malades (hors Robopital) : ', nbSick);
     if (nbSick === 0 && this.garageColA.extraPawns.length === 0) {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      endSplash(this, 'Bravo vous avez gagné !', 'Vous n\'avez plus de robots malades hors de l\'hôpital.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
     }
     messageDesc(this, 'Nb de pions guéris : ', nbHealed);
     if (nbHealed > 39 && this.garageColA.extraPawns.length === 0) {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
+      endSplash(this, 'Bravo vous avez gagné !', 'Vous avez 40 robots guéris. L\'épidémie ne se propage plus.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
     }
     if (this.garageColA.extraPawns.length > 0) {
       messageDesc(this, `Robopital surchargé de ${ this.garageColA.extraPawns.length } robots ... `);
       messageDesc(this, 'PARTIE FINIE : Vous avez perdu !');
+      endSplash(this, 'Dommage, vous avez perdu ...', `Votre Robopital a été surchargé de ${ this.garageColA.extraPawns.length } robots ...<br/>Sentez-vous libre de rejouer ;-)`);
       this.endOverlay.toggleDisplay();
     }
   }

@@ -294,3 +294,11 @@ export function messageDesc(board, message, variable = null) {
   }
   elem.scrollTop = elem.scrollHeight;
 }
+export function endSplash(board, title, message) {
+  const doc = board.doc;
+  const elem = doc.getElementById('end-overlay');
+  const titleElement = elem.getElementsByTagName('h1')[0];
+  titleElement.innerHTML = title;
+  const messageElement = elem.getElementsByTagName('p')[0];
+  messageElement.innerHTML = message;
+}
