@@ -31,6 +31,7 @@ export class Board {
     this.publicPlacesPerType = [];
     this.bonusInfection = 0; // nb d'infectés à enlever dans lors de la contagion (effet carte mesure gestes barrières)
     this.allMeasures = []; // mesures
+    this.desactivatedPlanets = []; // carte fermeture transports en commun
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);
