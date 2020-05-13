@@ -21,7 +21,7 @@ export class Board {
     this.crisisLevel = 0;
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
-    doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
+    // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
     this.planetTokenPlanet = null;
@@ -32,6 +32,7 @@ export class Board {
     this.bonusInfection = 0; // nb d'infectés à enlever dans lors de la contagion (effet carte mesure gestes barrières)
     this.allMeasures = []; // mesures
     this.desactivatedPlanets = []; // carte fermeture transports en commun
+    this.levelRobopital = 4; // si dé > levelRobital, alors pion va au robopital
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);

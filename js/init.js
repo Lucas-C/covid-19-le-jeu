@@ -3,6 +3,7 @@ import { Board } from './board.js';
 import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet, messageDesc } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { SplashOverlay } from './animate.js';
+import { initMeasuresCards } from './measures.js';
 
 export async function launcher(doc, seed) {
   const board = initializeBoard(doc, seed);
@@ -28,6 +29,7 @@ export function initializeGame(doc, seed) {
 
 function initializeBoard(doc, seed) {
   const board = new Board(doc, seed);
+  initMeasuresCards(board);
   // Enumération des planètes :
   // Zone en haut à gauche pour le text :
   /* const artificialPlanet = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 55, 75 ], slotsPos: [

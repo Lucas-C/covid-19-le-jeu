@@ -63,6 +63,9 @@ export class Place extends GameProp {
   addSlot(board, slotPos) { // ajouter un slot à un lieu : utile pour la carte mesure hôpital de campagne
     this.slots.push(new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
   }
+  removeSlot() {
+    this.slots.pop();
+  }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
     if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
       const imgContamined = this.elem.childNodes[0];
@@ -84,7 +87,9 @@ export class Place extends GameProp {
     const freeSlots = this.getFreeSlots();
     if (freeSlots.length) {
       freeSlots[0].pawn = pawn;
-      pawn.setPos(freeSlots[0].getPos());
+      // pawn.setPos(freeSlots[0].getPos());
+      // console.debug('acquirePawn : ', freeSlots[0].pawn);
+      freeSlots[0].pawn.setPos(freeSlots[0].getPos());
     } else {
       this.extraPawns.push(pawn);
       pawn.setPos(this.getRandomPos(pawn));
@@ -302,6 +307,11 @@ export class MeasureCard {
   }
   toggle() {
     this.active = !this.active;
+    if (this.active) {
+      this.elem.classList.add('active-card');
+    } else {
+      this.elem.classList.remove('active-card');
+    }
   }
 }
 

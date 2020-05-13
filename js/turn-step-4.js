@@ -80,7 +80,7 @@ function goRobopital(board) {
         messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
-        } else if (diceResult > 4) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
+        } else if (diceResult > board.levelRobopital) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
           board.printState();
           const thePawn = planet.extractPawn(pawn);
           if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A

@@ -135,13 +135,14 @@ body {
     padding: 8rem;
     display: flex;
     flex-wrap: wrap;
-    margin-left: 4%;
-    margin-right: 5%;
 }
 .card.measure {
-    flex: 1;
+    flex: 1 12.5%;
     display: block;
-    width: 13%;
+    width: 12.5%;
+}
+.active-card {
+    filter: opacity(0.5);
 }
 .no-contamined {
     filter: opacity(0);

@@ -1,5 +1,6 @@
 import { SplashOverlay } from './animate.js';
 import { MeasureCard, messageDesc, TypedPlanet } from './game-props.js';
+import { chainExec } from './promise-utils.js';
 
 export class MeasuresOverlay extends SplashOverlay {
   constructor(doc) {
@@ -14,14 +15,79 @@ export class EndOverlay extends SplashOverlay {
 }
 
 export function initMeasuresCards(board) {
-  board.allMeasures.push(MeasureCard(board, 'fermeture-lieu-public', publicPlaceClosing));
-  board.allMeasures.push(MeasureCard(board, 'limitation-deplacement-antihor', limitMoveLeft));
-  board.allMeasures.push(MeasureCard(board, 'limitation-deplacement-hor', limitMoveRight));
-  board.allMeasures.push(MeasureCard(board, 'confinement', confinement));
-  board.allMeasures.push(MeasureCard(board, 'fermeture-batterie-market', marketClosing));
-  board.allMeasures.push(MeasureCard(board, 'fermeture-transports', transportClosing));
+  board.allMeasures.push(new MeasureCard(board, 'fermeture-lieu-public', publicPlaceClosing));
+  board.allMeasures.push(new MeasureCard(board, 'limitation-deplacement-antihor', limitMoveLeft));
+  board.allMeasures.push(new MeasureCard(board, 'limitation-deplacement-hor', limitMoveRight));
+  board.allMeasures.push(new MeasureCard(board, 'confinement', confinement));
+  board.allMeasures.push(new MeasureCard(board, 'fermeture-batterie-market', marketClosing));
+  board.allMeasures.push(new MeasureCard(board, 'fermeture-transports', transportClosing));
+  board.allMeasures.push(new MeasureCard(board, 'limitation-admission-urgences', urgencyClosing));
+  board.allMeasures.push(new MeasureCard(board, 'depistages-frontieres', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'decouverte-traitement', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'sensibilisation-ecoles', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'bonnes-pratiques-courses', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'gestes-barrieres-N1', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'masque-obligatoire', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'dgestes-barrieres-N2', tempMeasure));
+  board.allMeasures.push(new MeasureCard(board, 'fermetures-ecoles', academyClosing));
+  board.allMeasures.push(new MeasureCard(board, 'robopital-campagne', robopitalCampagne));
 }
-
+function tempMeasure(board, activation = true) {
+  if (activation) {
+    messageDesc(board, 'CARTE MESURE activée : XXX');
+    // TO-DO
+  } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : XXX');
+    // TO-DO
+  }
+}
+function academyClosing(board, activation = true) {
+  if (activation) {
+    messageDesc(board, 'CARTE MESURE activée : Fermeture des écoles');
+    board.allPlanets.forEach((planet) => {
+      planet.moves[1] = 0;
+    });
+    board.allPublicPlaces.forEach((planet) => {
+      planet.moves[1] = 0;
+    });
+    // retour des robots de la Robot Académie dans les maisons
+    const pawns = board.robotAcademy.extractAllPawns();
+    chainExec(pawns.map((pawn) =>
+      () => (board.planetTokenAcquirePawn(pawn)),
+    ));
+  } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Fermeture des écoles');
+    board.allPlanets.forEach((planet) => {
+      planet.moves[1] = 2;
+    });
+    board.allPublicPlaces.forEach((planet) => {
+      planet.moves[1] = 2;
+    });
+    // difficile de reremplir l'école
+  }
+}
+function robopitalCampagne(board, activation = true) {
+  if (activation) {
+    messageDesc(board, 'CARTE MESURE activée : Déploiement d\'un Robopital de campagne');
+    board.garageColA.addSlot(board, [ 1690, 737 ]);
+    board.garageColB.addSlot(board, [ 1736, 737 ]);
+    board.garageColC.addSlot(board, [ 1782, 737 ]);
+  } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Déploiement d\'un Robopital de campagne');
+    board.garageColA.removeSlot();
+    board.garageColB.removeSlot();
+    board.garageColC.removeSlot();
+  }
+}
+function urgencyClosing(board, activation = true) {
+  if (activation) {
+    messageDesc(board, 'CARTE MESURE activée : Limitation des admissions aux urgences');
+    board.levelRobopital = 5;
+  } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Limitation des admissions aux urgences');
+    board.levelRobopital = 4;
+  }
+}
 function transportClosing(board, activation = true) {
   if (activation) {
     messageDesc(board, 'CARTE MESURE activée : Fermeture des transports en commun');
@@ -69,9 +135,11 @@ function confinement(board, activation = true) {
       planet.moves[2] = 0;
       planet.moves[3] = 0;
       const pawn = planet.extractPawns(1);
+      console.debug(pawn);
       board.batterieMarketZ1.acquirePawn(pawn);
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Confinement')
     board.allPlanets.forEach((planet) => {
       planet.moves[2] = 2;
       planet.moves[3] = 2;
