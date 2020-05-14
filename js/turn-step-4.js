@@ -47,7 +47,7 @@ function manageRobopital(board) {
         } else { // sinon le pion passe en COlC
           messageDesc(board, '[Étape 4] Les pions de la colonne B vont en colonne C');
           const freeSlots = board.garageColC.getFreeSlots();
-          if (freeSlots.length) {
+          if (freeSlots.length > 0) {
             const thePawn = board.garageColB.extractPawn(pawn);
             board.garageColC.acquirePawn(thePawn);
           }
@@ -61,7 +61,7 @@ function manageRobopital(board) {
       sicks.forEach((pawn) => {
       // le pion passe en COlB
         const freeSlots = board.garageColB.getFreeSlots();
-        if (freeSlots.length) {
+        if (freeSlots.length > 0) {
           const thePawn = board.garageColA.extractPawn(pawn);
           board.garageColB.acquirePawn(thePawn);
         }
@@ -70,7 +70,37 @@ function manageRobopital(board) {
   })).then(() => goRobopital(board));
 }
 function goRobopital(board) {
-  return wrapAnimDelay(() => board.allPlanets.forEach((planet) => { // pour chaque planète
+  return wrapAnimDelay(() => board.allPlanets.forEach((planet) => { // pour chaque planète maison
+    const sicks = planet.getAllPawnsWithState('sick');// je récupère les pions malades
+    console.debug('pions malades : ', sicks);
+    if (sicks !== null) { // s'il y en a
+      sicks.forEach((pawn) => {
+        const diceResult = board.rng.rollDie(); // je lance le dé
+        console.debug('[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
+        messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
+        if (diceResult <= board.levelHealing) {
+          pawn.setState('healed'); // je les passe guéri
+        } else if (diceResult > board.levelRobopital) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
+          board.printState();
+          const thePawn = planet.extractPawn(pawn);
+          if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A
+            console.debug('[GoRobopital] Colonne A non pleine : remplissage Colonne A');
+            board.garageColA.acquirePawn(thePawn);
+          } else if (board.garageColB.getFreeSlots().length > 0) { // s'il y a une place en colonne B
+            console.debug('[GoRobopital] Colonne A pleine : remplissage Colonne B');
+            board.garageColB.acquirePawn(thePawn);
+          } else if (board.garageColC.getFreeSlots().length > 0) { // s'il y a une place en colonne C
+            console.debug('[GoRobopital] Colonnes A et B pleines : remplissage Colonne C');
+            board.garageColC.acquirePawn(thePawn);
+          } else {
+            console.debug('[GoRobopital]Colonnes A, B et C pleines : remplissage Colonne A');
+            board.garageColA.acquirePawn(thePawn); // sinon je surcharge la colonne A
+          }
+          board.printState();
+        }
+      });
+    }
+  })).then(() => board.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
     const sicks = planet.getAllPawnsWithState('sick');// je récupère les pions malades
     console.debug('pions malades : ', sicks);
     if (sicks !== null) { // s'il y en a
@@ -80,7 +110,7 @@ function goRobopital(board) {
         messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
-        } else if (diceResult > 4) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
+        } else if (diceResult > board.levelRobopital) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
           board.printState();
           const thePawn = planet.extractPawn(pawn);
           if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A

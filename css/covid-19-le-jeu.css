@@ -141,6 +141,9 @@ body {
     display: block;
     width: 12.5%;
 }
+.active-card {
+    filter: opacity(0.5);
+}
 .no-contamined {
     filter: opacity(0);
 }
