@@ -1,4 +1,4 @@
-import { EndOverlay, MeasuresOverlay } from './measures.js';
+import { EndOverlay, MeasuresOverlay, EventsOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
 import { messageDesc, endSplash } from './game-props.js';
@@ -22,6 +22,9 @@ export class Board {
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
     // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
+    this.eventsOverlay = new EventsOverlay(doc);
+    doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
+    doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
     this.planetTokenPlanet = null;
