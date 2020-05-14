@@ -33,6 +33,8 @@ export class Board {
     this.allMeasures = []; // mesures
     this.desactivatedPlanets = []; // carte fermeture transports en commun
     this.levelRobopital = 4; // si dé > levelRobital, alors pion va au robopital
+    this.levelHealing = 1; // si dé <= levelHealing, alors le pion est guéri
+    this.frontieres = true; // true = pas de dépistage aux frontiere
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);

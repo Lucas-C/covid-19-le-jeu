@@ -85,11 +85,11 @@ export class Place extends GameProp {
   }
   acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
-    if (freeSlots.length) {
+    if (freeSlots.length > 0) {
       freeSlots[0].pawn = pawn;
-      // pawn.setPos(freeSlots[0].getPos());
+      pawn.setPos(freeSlots[0].getPos());
       // console.debug('acquirePawn : ', freeSlots[0].pawn);
-      freeSlots[0].pawn.setPos(freeSlots[0].getPos());
+      // freeSlots[0].pawn.setPos(freeSlots[0].getPos());
     } else {
       this.extraPawns.push(pawn);
       pawn.setPos(this.getRandomPos(pawn));
@@ -299,9 +299,11 @@ export class MeasureCard {
     this.elem = board.doc.getElementById(id);
     this.active = false;
     this.elem.onclick = () => {
-      this.toggle();
-      if (typeof callback === 'function') {
-        callback(board, this.active);
+      if (this.active === false) { // pour le moment on peut seulement les actuver et pas les désactiver
+        this.toggle();
+        if (typeof callback === 'function') {
+          callback(board, this.active);
+        }
       }
     };
   }

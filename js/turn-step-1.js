@@ -29,12 +29,15 @@ function moveAllPlanetsOfType({ board, planetType }) {
   console.log('[Étape 1] Résultat du dé:', dieResult);
   const planetTypes = { 'crater': 'Cratère', 'gaseous': 'Gaz', 'artificial': 'Circuit' };
   messageDesc(board, `[Étape 1] Planète ${ planetTypes[planetType] } - Résultat du dé:`, dieResult);
-  if (dieResult === 6) {
+  if (dieResult === 6 && board.frontieres === true) { // gestion de la carte dépistage aux frontières
     return addPawnOnPlanet({ board, state: 'incubating', planet: board.planetTokenPlanet })
       .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))
       .then(() => addPawnOnPlanet({ board, state: 'sane', planet: board.planetTokenPlanet }))
       .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)))
       .then(() => addPawnOnPlanet({ board, state: 'sane', planet: board.planetTokenPlanet }))
+      .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)));
+  } else if (dieResult === 6 && board.frontieres === false) { // gestion de la carte dépistage aux frontières
+    return addPawnOnPlanet({ board, state: 'sane', planet: board.planetTokenPlanet })
       .then(() => wrapAnimDelay(() => board.movePlanetTokenTo(board.planetTokenPlanet.nextPlanet)));
   }
   return chainExec(board.planetsPerType[planetType].map((planet) =>
