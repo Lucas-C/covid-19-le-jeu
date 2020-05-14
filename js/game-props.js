@@ -63,6 +63,9 @@ export class Place extends GameProp {
   addSlot(board, slotPos) { // ajouter un slot à un lieu : utile pour la carte mesure hôpital de campagne
     this.slots.push(new PlaceSlot({ board, pos: slotPos, cssClass: 'slot' }));
   }
+  removeSlot() {
+    this.slots.pop();
+  }
   isContaminated() { // s'il y a des pions en extra et au moins un malade dans le lieu, alors le lieu est contaminé
     if (this.extraPawns.length > 0 && this.getAllPawnsWithState('sick').length > 0) {
       const imgContamined = this.elem.childNodes[0];
@@ -82,9 +85,11 @@ export class Place extends GameProp {
   }
   acquirePawn(pawn) {
     const freeSlots = this.getFreeSlots();
-    if (freeSlots.length) {
+    if (freeSlots.length > 0) {
       freeSlots[0].pawn = pawn;
       pawn.setPos(freeSlots[0].getPos());
+      // console.debug('acquirePawn : ', freeSlots[0].pawn);
+      // freeSlots[0].pawn.setPos(freeSlots[0].getPos());
     } else {
       this.extraPawns.push(pawn);
       pawn.setPos(this.getRandomPos(pawn));
@@ -219,6 +224,7 @@ export class TypedPlanet extends Place {
     contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
     contaminedImg.classList.add('no-contamined');
     this.elem.appendChild(contaminedImg);
+    this.moves = { 1: 2, 2: 2, 3: 2, 4: 2, 5: 2 };
   }
 }
 TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
@@ -227,6 +233,9 @@ TypedPlanet.TYPES = [ 'crater', 'gaseous', 'artificial' ];
 export class PublicPlace extends TypedPlanet {
   constructor({ board, pos, slotsPos, type, name }) {
     super({ board, pos, cssClass: 'public-place', slotsPos, type, height: 180, width: 180, name });
+    this.closed = false;
+    this.moves[2] = 4;
+    this.moves[3] = 4;
   }
 }
 
@@ -283,6 +292,31 @@ export class CrisisToken extends GameProp {
   }
 }
 
+// Classe cartes mesures
+export class MeasureCard {
+  constructor(board, id, callback) {
+    this.id = id;
+    this.elem = board.doc.getElementById(id);
+    this.active = false;
+    this.elem.onclick = () => {
+      if (this.active === false) { // pour le moment on peut seulement les actuver et pas les désactiver
+        this.toggle();
+        if (typeof callback === 'function') {
+          callback(board, this.active);
+        }
+      }
+    };
+  }
+  toggle() {
+    this.active = !this.active;
+    if (this.active) {
+      this.elem.classList.add('active-card');
+    } else {
+      this.elem.classList.remove('active-card');
+    }
+  }
+}
+
 // Fonctions annexes
 export function messageDesc(board, message, variable = null) {
   const doc = board.doc;
@@ -294,6 +328,7 @@ export function messageDesc(board, message, variable = null) {
   }
   elem.scrollTop = elem.scrollHeight;
 }
+
 export function endSplash(board, title, message) {
   const doc = board.doc;
   const elem = doc.getElementById('end-overlay');

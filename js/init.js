@@ -3,6 +3,7 @@ import { Board } from './board.js';
 import { Pawn, Place, Planet, PlanetToken, RoundToken, CrisisToken, PublicPlace, TypedPlanet, messageDesc } from './game-props.js';
 import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { SplashOverlay } from './animate.js';
+import { initMeasuresCards } from './measures.js';
 
 export async function launcher(doc, seed) {
   const board = initializeBoard(doc, seed);
@@ -28,6 +29,7 @@ export function initializeGame(doc, seed) {
 
 function initializeBoard(doc, seed) {
   const board = new Board(doc, seed);
+  initMeasuresCards(board);
   // Enumération des planètes :
   // Zone en haut à gauche pour le text :
   /* const artificialPlanet = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 55, 75 ], slotsPos: [
@@ -140,6 +142,7 @@ function initializeBoard(doc, seed) {
   board.robotAcademy.coefInfection = 4;
   board.batterieMarketZ1 = new Place({ board, pos: [ 1400, 340 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [ [ 1416, 402 ], [ 1454, 402 ], [ 1492, 402 ], [ 1530, 402 ], [ 1568, 402 ], [ 1606, 402 ] ], name: 'BatterieMarket Zone 1' });
   board.batterieMarketZ2 = new Place({ board, pos: [ 1400, 450 ], cssClass: 'batterie-market', height: 110, width: 250, slotsPos: [ [ 1416, 495 ], [ 1454, 495 ], [ 1492, 495 ], [ 1530, 495 ], [ 1568, 495 ], [ 1606, 495 ] ], name: 'BatterieMarket Zone 2' });
+  board.batterieMarketZ2.closed = false;
   board.garageColA = new Place({ board, pos: [ 1680, 500 ], cssClass: 'garage', height: 300, width: 50, slotsPos: [
     [ 1690, 552 ],
     [ 1690, 589 ],

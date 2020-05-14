@@ -22,8 +22,16 @@ function returnHome(board) { // ordre : sick, incubating, sane, healed => extrac
     () => (board.planetTokenAcquirePawn(pawn)),
   )).then(messageDesc(board, '[Étape 3] Retour de la robot académie')).then(chainExec(pawnsC.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  ))).then(messageDesc(board, '[Étape 3] Retour du batterieMarket')).then(chainExec(pawnsA.map((pawn) =>
-    () => (board.batterieMarketZ2.acquirePawn(pawn)),
-  )))
-    .then(messageDesc(board, '[Étape 3] Déplacement batterieMarket Zone1 vers Zone2'));
+  ))).then(messageDesc(board, '[Étape 3] Retour du batterieMarket')).then(manageZ1(board, pawnsA));
+}
+function manageZ1(board, pawnsA) {
+  if (board.batterieMarketZ2.closed === false) { // Cas nominal
+    return chainExec(pawnsA.map((pawn) =>
+      () => (board.batterieMarketZ2.acquirePawn(pawn)),
+    )).then(messageDesc(board, '[Étape 3] Déplacement batterieMarket Zone1 vers Zone2'));
+  }
+  // Carte mesure Bonnes pratiques activée
+  return chainExec(pawnsA.map((pawn) =>
+    () => (board.planetTokenAcquirePawn(pawn)),
+  )).then(messageDesc(board, '[Étape 3] Retour du batterieMarket'));
 }
