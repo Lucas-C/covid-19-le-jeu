@@ -23,7 +23,7 @@ export class Board {
     // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
     this.eventsOverlay = new EventsOverlay(doc);
     doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
-    doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
+    // doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
     this.planetTokenPlanet = null;
