@@ -1,7 +1,6 @@
-import { EndOverlay, MeasuresOverlay } from './measures.js';
 import { RandomGenerator } from './random.js';
 import { wrapAnimDelay } from './promise-utils.js';
-import { messageDesc, endSplash } from './game-props.js';
+import { messageDesc, endSplash, EndOverlay, MeasuresOverlay, EventsOverlay } from './game-props.js';
 
 export class Board {
   constructor(doc, seed) {
@@ -22,6 +21,9 @@ export class Board {
     this.measuresOverlay = new MeasuresOverlay(doc);
     doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
     // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
+    this.eventsOverlay = new EventsOverlay(doc);
+    doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
+    doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
     this.planetTokenPlanet = null;
@@ -31,10 +33,25 @@ export class Board {
     this.publicPlacesPerType = [];
     this.bonusInfection = 0; // nb d'infectés à enlever dans lors de la contagion (effet carte mesure gestes barrières)
     this.allMeasures = []; // mesures
+    this.allEvents = []; // evenements
     this.desactivatedPlanets = []; // carte fermeture transports en commun
     this.levelRobopital = 4; // si dé > levelRobital, alors pion va au robopital
     this.levelHealing = 1; // si dé <= levelHealing, alors le pion est guéri
     this.frontieres = true; // true = pas de dépistage aux frontiere
+    this.tmpBonusPoint = 0; // point de mesures bonus
+  }
+  getCard(id, type = 'Measure') {
+    switch (type) {
+      case 'Measure':
+        return this.allMeasures.find((element) => element.id === id);
+      case 'Event':
+        return this.allEvents.find((element) => element.id === id);
+      default:
+        return null;
+    }
+  }
+  getPublicPlace(name) {
+    return this.allPublicPlaces.find((element) => element.name === name);
   }
   addPlanet(planet) {
     this.allPlanets.push(planet);

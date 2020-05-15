@@ -4,6 +4,7 @@ const INITIAL_ROUND_POS = [ 1476, 93 ];
 const INITIAL_CRISIS_POS = [ 1676, 142 ];
 const VERSION = 'Codroïd-19 | Jouer en ligne | D5';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
+import { SplashOverlay } from './animate.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
@@ -298,8 +299,50 @@ export class MeasureCard {
     this.id = id;
     this.elem = board.doc.getElementById(id);
     this.active = false;
+    this.callback = callback;
     this.elem.onclick = () => {
-      if (this.active === false) { // pour le moment on peut seulement les actuver et pas les désactiver
+      if (this.active === false) { // pour le moment on peut seulement les activer et pas les désactiver
+        this.toggle();
+        if (typeof callback === 'function') {
+          callback(board, this.active);
+        }
+      }
+    };
+  }
+  disable(board) {
+    if (this.active) {
+      this.toggle();
+      if (typeof callback === 'function') {
+        this.callback(board, this.active);
+      }
+    }
+  }
+  enable(board) {
+    if (this.active === false) {
+      this.toggle();
+      if (typeof callback === 'function') {
+        this.callback(board, this.active);
+      }
+    }
+  }
+  toggle() {
+    this.active = !this.active;
+    if (this.active) {
+      this.elem.classList.add('active-card');
+    } else {
+      this.elem.classList.remove('active-card');
+    }
+  }
+}
+
+// Classe cartes événements
+export class EventCard {
+  constructor(board, id, callback) {
+    this.id = id;
+    this.elem = board.doc.getElementById(id);
+    this.active = false;
+    this.elem.onclick = () => {
+      if (this.active === false) { // pour le moment on peut seulement les activer et pas les désactiver
         this.toggle();
         if (typeof callback === 'function') {
           callback(board, this.active);
@@ -314,6 +357,24 @@ export class MeasureCard {
     } else {
       this.elem.classList.remove('active-card');
     }
+  }
+}
+
+export class MeasuresOverlay extends SplashOverlay {
+  constructor(doc) {
+    super(doc, 'measures-overlay');
+  }
+}
+
+export class EventsOverlay extends SplashOverlay {
+  constructor(doc) {
+    super(doc, 'events-overlay');
+  }
+}
+
+export class EndOverlay extends SplashOverlay {
+  constructor(doc) {
+    super(doc, 'end-overlay');
   }
 }
 
