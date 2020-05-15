@@ -1,18 +1,5 @@
-import { SplashOverlay } from './animate.js';
 import { MeasureCard, messageDesc, TypedPlanet } from './game-props.js';
 import { chainExec } from './promise-utils.js';
-
-export class MeasuresOverlay extends SplashOverlay {
-  constructor(doc) {
-    super(doc, 'measures-overlay');
-  }
-}
-
-export class EndOverlay extends SplashOverlay {
-  constructor(doc) {
-    super(doc, 'end-overlay');
-  }
-}
 
 export function initMeasuresCards(board) {
   board.allMeasures.push(new MeasureCard(board, 'fermeture-lieu-public', publicPlaceClosing));
@@ -75,10 +62,10 @@ function preventionN1(board, activation = true) {
 }
 function goodPracticesMarket(board, activation = true) {
   if (activation) {
-    messageDesc(board, 'CARTE MESURE activée : XXX');
+    messageDesc(board, 'CARTE MESURE activée : Bonnes pratiques dans le BatterieMarket');
     board.batterieMarketZ2.closed = true;
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
-    messageDesc(board, 'CARTE MESURE désactivée : XXX');
+    messageDesc(board, 'CARTE MESURE désactivée : Bonnes pratiques dans le BatterieMarket');
     board.batterieMarketZ2.closed = false;
   }
 }
