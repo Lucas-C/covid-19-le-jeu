@@ -299,6 +299,7 @@ export class MeasureCard {
     this.id = id;
     this.elem = board.doc.getElementById(id);
     this.active = false;
+    this.callback = callback;
     this.elem.onclick = () => {
       if (this.active === false) { // pour le moment on peut seulement les activer et pas les désactiver
         this.toggle();
@@ -307,6 +308,22 @@ export class MeasureCard {
         }
       }
     };
+  }
+  disable(board) {
+    if (this.active) {
+      this.toggle();
+      if (typeof callback === 'function') {
+        this.callback(board, this.active);
+      }
+    }
+  }
+  enable(board) {
+    if (this.active === false) {
+      this.toggle();
+      if (typeof callback === 'function') {
+        this.callback(board, this.active);
+      }
+    }
   }
   toggle() {
     this.active = !this.active;
