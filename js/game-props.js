@@ -2,7 +2,7 @@
 export const INITIAL_PAWNS_POS = [ 0, 0 ];
 const INITIAL_ROUND_POS = [ 1476, 93 ];
 const INITIAL_CRISIS_POS = [ 1676, 142 ];
-const VERSION = 'Codroïd-19 | Jouer en ligne | D5';
+const VERSION = 'Codroïd-19 | Jouer en ligne | Bêta';
 // import { chainExec, wrapAnimDelay } from './promise-utils.js';
 import { SplashOverlay } from './animate.js';
 
