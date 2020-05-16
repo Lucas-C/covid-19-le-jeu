@@ -25,9 +25,11 @@ function manageRobopital(board) {
         if (diceResult === 6) {
           board.garageColC.extractPawn(pawn);// je retire le pion du jeu
           pawn.setPos(INITIAL_PAWNS_POS);
+          messageDesc(board, 'Le robot part au recyclage ...');
         } else if (diceResult < 3) { // le pion est guéri et retourne sur le plateau
           const thePawn = board.garageColC.extractPawn(pawn);
           thePawn.setState('healed');
+          messageDesc(board, 'Le robot est guéri, il retourne sur le plateau ^^');
           board.planetTokenAcquirePawn(thePawn);
         }
       });
@@ -43,6 +45,7 @@ function manageRobopital(board) {
         if (diceResult < 2) { // le pion est guéri et retourne sur le plateau
           const thePawn = board.garageColB.extractPawn(pawn);
           thePawn.setState('healed');
+          messageDesc(board, 'Le robot est guéri, il retourne sur le plateau ^^');
           board.planetTokenAcquirePawn(thePawn);
         } else { // sinon le pion passe en COlC
           messageDesc(board, '[Étape 4] Les pions de la colonne B vont en colonne C');
@@ -85,15 +88,19 @@ function goRobopital(board) {
           const thePawn = planet.extractPawn(pawn);
           if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A
             console.debug('[GoRobopital] Colonne A non pleine : remplissage Colonne A');
+            messageDesc(board, 'Colonne A non pleine : les robots vont en Colonne A');
             board.garageColA.acquirePawn(thePawn);
           } else if (board.garageColB.getFreeSlots().length > 0) { // s'il y a une place en colonne B
             console.debug('[GoRobopital] Colonne A pleine : remplissage Colonne B');
+            messageDesc(board, 'Colonne A pleine : les robots vont en Colonne B');
             board.garageColB.acquirePawn(thePawn);
           } else if (board.garageColC.getFreeSlots().length > 0) { // s'il y a une place en colonne C
             console.debug('[GoRobopital] Colonnes A et B pleines : remplissage Colonne C');
+            messageDesc(board, 'Colonnes A et B pleines : les robots vont en Colonne C');
             board.garageColC.acquirePawn(thePawn);
           } else {
-            console.debug('[GoRobopital]Colonnes A, B et C pleines : remplissage Colonne A');
+            console.debug('[GoRobopital] Colonnes A, B et C pleines : remplissage Colonne A');
+            messageDesc(board, 'Colonnes A, B et C pleines : les robots vont en Colonne A');
             board.garageColA.acquirePawn(thePawn); // sinon je surcharge la colonne A
           }
           board.printState();
@@ -102,7 +109,7 @@ function goRobopital(board) {
     }
   })).then(() => board.allPublicPlaces.forEach((planet) => { // pour chaque lieu public
     const sicks = planet.getAllPawnsWithState('sick');// je récupère les pions malades
-    console.debug('pions malades : ', sicks);
+    // console.debug('pions malades : ', sicks);
     if (sicks !== null) { // s'il y en a
       sicks.forEach((pawn) => {
         const diceResult = board.rng.rollDie(); // je lance le dé
@@ -115,15 +122,19 @@ function goRobopital(board) {
           const thePawn = planet.extractPawn(pawn);
           if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A
             console.debug('[GoRobopital] Colonne A non pleine : remplissage Colonne A');
+            messageDesc(board, 'Colonne A non pleine : les robots vont en Colonne A');
             board.garageColA.acquirePawn(thePawn);
           } else if (board.garageColB.getFreeSlots().length > 0) { // s'il y a une place en colonne B
             console.debug('[GoRobopital] Colonne A pleine : remplissage Colonne B');
+            messageDesc(board, 'Colonne A pleine : les robots vont en Colonne B');
             board.garageColB.acquirePawn(thePawn);
           } else if (board.garageColC.getFreeSlots().length > 0) { // s'il y a une place en colonne C
             console.debug('[GoRobopital] Colonnes A et B pleines : remplissage Colonne C');
+            messageDesc(board, 'Colonnes A et B pleines : les robots vont en Colonne C');
             board.garageColC.acquirePawn(thePawn);
           } else {
             console.debug('[GoRobopital]Colonnes A, B et C pleines : remplissage Colonne A');
+            messageDesc(board, 'Colonnes A, B et C pleines : les robots vont en Colonne A');
             board.garageColA.acquirePawn(thePawn); // sinon je surcharge la colonne A
           }
           board.printState();
