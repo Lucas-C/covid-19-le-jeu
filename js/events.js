@@ -63,12 +63,15 @@ function fraud(board, activation = true) {
   if (activation) {
     messageDesc(board, 'CARTE EVENEMENT jouée : Escroquerie');
     const [ pawn1, pawn2 ] = board.garageColA.extractPawns(2, 2);
-    if (pawn1) {
-      board.planetTokenAcquirePawn(pawn1);
-    }
-    if (pawn2) {
-      board.planetTokenAcquirePawn(pawn2);
-    }
+    wrapAnimDelay(() => {
+      if (pawn1) {
+        board.planetTokenAcquirePawn(pawn1);
+      }
+    }).then(wrapAnimDelay(() => {
+      if (pawn2) {
+        board.planetTokenAcquirePawn(pawn2);
+      }
+    }));
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
     messageDesc(board, 'CARTE EVENEMENT désactivée : Escroquerie');
     // TO-DO

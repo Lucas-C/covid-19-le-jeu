@@ -15,5 +15,7 @@ export class TurnStep6 extends TurnStep {
   }
 }
 function eventCards(board) {
-  return wrapAnimDelay(() => messageDesc(board, '[Étape 6] Quel événement avez-vous tiré ?'));
+  return wrapAnimDelay(() =>
+    messageDesc(board, '[Étape 6] Quel événement avez-vous tiré ?'),
+  ).then(board.eventsOverlay.toggleDisplay());
 }

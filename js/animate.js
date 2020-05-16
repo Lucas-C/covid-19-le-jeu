@@ -14,8 +14,11 @@ export function animateCSS(node, animationName, callback) {
 
 // Autre fonction d'animations
 export class SplashOverlay {
-  constructor(doc, eltName) {
+  constructor(doc, eltName, button = null) {
     this.overlayElem = doc.getElementById(eltName);
+    if (button) {
+      this.button = doc.getElementById(button);
+    }
   }
   toggleDisplay() {
     return wrapAnimDelay(() => {

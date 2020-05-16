@@ -23,7 +23,7 @@ export class RandomGenerator { // un instance de cette classe est stockée et ac
 const SEED_WORDS = [ 'robot', 'covid', 'bot', 'droid', 'cyborg', 'bionic', 'clone', 'mecha', 'drone' ]; // liste à compléter avec des mots en rapport avec le jeu
 
 export function randomSeedWord() {
-  return SEED_WORDS[1]; // Temporaire : pour l'instant on est déterministe
+  // return SEED_WORDS[1]; // Temporaire : pour l'instant on est déterministe
   // eslint-disable-next-line
   const seed = new RandomGenerator();
   const word = seed.pickOne(SEED_WORDS);
