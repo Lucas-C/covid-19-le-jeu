@@ -37,6 +37,7 @@ function nextTurn(board) {
     messageDesc(board, 'PARTIE FINIE : Vous avez perdu !');
     endSplash(board, 'Dommage, vous avez perdu ...', 'Vous avez atteint les 10 tours. Vous avez mis trop de temps à juguler l\'épidémie ...<br/>Sentez-vous libre de rejouer ;-)');
     board.endOverlay.toggleDisplay();
+    board.initReplay();
     throw new Error('End game not implemented yet!');
   } else {
     // affichage de l'état du plateau

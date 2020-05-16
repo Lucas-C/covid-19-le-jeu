@@ -17,5 +17,5 @@ export class TurnStep5 extends TurnStep {
 function mesureCards(board) {
   return wrapAnimDelay(() =>
     messageDesc(board, '[Étape 5] Choix des mesures'),
-  ).then(board.measuresOverlay.toggleDisplay());
+  ).then(board.measuresOverlay.toggleDisplay()).then(board.measuresOverlay.button.innerHTML = 'Masquer les mesures');
 }

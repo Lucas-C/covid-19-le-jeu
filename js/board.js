@@ -19,10 +19,17 @@ export class Board {
     this.intro = true;
     this.crisisLevel = 0;
     this.measuresOverlay = new MeasuresOverlay(doc);
-    doc.getElementById('measures-toggle').onclick = () => this.measuresOverlay.toggleDisplay();
+    doc.getElementById('measures-toggle').onclick = () => {
+      this.measuresOverlay.toggleDisplay();
+      if (this.measuresOverlay.overlayElem.style.display === 'none') {
+        this.measuresOverlay.button.innerHTML = 'Masquer les mesures';
+      } else {
+        this.measuresOverlay.button.innerHTML = 'Afficher les mesures';
+      }
+    };
     // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
     this.eventsOverlay = new EventsOverlay(doc);
-    doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
+    // doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
     // doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
     this.planetToken = null;
@@ -169,6 +176,15 @@ export class Board {
     console.log('Colonne C > Nb pions : ', this.garageColC.getNumberPawns());
     console.log('*******************************');
   }
+  initReplay() {
+    // play and replay
+    this.doc.getElementById('replay').onclick = () => {
+      window.location = window.location.pathname;
+    };
+    this.doc.getElementById('replay-same').onclick = () => {
+      window.location = `${ window.location.pathname }?seed=${ document.getElementById('seed').textContent }`;
+    };
+  }
   evalWinning() {
     messageDesc(this, 'Avez-vous gagné, perdu ou pouvez-vous continuer ?');
     /*
@@ -187,6 +203,7 @@ export class Board {
     */
     let nbSick = 0;
     let nbHealed = 0;
+    // ////////////////
     this.allPlanets.forEach((planet) => {
       nbSick += planet.getAllPawnsWithState('sick').length;
       nbHealed += planet.getAllPawnsWithState('healed').length;
@@ -207,6 +224,7 @@ export class Board {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
       endSplash(this, 'Bravo vous avez gagné !', 'Vous n\'avez plus de robots malades hors de l\'hôpital.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
+      this.initReplay();
     }
     messageDesc(this, 'Nb de pions guéris : ', nbHealed);
     if (nbHealed > 39 && this.garageColA.extraPawns.length === 0) {
@@ -214,6 +232,7 @@ export class Board {
       messageDesc(this, 'PARTIE FINIE : Vous avez gagné !');
       endSplash(this, 'Bravo vous avez gagné !', 'Vous avez 40 robots guéris. L\'épidémie ne se propage plus.<br/>Sentez-vous libre de rejouer pour voir si ce n\'était pas de la chance ;-)');
       this.endOverlay.toggleDisplay();
+      this.initReplay();
     }
     if (this.garageColA.extraPawns.length > 0) {
       this.buttonDisable();
@@ -221,6 +240,7 @@ export class Board {
       messageDesc(this, 'PARTIE FINIE : Vous avez perdu !');
       endSplash(this, 'Dommage, vous avez perdu ...', `Votre Robopital a été surchargé de ${ this.garageColA.extraPawns.length } robots ...<br/>Sentez-vous libre de rejouer ;-)`);
       this.endOverlay.toggleDisplay();
+      this.initReplay();
     }
   }
 }

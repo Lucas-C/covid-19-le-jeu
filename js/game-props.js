@@ -265,6 +265,7 @@ export class Pawn extends GameProp {
       this.elem.addEventListener('animationend', () => {
         this.elem.classList.remove(this.state);
         this.state = state;
+        this.elem.classList.add('flipInX');
         this.elem.classList.add(state);
       });
     } else {
@@ -349,9 +350,10 @@ export class EventCard {
     this.active = false;
     this.elem.onclick = () => {
       if (this.active === false) { // pour le moment on peut seulement les activer et pas les désactiver
-        this.toggle();
+        // this.toggle();
+        board.eventsOverlay.toggleDisplay();
         if (typeof callback === 'function') {
-          callback(board, this.active);
+          callback(board, !this.active);
         }
       }
     };
@@ -368,7 +370,7 @@ export class EventCard {
 
 export class MeasuresOverlay extends SplashOverlay {
   constructor(doc) {
-    super(doc, 'measures-overlay');
+    super(doc, 'measures-overlay', 'measures-toggle');
   }
 }
 

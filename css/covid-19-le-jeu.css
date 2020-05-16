@@ -59,7 +59,7 @@ body {
     -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.8); 
 }
 
-..step-desc::-webkit-scrollbar-thumb {
+.step-desc::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.8); 
 }
 #seed, #turn-number, #turn-step-id {
@@ -98,10 +98,10 @@ body {
     text-align:center;
     text-shadow: 0 -1px 0 rgba(0,0,0,.6);
 }
-#sane { left: 1418px; top: 634px; }
-#incubating { left: 1418px; top: 698px; }
-#sick { left: 1418px; top: 762px; }
-#healed { left: 1418px; top: 826px; }
+#sane { left: 1398px; top: 634px; }
+#incubating { left: 1398px; top: 698px; }
+#sick { left: 1398px; top: 762px; }
+#healed { left: 1398px; top: 826px; }
 #intro-overlay {
     position: absolute; left: 0; top: 0;
     width: 100%; height: 100%;
