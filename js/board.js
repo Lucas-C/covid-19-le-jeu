@@ -27,13 +27,10 @@ export class Board {
         this.measuresOverlay.button.innerHTML = 'Afficher les mesures';
       }
     };
-    // doc.getElementById('measures-overlay').onclick = () => this.measuresOverlay.toggleDisplay(); // temporaire
     this.eventsOverlay = new EventsOverlay(doc);
-    // doc.getElementById('events-toggle').onclick = () => this.eventsOverlay.toggleDisplay();
-    // doc.getElementById('events-overlay').onclick = () => this.eventsOverlay.toggleDisplay(); // temporaire
     this.endOverlay = new EndOverlay(doc);
-    this.planetToken = null;
-    this.planetTokenPlanet = null;
+    this.planetToken = null; // position graphique du marqueur retour
+    this.planetTokenPlanet = null; // planète sur laquelle est le marqueur retour
     this.allPlanets = [];
     this.allPublicPlaces = [];
     this.planetsPerType = {};
