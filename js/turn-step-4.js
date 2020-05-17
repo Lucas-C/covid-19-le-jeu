@@ -117,8 +117,10 @@ function goRobopital(board) {
         messageDesc(board, '[Étape 4] Résultat du dé pour chaque malade : ', diceResult);
         if (diceResult === 1) {
           pawn.setState('healed'); // je les passe guéri
+          console.debug('==> Guéri');
         } else if (diceResult > board.levelRobopital) { // je les envoie au robopital : gérer la carte mesure retour aux urgences
           board.printState();
+          console.debug(`(>${ board.levelRobopital })==> Robopital`);
           const thePawn = planet.extractPawn(pawn);
           if (board.garageColA.getFreeSlots().length > 0) { // s'il y a une place en colonne A
             console.debug('[GoRobopital] Colonne A non pleine : remplissage Colonne A');
