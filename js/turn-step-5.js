@@ -8,13 +8,19 @@ export class TurnStep5 extends TurnStep {
     super();
     board.goOnButton.textContent = 'Choisir les mesures à prendre';
     board.buttonEnable();
-    board.goOnCallback = () => mesureCards(board).then(() => nextTurnStep(board));
+    board.goOnCallback = () => measureCards(board).then(() => nextTurnStep(board));
   }
   getStepName() {
     return 'Prise de mesures de protection';
   }
 }
-function mesureCards(board) {
+export async function measureCards(board) {
+  await measureCardsDisplay(board);
+  while (board.measuresOverlay.overlayElem.style.display !== 'none') {
+    await new Promise((res) => setTimeout(res, 50));
+  }
+}
+function measureCardsDisplay(board) {
   return wrapAnimDelay(() =>
     messageDesc(board, '[Étape 5] Choix des mesures'),
   ).then(board.measuresOverlay.toggleDisplay()).then(board.measuresOverlay.button.innerHTML = 'Masquer les mesures');

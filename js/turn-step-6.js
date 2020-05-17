@@ -14,7 +14,18 @@ export class TurnStep6 extends TurnStep {
     return 'Gestion des évènements';
   }
 }
-function eventCards(board) {
+/* function eventsCards(board) {
+  return wrapAnimDelay(() =>
+    messageDesc(board, '[Étape 6] Quel événement avez-vous tiré ?'),
+  ).then(board.eventsOverlay.toggleDisplay());
+} */
+export async function eventCards(board) {
+  await eventCardsDisplay(board);
+  while (board.eventsOverlay.overlayElem.style.display !== 'none') {
+    await new Promise((res) => setTimeout(res, 50));
+  }
+}
+function eventCardsDisplay(board) {
   return wrapAnimDelay(() =>
     messageDesc(board, '[Étape 6] Quel événement avez-vous tiré ?'),
   ).then(board.eventsOverlay.toggleDisplay());
