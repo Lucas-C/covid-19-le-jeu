@@ -15,23 +15,25 @@ export class TurnStep3 extends TurnStep {
   }
 }
 function returnHome(board) { // ordre : sick, incubating, sane, healed => extractPawns(count,2)
-  const pawnsA = board.batterieMarketZ1.extractAllPawns();
   const pawnsB = board.robotAcademy.extractAllPawns();
   const pawnsC = board.batterieMarketZ2.extractAllPawns();
   return chainExec(pawnsB.map((pawn) =>
+    () => board.planetTokenAcquirePawn(pawn),
+  )).then(chainExec(pawnsC.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  )).then(messageDesc(board, '[Étape 3] Retour de la robot académie')).then(chainExec(pawnsC.map((pawn) =>
-    () => (board.planetTokenAcquirePawn(pawn)),
-  ))).then(messageDesc(board, '[Étape 3] Retour du batterieMarket')).then(manageZ1(board, pawnsA));
+  ))).then(manageZ1(board));
 }
-function manageZ1(board, pawnsA) {
+function manageZ1(board) {
+  const pawnsA = board.batterieMarketZ1.extractAllPawns();
   if (board.batterieMarketZ2.closed === false) { // Cas nominal
+    messageDesc(board, '[Étape 3] Déplacement batterieMarket Zone1 vers Zone2');
     return chainExec(pawnsA.map((pawn) =>
       () => (board.batterieMarketZ2.acquirePawn(pawn)),
-    )).then(messageDesc(board, '[Étape 3] Déplacement batterieMarket Zone1 vers Zone2'));
+    ));
   }
   // Carte mesure Bonnes pratiques activée
+  messageDesc(board, '[Étape 3] Retour du batterieMarket');
   return chainExec(pawnsA.map((pawn) =>
     () => (board.planetTokenAcquirePawn(pawn)),
-  )).then(messageDesc(board, '[Étape 3] Retour du batterieMarket'));
+  ));
 }

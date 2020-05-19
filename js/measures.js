@@ -87,13 +87,13 @@ function treatmentDiscovery(board, activation = true) {
     board.levelHealing = 1;
   }
 }
-function borderScreening(board, activation = true) {
+function borderScreening(board, activation = true) { // true = pas de dépistage aux frontiere
   if (activation) {
     messageDesc(board, 'CARTE MESURE activée : Dépistage systématique aux frontières');
-    board.frontieres = true;
+    board.frontieres = false;
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
     messageDesc(board, 'CARTE MESURE désactivée : Dépistage systématique aux frontières');
-    board.frontieres = false;
+    board.frontieres = true;
   }
 }
 function academyClosing(board, activation = true) {
@@ -157,6 +157,7 @@ function transportClosing(board, activation = true) {
       }
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Fermeture des transports en commun');
     board.allPlanets.forEach((planet) => {
       planet.moves[1] = 2;
     });
@@ -177,13 +178,14 @@ function marketClosing(board, activation = true) {
       planet.moves[5] = 0;
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Fermeture Batterie Market');
     board.allPlanets.forEach((planet) => {
       planet.moves[5] = 2;
     });
   }
 }
 
-function confinement(board, activation = true) { // BUG
+function confinement(board, activation = true) {
   if (activation) {
     messageDesc(board, 'CARTE MESURE activée : Confinement');
     board.allPlanets.forEach((planet) => {
@@ -212,6 +214,7 @@ function limitMoveRight(board, activation = true) {
       planet.moves[2] = Math.min(1, planet.moves[2]);
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Limitation des déplacements 2');
     board.allPlanets.forEach((planet) => {
       planet.moves[2] = 2;
     });
@@ -225,6 +228,7 @@ function limitMoveLeft(board, activation = true) {
       planet.moves[3] = Math.min(1, planet.moves[3]);
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Limitation des déplacements 3');
     board.allPlanets.forEach((planet) => {
       planet.moves[3] = 2;
     });
@@ -248,6 +252,7 @@ function publicPlaceClosing(board, activation = true) {
       planet.moves[5] = 4;
     });
   } else { // gestion de la désactivation d'une carte : il doit y avoir des effets de bords
+    messageDesc(board, 'CARTE MESURE désactivée : Fermeture des lieux publics');
     board.allPlanets.forEach((planet) => {
       planet.moves[4] = 2;
     });
