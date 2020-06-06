@@ -8,20 +8,25 @@ import { SplashOverlay } from './animate.js';
 
 // Un élément "physique" du jeu
 // Cette classe a la responsabilité de le placer & de l'animer à l'écran
+// ADAPTATIVE : par défaut sont passé les dimensions pour une largeur de 1920. TODO : rendre relatif
 class GameProp {
   constructor({ board, pos, cssClass, height, width }) {
+    this.theboard = board;
     document.title = VERSION;
     this.elem = board.doc.createElement('div');
     // Tous les élements sont enfants d'un même parent pour pouvoir animer leurs changements positions left/top :
     board.elem.appendChild(this.elem);
     this.elem.style.position = 'absolute';
-    this.height = height;
-    this.width = width;
+    // mise à l'échelle des éléments
+    this.height = board.getGoodDimension(height);
+    this.width = board.getGoodDimension(width);
+    // ///////////////////////////////
     this.elem.style.height = `${ this.height }px`;
     this.elem.style.width = `${ this.width }px`;
     this.elem.classList.add('game-prop');
     this.elem.classList.add(cssClass);
-    this.setPos(pos);
+    const newPos = pos.map((e) => board.getGoodDimension(e));
+    this.setPos(newPos);
   }
   setPos(pos) {
     // this.elem.style.left = `${ pos[0] - 90 }px`;
@@ -54,10 +59,11 @@ export class Place extends GameProp {
     this.extraPawns = [];
     // image de contamination
     const contaminedImg = document.createElement('img');
+    const enlarge = board.getGoodDimension(30);
     contaminedImg.setAttribute('src', 'assets/contamined.png');
-    contaminedImg.setAttribute('width', this.width + 30);
-    contaminedImg.setAttribute('height', this.height + 30);
-    contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
+    contaminedImg.setAttribute('width', this.width + enlarge);
+    contaminedImg.setAttribute('height', this.height + enlarge);
+    contaminedImg.setAttribute('style', `margin-top:-${ enlarge / 2 }px;margin-left:-${ enlarge / 2 }px;`);
     contaminedImg.classList.add('no-contamined');
     this.elem.appendChild(contaminedImg);
   }
@@ -198,9 +204,10 @@ export class Place extends GameProp {
   }
   getPosToken() {
     const [ x, y ] = this.getPos();
+    const decal = this.theboard.getGoodDimension(20);
     return [
-      x + 20,
-      y + 20,
+      x + decal,
+      y + decal,
     ];
   }
   getRandomPos(forProp) { // Return coordinates of a random point on the place
@@ -219,10 +226,11 @@ export class TypedPlanet extends Place {
     this.type = type;
     this.elem.classList.add(type);
     const contaminedImg = document.createElement('img');
-    contaminedImg.setAttribute('src', '/assets/contamined.png');
-    contaminedImg.setAttribute('width', this.width + 30);
-    contaminedImg.setAttribute('height', this.height + 30);
-    contaminedImg.setAttribute('style', 'margin-top:-15px;margin-left:-15px;');
+    const enlarge = board.getGoodDimension(30);
+    contaminedImg.setAttribute('src', 'assets/contamined.png');
+    contaminedImg.setAttribute('width', this.width + enlarge);
+    contaminedImg.setAttribute('height', this.height + enlarge);
+    contaminedImg.setAttribute('style', `margin-top:-${ enlarge / 2 }px;margin-left:-${ enlarge / 2 }px;`);
     contaminedImg.classList.add('no-contamined');
     this.elem.appendChild(contaminedImg);
     this.moves = { 1: 2, 2: 2, 3: 2, 4: 2, 5: 2 };
