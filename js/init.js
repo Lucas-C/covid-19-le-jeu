@@ -32,36 +32,41 @@ export function initializeGame(doc, seed) {
   return addPawns(board).then(() => addTokens(board)).then(() => board);
 }
 
+// eslint-disable-next-line max-statements
 function initializeBoard(doc, seed) {
   const board = new Board(doc, seed);
+  // dimensions du plateau de jeu et positionnement des éléments
+  board.screenWidth = doc.documentElement.clientWidth;
+  console.log(`Lancement du jeu pour une largeur de ${ board.screenWidth }`);
+  doc.getElementsByTagName('body')[0].style.width = `${ board.screenWidth }px`;
+  doc.getElementsByClassName('controls')[0].style.fontSize = `${ board.getGoodDimension(100) }%`;
+  doc.getElementById('sane').style.left = `${ board.getGoodDimension(1398) }px`;
+  doc.getElementById('sane').style.top = `${ board.getGoodDimension(634) }px`;
+  doc.getElementById('incubating').style.left = `${ board.getGoodDimension(1398) }px`;
+  doc.getElementById('incubating').style.top = `${ board.getGoodDimension(698) }px`;
+  doc.getElementById('sick').style.left = `${ board.getGoodDimension(1398) }px`;
+  doc.getElementById('sick').style.top = `${ board.getGoodDimension(762) }px`;
+  doc.getElementById('healed').style.left = `${ board.getGoodDimension(1398) }px`;
+  doc.getElementById('healed').style.top = `${ board.getGoodDimension(826) }px`;
+  const elts = doc.getElementsByClassName('counter');
+  for (const e of elts) {
+    e.style.width = `${ board.getGoodDimension(20) }px`;
+    e.style.height = `${ board.getGoodDimension(20) }px`;
+    e.style.fontSize = `${ board.getGoodDimension(12) }px`;
+    e.style.lineHeight = `${ board.getGoodDimension(16) }px`;
+  }
+  doc.getElementById('intro-overlay').style.fontSize = `${ board.getGoodDimension(100) }%`;
+  doc.getElementById('end-overlay').style.fontSize = `${ board.getGoodDimension(100) }%`;
+  doc.getElementById('measures-overlay').style.fontSize = `${ board.getGoodDimension(100) }%`;
+  doc.getElementById('events-overlay').style.fontSize = `${ board.getGoodDimension(100) }%`;
+
+  doc.getElementsByClassName('game-state')[0].style.width = `${ board.getGoodDimension(450) }px`;
+  doc.getElementsByClassName('step-desc')[0].style.width = `${ board.getGoodDimension(350) }px`;
+  doc.getElementsByClassName('step-desc')[0].style.height = `${ board.getGoodDimension(70) }px`;
+  //
   initMeasuresCards(board);
   initEventsCards(board);
   // Enumération des planètes :
-  // Zone en haut à gauche pour le text :
-  /* const artificialPlanet = board.addPlanet(new Planet({ board, type: 'artificial', pos: [ 55, 75 ], slotsPos: [
-    [ 115, 135 ], [ 155, 135 ], // 1ère rangée
-    [ 115, 175 ], [ 155, 175 ], // 2e rangée
-  ] }));
-  const craterPlanet = board.addPlanet(new Planet({ board, type: 'crater', pos: [ 245, 10 ], slotsPos: [
-    [ 305, 70 ], [ 345, 70 ], // 1ère rangée
-    [ 305, 110 ], [ 345, 110 ], // 2e rangée
-  ] }));
-  const gaseousPlanet = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 495, 25 ], slotsPos: [
-    [ 555, 65 ], [ 595, 65 ], // 1ère rangée
-    [ 555, 105 ], [ 595, 105 ], // 2e rangée
-    [ 575, 145 ], // 3e rangée
-  ] }));
-  // const Gaz2 = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 1283, 160 ], slotsPos: [ [ 1225, 125 ], [ 1265, 125 ], [ 1225, 165 ], [ 1265, 165 ], [ 1305, 125 ], [ 1305, 165 ] ] }));
-  artificialPlanet.nextPlanet = craterPlanet;
-  artificialPlanet.prevPlanet = gaseousPlanet;// FAUX, temporaire
-  craterPlanet.prevPlanet = artificialPlanet;
-  craterPlanet.nextPlanet = gaseousPlanet;
-  gaseousPlanet.prevPlanet = craterPlanet;
-  gaseousPlanet.nextPlanet = artificialPlanet; // FAUX, temporaire
-  const bar = board.addPublicPlace(new PublicPlace({ board, pos: [ 350, 200 ], type: 'gaseous', slotsPos: [ [ 385, 290 ], [ 420, 272 ], [ 455, 254 ], [ 490, 236 ] ] })); // bar
-  artificialPlanet.publicPlanet = bar;
-  gaseousPlanet.publicPlanet = bar;
-  craterPlanet.publicPlanet = bar;*/
   // toutes les planetes
   const gaz1 = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 500, 28 ], slotsPos: [ [ 556, 65 ], [ 596, 65 ], [ 556, 105 ], [ 596, 105 ], [ 576, 145 ] ], name: 'Gaz 1' }));
   const gaz2 = board.addPlanet(new Planet({ board, type: 'gaseous', pos: [ 1180, 73 ], slotsPos: [ [ 1217, 128 ], [ 1257, 128 ], [ 1217, 168 ], [ 1257, 168 ], [ 1297, 128 ], [ 1297, 168 ] ], name: 'Gaz 2' }));
@@ -201,5 +206,18 @@ function addTokens(board) {
   board.roundToken = new RoundToken({ board });
   board.crisisToken = new CrisisToken({ board });
   const randomPlanet = board.rng.pickOne(board.allPlanets);
+  const doc = board.doc;
+  const planetElt = doc.getElementsByClassName('planet-token');
+  for (const e of planetElt) {
+    e.style.fontSize = `${ board.getGoodDimension(200) }%`;
+  }
+  const roundElt = doc.getElementsByClassName('round-token');
+  for (const e of roundElt) {
+    e.style.fontSize = `${ board.getGoodDimension(100) }%`;
+  }
+  const crisisElt = doc.getElementsByClassName('crisis-token');
+  for (const e of crisisElt) {
+    e.style.fontSize = `${ board.getGoodDimension(100) }%`;
+  }
   return wrapAnimDelay(() => board.movePlanetTokenTo(randomPlanet));
 }

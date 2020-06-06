@@ -49,8 +49,9 @@ function nextTurn(board) {
     messageDesc(board, '******** Nouveau tour ********');
     board.updateCrisisToken();
     // décalage du curseur tour
+    const decal = board.getGoodDimension(17);
     const roundToken = doc.getElementsByClassName('round-token');
     const currentTop = parseInt(roundToken[0].style.top, 10);
-    roundToken[0].style.top = `${ currentTop + 17 }px`;
+    roundToken[0].style.top = `${ currentTop + decal }px`;
   }
 }
