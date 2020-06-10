@@ -6,6 +6,7 @@ export class Board {
   constructor(doc, seed) {
     this.doc = doc;
     this.elem = doc.getElementById('board');
+    this.screenWidth = 1920;
     this.rng = new RandomGenerator(seed);
     doc.getElementById('seed').textContent = seed;
     this.goOnCallback = null;
@@ -43,6 +44,15 @@ export class Board {
     this.levelHealing = 1; // si dé <= levelHealing, alors le pion est guéri
     this.frontieres = true; // true = pas de dépistage aux frontiere
     this.tmpBonusPoint = 0; // point de mesures bonus
+  }
+  getGoodDimension(value, source = 1920) {
+    const prop = this.screenWidth / source;
+    if (prop === 1) {
+      return value;
+    }
+    const newVal = Math.round(value * prop);
+    console.debug(`Dimension : ${ value } >>> ${ newVal }`);
+    return newVal;
   }
   getCard(id, type = 'Measure') {
     switch (type) {
@@ -115,9 +125,10 @@ export class Board {
     console.debug('Décalage du curseur crise de : ', diff);
     const doc = this.doc;
     const crisisToken = doc.getElementsByClassName('crisis-token');
+    const decal = this.getGoodDimension(24);
     for (let i = 0; i < diff; i++) {
       const currentTop = parseInt(crisisToken[0].style.top, 10);
-      crisisToken[0].style.top = `${ currentTop + 24 }px`;
+      crisisToken[0].style.top = `${ currentTop + decal }px`;
     }
   }
   updateCrisisToken() {
